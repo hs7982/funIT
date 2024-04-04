@@ -1,5 +1,6 @@
 package com.funit.backend.service;
 
+
 import com.funit.backend.dto.UserDTO;
 import com.funit.backend.entity.User;
 import com.funit.backend.repository.UserRepository;
@@ -14,6 +15,7 @@ public class UserService {
     UserRepository userRepository;
 
     public List<User> getAllUsers() {
+
         return userRepository.findAll();
     }
 }
