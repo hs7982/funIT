@@ -1,7 +1,9 @@
 package com.funit.backend.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
+
 
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
