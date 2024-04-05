@@ -1,4 +1,5 @@
 package com.funit.backend.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
