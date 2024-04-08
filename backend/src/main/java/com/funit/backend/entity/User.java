@@ -15,7 +15,7 @@ public class User {
     @Column(name = "id", updatable = false)
     private int id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
