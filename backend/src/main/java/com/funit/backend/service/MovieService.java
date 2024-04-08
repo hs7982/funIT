@@ -3,6 +3,7 @@ package com.funit.backend.service;
 import com.funit.backend.dto.AddMovieRequestDTO;
 import com.funit.backend.entity.Movie;
 import com.funit.backend.repository.MovieRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
