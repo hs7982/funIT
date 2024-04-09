@@ -4,7 +4,9 @@ const Home = () => {
   return (
     <>
       <h1>홈화면</h1>
-        <Moviebox/><Moviebox/>
+        <div className="flex-nowrap">
+        <Moviebox/><Moviebox/><Moviebox/><Moviebox/><Moviebox/><Moviebox/><Moviebox/><Moviebox/>
+        </div>
     </>
   );
 };
