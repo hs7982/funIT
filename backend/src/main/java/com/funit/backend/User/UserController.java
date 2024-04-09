@@ -1,8 +1,6 @@
-package com.funit.backend.controller;
+package com.funit.backend.User;
 
-import com.funit.backend.entity.User;
 import com.funit.backend.response.ResponseHandler;
-import com.funit.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class UserController {
      */
     @GetMapping()
     public ResponseEntity<Object> getAllUsers() {
-        List<User> user = userService.getAllUsers();
+        List<UserEntity> user = userService.getAllUsers();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,

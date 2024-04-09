@@ -1,4 +1,4 @@
-package com.funit.backend.dto;
+package com.funit.backend.User;
 
 import lombok.*;
 

@@ -1,6 +1,7 @@
-package com.funit.backend.entity;
+package com.funit.backend.Genre;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.funit.backend.Movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Genre {
+public class GenreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id", updatable = false)
@@ -25,6 +26,6 @@ public class Genre {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies = new HashSet<>();
+    private Set<MovieEntity> movies = new HashSet<>();
 
 }

@@ -1,12 +1,13 @@
-package com.funit.backend.entity;
+package com.funit.backend.Movie;
 
+import com.funit.backend.User.UserEntity;
+import com.funit.backend.Genre.GenreEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Movie {
+public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id", updatable = false)
@@ -29,7 +30,7 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private UserEntity user;
 
     @Column(name = "detail")
     private String detail;
@@ -55,6 +56,6 @@ public class Movie {
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<Genre> genres = new HashSet<>();
+    private Set<GenreEntity> genres = new HashSet<>();
 
 }
