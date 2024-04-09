@@ -1,16 +1,19 @@
 const Moviebox = () => {
     return (
     <div className="card w-96 bg-base-100 shadow-xl">
-        <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes"/></figure>
-        <div className="card-body">
+        <figure><img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1h6j7k.img?w=640&h=457&m=6&x=159&y=174&s=359&d=94" alt="파묘"/></figure>
+        <div className="p-4">
             <h2 className="card-title">
-                Shoes!
+                파묘
                 <div className="badge badge-secondary">NEW</div>
+                <div className="grow"></div>
+                <div className="badge badge-outline">오컬트</div>
+                <div className="badge badge-outline">사회풍자</div>
             </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
+            <p></p>
+            <div className="pt-2 card-actions justify-end">
+                <div className="pt-1 flex-1">110% 달성</div>
+                <button className="btn btn-sm bg-fuchsia-300">투자하기</button>
             </div>
         </div>
     </div>
