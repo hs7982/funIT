@@ -1,12 +1,11 @@
-import "./App.css";
-import Menu from "./Menu.jsx";
+import Navbar from "./components/Navbar.jsx";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Home.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
   return (
     <>
-      <Menu />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
@@ -14,4 +13,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
