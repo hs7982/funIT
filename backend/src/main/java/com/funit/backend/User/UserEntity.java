@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "user_id", updatable = false)
     private int id;
 
     @Column(name = "email", nullable = false, unique = true)

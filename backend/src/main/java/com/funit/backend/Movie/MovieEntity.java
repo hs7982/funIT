@@ -29,7 +29,7 @@ public class MovieEntity {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @Column(name = "detail")
@@ -57,5 +57,4 @@ public class MovieEntity {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<GenreEntity> genres = new HashSet<>();
-
 }
