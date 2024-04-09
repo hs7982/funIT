@@ -1,7 +1,6 @@
-package com.funit.backend.dto;
+package com.funit.backend.Movie;
 
-import com.funit.backend.entity.Genre;
-import com.funit.backend.entity.Movie;
+import com.funit.backend.Genre.GenreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +21,10 @@ public class AddMovieRequestDTO {
     private int targetCredit;
     private LocalDateTime endDate;
 
-    private Set<Genre> genres;
+    private Set<GenreEntity> genres;
 
-    public Movie toEntity() {
-            return Movie.builder()
+    public MovieEntity toEntity() {
+            return MovieEntity.builder()
                     .title(title)
                     .detail(detail)
                     .targetCredit(targetCredit)
