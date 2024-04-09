@@ -1,7 +1,8 @@
 package com.funit.backend.Movie;
 
-import com.funit.backend.User.UserEntity;
 import com.funit.backend.Genre.GenreEntity;
+import com.funit.backend.Production.ProductionEntity;
+import com.funit.backend.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,7 +30,7 @@ public class MovieEntity {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @Column(name = "detail")
@@ -57,5 +58,11 @@ public class MovieEntity {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<GenreEntity> genres = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "movie_production",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "production_id"))
+    private Set<ProductionEntity> productions = new HashSet<>();
 
 }
