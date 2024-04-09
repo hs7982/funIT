@@ -1,5 +1,13 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /*font-family: Pretendard, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -22,12 +30,21 @@ a:hover {
   color: #535bf2;
 }
 
+
+html,
 body {
-  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  overflow: hidden;
 }
 
 h1 {
