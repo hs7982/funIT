@@ -1,7 +1,7 @@
-package com.funit.backend.service;
+package com.funit.backend.Genre;
 
-import com.funit.backend.entity.Genre;
-import com.funit.backend.repository.GenreRepository;
+import com.funit.backend.Genre.GenreEntity;
+import com.funit.backend.Genre.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +11,5 @@ import java.util.List;
 public class GenreService {
     @Autowired
     GenreRepository genreRepository;
-    public List<Genre> getAllGenres() { return genreRepository.findAll(); }
+    public List<GenreEntity> getAllGenres() { return genreRepository.findAll(); }
 }

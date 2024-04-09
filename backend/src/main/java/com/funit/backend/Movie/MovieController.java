@@ -1,10 +1,7 @@
-package com.funit.backend.controller;
+package com.funit.backend.Movie;
 
 
-import com.funit.backend.dto.AddMovieRequestDTO;
-import com.funit.backend.entity.Movie;
 import com.funit.backend.response.ResponseHandler;
-import com.funit.backend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +23,7 @@ public class MovieController {
      */
     @GetMapping()
     public ResponseEntity<Object> getAllMovies() {
-        List<Movie> movie = movieService.getAllMovies();
+        List<MovieEntity> movie = movieService.getAllMovies();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -39,7 +36,7 @@ public class MovieController {
      */
     @PostMapping("/new")
     public ResponseEntity<Object> addMovie(@RequestBody AddMovieRequestDTO request) {
-        Movie savedMovie = movieService.save(request);
+        MovieEntity savedMovie = movieService.save(request);
 
         return ResponseHandler.responseBuilder(
                 HttpStatus.CREATED,

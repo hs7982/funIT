@@ -1,7 +1,5 @@
-package com.funit.backend.controller;
+package com.funit.backend.Genre;
 
-import com.funit.backend.entity.Genre;
-import com.funit.backend.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +12,8 @@ public class GenreController {
     GenreService genreService;
 
     @GetMapping("/genres")
-    public List<Genre> getAllGenres() {
-        List<Genre> genre = genreService.getAllGenres();
+    public List<GenreEntity> getAllGenres() {
+        List<GenreEntity> genre = genreService.getAllGenres();
         return genre;
     }
 }
