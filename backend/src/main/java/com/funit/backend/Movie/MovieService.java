@@ -15,4 +15,7 @@ public class MovieService {
     public MovieEntity save(AddMovieRequestDTO request) {
         return movieRepository.save(request.toEntity());
     }
+
+    public MovieEntity findOne(int movie_id) { return movieRepository.findById(movie_id).orElse(null);}
+
 }
