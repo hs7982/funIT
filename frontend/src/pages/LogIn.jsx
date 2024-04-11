@@ -19,9 +19,11 @@ const LogIn = () => {
                         </label>
                     </div>
                     <div className="flex justify-between">
-                        <button className="btn btn-sm btn-secondary">구</button>
+                        <div/>
+                        <button className=" btn btn-sm btn-secondary">구</button>
                         <button className="btn btn-sm btn-secondary">카</button>
                         <button className="btn btn-sm btn-secondary">네</button>
+                        <div/>
                     </div>
                     <div className="form-control mt-3">
                         <button className="btn text-lg btn-primary">로그인</button>
