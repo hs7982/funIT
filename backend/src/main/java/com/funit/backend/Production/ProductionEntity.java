@@ -1,10 +1,15 @@
 package com.funit.backend.Production;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.funit.backend.Movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,8 +30,8 @@ public class ProductionEntity {
     @Column(name = "image")
     private String image;
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "productions")
-//    private Set<MovieEntity> movies = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "productions")
+    private Set<MovieEntity> movies = new HashSet<>();
 
 }

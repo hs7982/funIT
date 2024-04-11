@@ -3,7 +3,6 @@ package com.funit.backend.Funding;
 import com.funit.backend.Movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.w3c.dom.Text;
 
 @Entity
 @Getter
@@ -17,7 +16,7 @@ public class FundingEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @JoinColumn(name = "movie_id", referencedColumnName = "movie_id")
     private MovieEntity movie;
 
     @Column(name = "funding_amount", nullable = false)
