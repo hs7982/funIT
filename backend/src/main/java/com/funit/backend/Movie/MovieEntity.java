@@ -59,10 +59,12 @@ public class MovieEntity {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<GenreEntity> genres = new HashSet<>();
 
+
     @ManyToMany
     @JoinTable(name = "movie_production",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "production_id"))
     private Set<ProductionEntity> productions = new HashSet<>();
+
 
 }
