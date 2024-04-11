@@ -1,4 +1,4 @@
-package com.funit.backend.Genre;
+package com.funit.backend.Comment;
 
 import com.funit.backend.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/genres")
-public class GenreController {
+@RequestMapping("/Comments")
+public class CommentController {
     @Autowired
-    GenreService genreService;
+    CommentService commentService;
 
     @GetMapping()
-    public ResponseEntity<Object> getAllGenre() {
-        List<GenreEntity> genre = genreService.getAllGenres();
+    public ResponseEntity<Object> getAllComment() {
+        List<CommentEntity> comment = commentService.getAllComments();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                genre
+                comment
         );
     }
 }
-
