@@ -44,6 +44,16 @@ public class MovieController {
                 savedMovie);
     }
 
+    @GetMapping("/{movie_id}")
+    public ResponseEntity<Object> findOne(@PathVariable int movie_id){
+        MovieEntity findOne = movieService.findOne(movie_id);
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                findOne);
+    }
+  
     @GetMapping("/count")
     public ResponseEntity<Object> getMovieCount() {
         int count = movieService.countMovie();
