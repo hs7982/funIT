@@ -1,4 +1,4 @@
-package com.funit.backend.Genre;
+package com.funit.backend.Production;
 
 import com.funit.backend.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/genres")
-public class GenreController {
+@RequestMapping("/Productions")
+public class ProductionController {
     @Autowired
-    GenreService genreService;
+    ProductionService productionService;
 
     @GetMapping()
-    public ResponseEntity<Object> getAllGenre() {
-        List<GenreEntity> genre = genreService.getAllGenres();
+    public ResponseEntity<Object> getAllProduction() {
+        List<ProductionEntity> production = productionService.getAllProduction();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                genre
+                production
         );
     }
 }
-

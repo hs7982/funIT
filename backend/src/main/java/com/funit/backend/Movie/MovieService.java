@@ -21,4 +21,8 @@ public class MovieService {
     public Integer countMovie() {
         return movieRepository.getCount();
     }
+
+    public MovieEntity findOne(int movie_id) { return movieRepository.findById(movie_id).orElse(null);}
+
+
 }
