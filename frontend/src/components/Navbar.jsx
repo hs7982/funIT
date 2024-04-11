@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const Menu = () => {
+const Navbar = () => {
   return (
-    <div className="w-full">
+    <div className="p-2 w-full">
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link className="btn btn-ghost text-3xl" to={"/"}>
@@ -87,4 +87,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Navbar;
