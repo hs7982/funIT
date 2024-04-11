@@ -43,4 +43,15 @@ public class MovieController {
                 "영화 프로젝트가 생성되었습니다.",
                 savedMovie);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Object> getMovieCount() {
+        int count = movieService.countMovie();
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                count
+        );
+    }
 }
