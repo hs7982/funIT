@@ -43,4 +43,14 @@ public class MovieController {
                 "영화 프로젝트가 생성되었습니다.",
                 savedMovie);
     }
+
+    @GetMapping("/{movie_id}")
+    public ResponseEntity<Object> findOne(@PathVariable int movie_id){
+        MovieEntity findOne = movieService.findOne(movie_id);
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                findOne);
+    }
 }
