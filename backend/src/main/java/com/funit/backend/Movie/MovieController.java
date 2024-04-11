@@ -53,4 +53,15 @@ public class MovieController {
                 null,
                 findOne);
     }
+  
+    @GetMapping("/count")
+    public ResponseEntity<Object> getMovieCount() {
+        int count = movieService.countMovie();
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                count
+        );
+    }
 }
