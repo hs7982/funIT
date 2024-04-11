@@ -1,5 +1,6 @@
 package com.funit.backend.Comment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.funit.backend.Movie.MovieEntity;
 import com.funit.backend.User.UserEntity;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class CommentEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "movie_id")
     private MovieEntity movie;
