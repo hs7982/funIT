@@ -4,14 +4,12 @@ import com.funit.backend.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Comments")
+@RequestMapping("/comments")
 public class CommentController {
     @Autowired
     CommentService commentService;
@@ -24,5 +22,16 @@ public class CommentController {
                 null,
                 comment
         );
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<Object> addComment(@RequestBody CommentDTO request) {
+        CommentEntity savedComment = commentService.save(request);
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.CREATED,
+                "댓글이 생성되었습니다.",
+                savedComment);
+
     }
 }

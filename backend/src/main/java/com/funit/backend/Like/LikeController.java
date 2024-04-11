@@ -29,5 +29,15 @@ public class LikeController {
                 like
         );
     }
+    @GetMapping("/count")
+    public ResponseEntity<Object> getLikeCount(){
+        int count = likeService.countLike();
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                count
+        );
+    }
 
 }
