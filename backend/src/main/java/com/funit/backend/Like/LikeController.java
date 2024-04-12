@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/** 좋아요 관련된 기능의 컨트롤러
- *
+/**
+ * 좋아요 관련된 기능의 컨트롤러
  */
 @RestController
-@RequestMapping("/likes")
+@RequestMapping("/api/likes")
 public class LikeController {
     @Autowired
     LikeService likeService;
@@ -21,7 +21,7 @@ public class LikeController {
      * 모든 좋아요 리스트를 반환합니다.
      */
     @GetMapping()
-    public ResponseEntity<Object> getAllLikes(){
+    public ResponseEntity<Object> getAllLikes() {
         List<LikeEntity> like = likeService.getAllLikes();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
@@ -29,8 +29,9 @@ public class LikeController {
                 like
         );
     }
+
     @GetMapping("/count")
-    public ResponseEntity<Object> getLikeCount(){
+    public ResponseEntity<Object> getLikeCount() {
         int count = likeService.countLike();
 
         return ResponseHandler.responseBuilder(
