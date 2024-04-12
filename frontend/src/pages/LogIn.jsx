@@ -3,6 +3,7 @@ const LogIn = () => {
         <div className="container m-auto p-4">
             <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100">
                 <form className="card-body">
+                    <div className="text-center text-3xl font-semibold my-4">로그인</div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">이메일</span>
@@ -20,9 +21,9 @@ const LogIn = () => {
                     </div>
                     <div className="flex justify-between">
                         <div/>
-                        <button className=" btn btn-sm btn-secondary">구</button>
-                        <button className="btn btn-sm btn-secondary">카</button>
-                        <button className="btn btn-sm btn-secondary">네</button>
+                        <button className=" btn btn-sm">구</button>
+                        <button className="btn btn-sm">카</button>
+                        <button className="btn btn-sm">네</button>
                         <div/>
                     </div>
                     <div className="form-control mt-3">
