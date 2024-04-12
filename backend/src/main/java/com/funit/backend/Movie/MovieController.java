@@ -13,7 +13,7 @@ import java.util.List;
  * 영화 프로젝트와 관련된 기능의 컨트롤러
  */
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api/movies")
 public class MovieController {
     @Autowired
     MovieService movieService;
@@ -45,7 +45,7 @@ public class MovieController {
     }
 
     @GetMapping("/{movie_id}")
-    public ResponseEntity<Object> findOne(@PathVariable int movie_id){
+    public ResponseEntity<Object> findOne(@PathVariable int movie_id) {
         MovieEntity findOne = movieService.findOne(movie_id);
 
         return ResponseHandler.responseBuilder(
@@ -53,7 +53,7 @@ public class MovieController {
                 null,
                 findOne);
     }
-  
+
     @GetMapping("/count")
     public ResponseEntity<Object> getMovieCount() {
         int count = movieService.countMovie();

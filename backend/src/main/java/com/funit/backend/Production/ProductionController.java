@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Productions")
+@RequestMapping("/api/productions")
 public class ProductionController {
     @Autowired
     ProductionService productionService;
