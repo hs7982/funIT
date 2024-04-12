@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Fundings")
+@RequestMapping("/api/fundings")
 public class FundingController {
     @Autowired
     FundingService fundingService;
