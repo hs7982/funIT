@@ -23,9 +23,6 @@ public class MovieEntity {
     @Column(name = "movie_id", updatable = false)
     private int id;
 
-    @Column(name = "producer")
-    private String producer;
-
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -33,7 +30,7 @@ public class MovieEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
-    @Column(name = "detail")
+    @Column(name = "detail", columnDefinition = "MEDIUMTEXT")
     private String detail;
 
     @Column(name = "target_credit", nullable = false)
@@ -41,6 +38,9 @@ public class MovieEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "INT DEFAULT 1")
     private int status; // 진행중, 성공, 실패
+
+    @Column(name = "thumbnail_image")
+    private String thumbnailImage;
 
     @CreationTimestamp
     @Column(name = "create_date")
