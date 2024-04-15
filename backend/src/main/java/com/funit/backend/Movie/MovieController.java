@@ -4,6 +4,7 @@ package com.funit.backend.Movie;
 import com.funit.backend.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class MovieController {
      * 새로운 영화 프로젝트를 등록합니다.
      */
     @PostMapping("/new")
-    public ResponseEntity<Object> addMovie(@RequestBody AddMovieRequestDTO request) {
+    public ResponseEntity<Object> addMovie(@ModelAttribute AddMovieRequestDTO request) {
         MovieEntity savedMovie = movieService.save(request);
 
         return ResponseHandler.responseBuilder(
