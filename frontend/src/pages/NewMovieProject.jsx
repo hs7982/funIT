@@ -1,6 +1,6 @@
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
-import Editor from "../Editor.jsx";
+import Editor from "../components/Editor.jsx";
 import {useEffect, useState} from "react";
 import GenreSelect from "../components/GenreSelect.jsx";
 
@@ -8,6 +8,7 @@ const NewMovieProject = () => {
     const [title, setTitle] = useState("");
     const [targetCredit, setTargetCredit] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [genres, setGenres] = useState([]);
     const [detail, setDetail] = useState("");
     useEffect(() => {
         const movies = axios.get('/api/movies')
@@ -21,6 +22,7 @@ const NewMovieProject = () => {
             formData.append("title", title);
             formData.append("targetCredit", targetCredit);
             formData.append("endDate", endDate);
+            formData.append("genres", genres);
             formData.append("detail", detail);
 
             await axios.post("/api/movies/new", formData, {
@@ -30,8 +32,10 @@ const NewMovieProject = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
+            alert("성공적으로 등록되었습니다!")
         } catch (e) {
             console.log(e);
+            alert(JSON.stringify(e.response.data))
         }
     }
 
@@ -54,7 +58,7 @@ const NewMovieProject = () => {
                     <div className="label">
                         <span className="text-lg">장르</span>
                     </div>
-                    <GenreSelect/>
+                    <GenreSelect updateGenre={setGenres}/>
                 </label>
                 <label className="form-control w-full my-2">
                     <div className="label">
