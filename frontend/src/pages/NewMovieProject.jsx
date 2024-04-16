@@ -35,9 +35,13 @@ const NewMovieProject = () => {
             });
             alert("성공적으로 등록되었습니다!")
         } catch (e) {
-            setIsError(true);
             console.log(e);
-            setErrorData([JSON.stringify(e.response.data.message), JSON.stringify(e.response.data.data)])
+            if (e.response.status === 400) {
+                setIsError(true);
+
+                setErrorData([JSON.stringify(e.response.data.message), JSON.stringify(e.response.data.data)])
+                console.log(errorData)
+            } else alert(JSON.stringify(e.response.data))
         }
     }
 
