@@ -33,8 +33,8 @@ public class MovieEntity {
     @Column(name = "detail", columnDefinition = "MEDIUMTEXT")
     private String detail;
 
-    @Column(name = "target_credit", nullable = false)
-    private int targetCredit;
+    @Column(name = "target_credit", nullable = false, columnDefinition = "BIGINT")
+    private long targetCredit;
 
     @Column(name = "status", nullable = false, columnDefinition = "INT DEFAULT 1")
     private int status; // 진행중, 성공, 실패
