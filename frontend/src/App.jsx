@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import NewMovieProject from "./pages/NewMovieProject.jsx";
+import MoviesList from "./pages/MoviesList.jsx";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<LogIn/>}/>
+                <Route path="/movies" element={<MoviesList/>}/>
                 <Route path="/funding/new" element={<NewMovieProject/>}/>
 
                 {/*찾는 페이지 없을때 (NotFound는 항상 최하단 위치!)*/}
