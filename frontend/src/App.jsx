@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import NewMovieProject from "./pages/NewMovieProject.jsx";
+import MovieInfo from "./pages/MovieInfo.jsx";
 import MovieProject from "./pages/MovieProject.jsx";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<LogIn/>}/>
                 <Route path="/funding/new" element={<NewMovieProject/>}/>
+                <Route path="/movieinfo" element={<MovieInfo/>}/>
                 <Route path="/funding" element={<MovieProject/>}/>
                 <Route path="/funding/detail/:id" element={<MovieProject/>}/>
 
