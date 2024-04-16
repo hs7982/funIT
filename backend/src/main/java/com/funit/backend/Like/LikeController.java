@@ -31,8 +31,8 @@ public class LikeController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Object> getLikeCount() {
-        int count = likeService.countLike();
+    public ResponseEntity<Object> getLikeCount(@RequestParam Integer movieId) {
+        int count = likeService.countLike(movieId);
 
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
