@@ -12,7 +12,7 @@ const Navbar = () => {
                         <span className="text-rose-300">Fun</span>
                         <span className="text-sky-300">IT</span>
                     </Link>
-                    <Link className="btn btn-ghost text-xl mx-4" to={"/movies"}>
+                    <Link className="btn btn-ghost text-xl mx-4" to={"/funding"}>
                         <div className="flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.3"
                                  stroke="currentColor" className="w-5 h-5 my-auto me-1.5">
