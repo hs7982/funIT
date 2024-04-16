@@ -12,9 +12,7 @@ public class LikeService {
 
     public List<LikeEntity> getAllLikes() { return likeRepository.findAll(); }
 
-    public LikeEntity save(LikeDTO request) { return likeRepository.save(request.toEntity()); }
-
-    public Integer countLike() {
-        return likeRepository.getCount();
+    public Integer countLike(Integer movieId) {
+        return likeRepository.getCount(movieId);
     }
 }
