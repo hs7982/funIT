@@ -1,6 +1,8 @@
 package com.funit.backend.Movie;
 
 import com.funit.backend.Genre.GenreEntity;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,13 +31,14 @@ public class AddMovieRequestDTO {
     private String detail;
 
     @NotNull(message = "목표 금액은 필수값입니다.")
-    private int targetCredit;
+    @Min(value = 1, message = "최소 금액은 1원 이상입니다.")
+    private long targetCredit;
 
     @NotNull
     private LocalDateTime endDate;
 
     @NotNull
-    private Set<GenreEntity> genres;
+    private List<GenreEntity> genres;
 
     public MovieEntity toEntity() {
         return MovieEntity.builder()
