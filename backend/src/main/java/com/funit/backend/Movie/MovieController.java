@@ -5,9 +5,7 @@ import com.funit.backend.response.ResponseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,4 +65,15 @@ public class MovieController {
                 count
         );
     }
+
+    /**
+     *
+     * 제목 검색
+     */
+    @GetMapping("/search")
+    public ResponseEntity<Object> search(@RequestParam String keyword) {
+        List<MovieEntity> moviesearchList = movieService.search(keyword);
+        return ResponseEntity.ok().body(moviesearchList);
+    }
+
 }
