@@ -9,8 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -57,14 +56,14 @@ public class MovieEntity {
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<GenreEntity> genres = new HashSet<>();
+    private List<GenreEntity> genres = new ArrayList<>();
 
 
     @ManyToMany
     @JoinTable(name = "movie_production",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "production_id"))
-    private Set<ProductionEntity> productions = new HashSet<>();
+    private List<ProductionEntity> productions = new ArrayList<>();
 
 
 }
