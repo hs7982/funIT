@@ -1,4 +1,4 @@
-const LogIn = () => {
+const SignIn = () => {
     return (
         <div className="container m-auto p-4">
             <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100">
@@ -17,6 +17,7 @@ const LogIn = () => {
                         <input type="password" placeholder="비밀번호" className="input input-bordered" required/>
                         <label className="label">
                             <a href="#" className="label-text-alt link link-hover">비밀번호를 잊어버렸다면?</a>
+                            <a href="/signup" className="label-text-alt link link-hover">회원가입</a>
                         </label>
                     </div>
                     <div className="flex justify-between">
@@ -34,4 +35,4 @@ const LogIn = () => {
         </div>
     );
 };
-export default LogIn;
+export default SignIn;
