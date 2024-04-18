@@ -1,4 +1,3 @@
-import Moviebox from "../components/Moviebox.jsx";
 import React, {useEffect} from "react";
 import axios from "axios";
 

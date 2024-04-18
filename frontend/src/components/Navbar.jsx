@@ -99,7 +99,7 @@ const Navbar = () => {
                                 <Link to="/mypage">마이페이지</Link>
                             </li>
                             <li>
-                                <Link to="/login">로그인</Link>
+                                <Link to="/signin">로그인</Link>
                             </li>
                         </ul>
                     </div>
