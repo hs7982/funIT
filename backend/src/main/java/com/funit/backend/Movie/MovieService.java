@@ -25,4 +25,9 @@ public class MovieService {
     public MovieEntity findOne(int movie_id) { return movieRepository.findById(movie_id).orElse(null);}
 
 
+    public List<MovieEntity> search(String keyword) {
+        return movieRepository.findByTitleContaining(keyword);
+    }
+
+
 }

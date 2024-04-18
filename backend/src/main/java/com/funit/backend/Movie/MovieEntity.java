@@ -9,8 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -33,8 +32,8 @@ public class MovieEntity {
     @Column(name = "detail", columnDefinition = "MEDIUMTEXT")
     private String detail;
 
-    @Column(name = "target_credit", nullable = false)
-    private int targetCredit;
+    @Column(name = "target_credit", nullable = false, columnDefinition = "BIGINT")
+    private long targetCredit;
 
     @Column(name = "status", nullable = false, columnDefinition = "INT DEFAULT 1")
     private int status; // 진행중, 성공, 실패
@@ -57,14 +56,14 @@ public class MovieEntity {
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<GenreEntity> genres = new HashSet<>();
+    private List<GenreEntity> genres = new ArrayList<>();
 
 
     @ManyToMany
     @JoinTable(name = "movie_production",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "production_id"))
-    private Set<ProductionEntity> productions = new HashSet<>();
+    private List<ProductionEntity> productions = new ArrayList<>();
 
 
 }
