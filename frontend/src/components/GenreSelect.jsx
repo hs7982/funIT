@@ -49,7 +49,7 @@ const GenreSelect = (props) => {
                     <Combobox.Button className={"input input-bordered w-full"}>
                         <Combobox.Input
                             className="w-full"
-                            placeholder="장르를 선택해주세요."
+                            placeholder="장르"
                             displayValue={() => selected.map((sel) => sel.name).join(", ")}
                             readOnly
                         />

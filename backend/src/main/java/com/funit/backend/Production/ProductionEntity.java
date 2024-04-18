@@ -24,7 +24,7 @@ public class ProductionEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private int role; //제작진 감독 배우
 
     @Column(name = "image")

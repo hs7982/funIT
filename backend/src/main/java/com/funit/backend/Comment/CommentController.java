@@ -34,4 +34,14 @@ public class CommentController {
                 savedComment);
 
     }
+
+    /**
+     * 댓글 삭제
+     * */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable int id) {
+        commentService.commentDelete(id);
+        return ResponseEntity.ok()
+                .build();
+    }
 }
