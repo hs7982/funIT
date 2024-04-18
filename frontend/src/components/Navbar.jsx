@@ -3,6 +3,12 @@ import React, {useState} from 'react';
 
 const Navbar = () => {
     const [showInput, setShowInput] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState("")
+
+    const enter = () => {
+        //여기에서 이제 페이지 넘겨주기 하면됨
+        console.log(searchKeyword)
+    }
 
     return (
         <div className="p-2 w-full">
@@ -33,7 +39,10 @@ const Navbar = () => {
                     </button>
                     {showInput && (
                         <div className="form-control">
-                            <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto"/>
+                            <input type="text" placeholder="Search"
+                                    onChange={(e)=>setSearchKeyword(e.target.value)}
+                                   onKeyDown={e => enter()}
+                                   className="input input-bordered w-24 md:w-auto"/>
                         </div>
                     )}
                     <div className="dropdown dropdown-end">

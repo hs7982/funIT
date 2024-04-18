@@ -73,7 +73,11 @@ public class MovieController {
     @GetMapping("/search")
     public ResponseEntity<Object> search(@RequestParam String keyword) {
         List<MovieEntity> moviesearchList = movieService.search(keyword);
-        return ResponseEntity.ok().body(moviesearchList);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                moviesearchList
+        );
     }
 
 }
