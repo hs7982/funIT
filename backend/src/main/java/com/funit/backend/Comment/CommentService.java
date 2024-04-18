@@ -12,4 +12,8 @@ public class CommentService {
     public List<CommentEntity> getAllComments() { return commentRepository.findAll(); }
 
     public CommentEntity save(CommentDTO request) { return commentRepository.save(request.toEntity());}
+
+    public void commentDelete(int id) {
+        commentRepository.deleteById(id);
+    }
 }
