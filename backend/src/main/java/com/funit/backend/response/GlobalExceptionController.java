@@ -19,7 +19,15 @@ public class GlobalExceptionController {
         bindingResult.getAllErrors().forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
         return ResponseHandler.responseBuilder(
                 HttpStatus.BAD_REQUEST,
-                "오류가 발생하였습니다.",
+                "유효성 검사 오류가 발생하였습니다.",
                 errors);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleBadRequest(IllegalArgumentException exception) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                null);
     }
 }
