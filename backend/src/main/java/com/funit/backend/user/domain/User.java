@@ -56,7 +56,7 @@ public class User implements UserDetails {
     //권한 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     //사용자 id 반환(이메일)
