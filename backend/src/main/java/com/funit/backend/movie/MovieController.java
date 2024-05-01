@@ -37,6 +37,7 @@ public class MovieController {
      * 새로운 영화 프로젝트를 등록합니다.
      */
     @PostMapping("/new")
+    //@PreAuthorize("")
     public ResponseEntity<Object> addMovie(@Valid @ModelAttribute AddMovieRequestDTO request) {
         Movie savedMovie = movieService.save(request);
 
