@@ -3,10 +3,15 @@ package com.funit.backend.user.controller;
 import com.funit.backend.user.dto.UserRequestDTO;
 import com.funit.backend.user.service.UserService;
 import com.funit.backend.response.ResponseHandler;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,6 +31,17 @@ public class UserController {
                 HttpStatus.CREATED,
                 "계정이 생성되었습니다.",
                 userid
+        );
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Object> logout(HttpServletRequest request, HttpServletResponse response) {
+        new SecurityContextLogoutHandler().logout(request, response,
+                SecurityContextHolder.getContext().getAuthentication());
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                "로그아웃되었습니다.",
+                null
         );
     }
 

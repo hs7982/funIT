@@ -34,6 +34,8 @@ const NewMovieProject = () => {
                 },
             });
             alert("성공적으로 등록되었습니다!")
+            window.open("/funding", "_self");
+
         } catch (e) {
             console.log(e);
             if (e.response.status === 400) {
