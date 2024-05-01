@@ -6,8 +6,13 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @DynamicInsert
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", updatable = false)
@@ -47,4 +52,46 @@ public class User {
     @UpdateTimestamp
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    //권한 반환
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("user"));
+    }
+
+    //사용자 id 반환(이메일)
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    //사용자 password 반환
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    //계정 만료 여부 반환 true:만료되지 않음
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    //계정 잠금 여부 반환 true:잠금되지 않음
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    //패스워드 만료 여부 반환 true:만료되지 않음
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    //계정 활성화 여부 반환 true:사용가능
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
