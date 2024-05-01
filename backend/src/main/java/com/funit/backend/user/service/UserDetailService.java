@@ -14,20 +14,10 @@ public class UserDetailService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    //    @Override
-//    public UserDetails loadUserByUsername(String email) {
-//        return (UserDetails) userRepository.findByEmail(email)
-//                .orElseThrow(() -> new IllegalArgumentException(email));
-//    }
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail()) // assuming email is the username
-                .password(user.getPassword()) // assuming password is already encoded
-                .roles("USER") // assuming a role "USER"
-                .build();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email에 해당하는 사용자를 찾을 수 없습니다: " + email));
     }
 }

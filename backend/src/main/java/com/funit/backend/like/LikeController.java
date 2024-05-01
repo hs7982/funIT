@@ -1,6 +1,6 @@
 package com.funit.backend.like;
 
-import com.funit.backend.like.domain.Like;
+import com.funit.backend.like.domain.MovieLike;
 import com.funit.backend.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class LikeController {
      */
     @GetMapping()
     public ResponseEntity<Object> getAllLikes() {
-        List<Like> like = likeService.getAllLikes();
+        List<MovieLike> like = likeService.getAllLikes();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
