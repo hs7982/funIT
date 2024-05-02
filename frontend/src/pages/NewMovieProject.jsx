@@ -10,12 +10,18 @@ const NewMovieProject = () => {
     const [endDate, setEndDate] = useState("");
     const [genres, setGenres] = useState({});
     const [detail, setDetail] = useState("");
+    const [thumbnailImage, setThumbnailImage] = useState("");
     useEffect(() => {
         const movies = axios.get('/api/movies')
     }, []);
 
     const [isError, setIsError] = useState(false);
     const [errorData, setErrorData] = useState([]);
+    const selectThumbnailImage = (e) => {
+        e.preventDefault();
+        console.log(e.target.files);
+        setThumbnailImage(e.target.files[0]);
+    }
     const submit = async () => {
         try {
             setIsError(false)
@@ -25,6 +31,7 @@ const NewMovieProject = () => {
             formData.append("endDate", endDate);
             formData.append("genres", genres);
             formData.append("detail", detail);
+            formData.append("imageFile", thumbnailImage);
 
             await axios.post("/api/movies/new", formData, {
                 withCredentials: true,
@@ -94,7 +101,8 @@ const NewMovieProject = () => {
                     <div className="text-sm text-gray-500 ms-1 mb-2.5 -mt-2.5">프로젝트의 대표 이미지로 사용됩니다.</div>
                     <input type="file"
                            className="file-input file-input-bordered w-full"
-                           accept="image/jpeg,image/png,image/heic,image/heif"/>
+                           accept="image/jpeg,image/png,image/heic,image/heif"
+                    onChange={(e)=>selectThumbnailImage(e)}/>
                 </label>
                 <hr className="mt-6"/>
                 <label className="form-control w-full my-2">

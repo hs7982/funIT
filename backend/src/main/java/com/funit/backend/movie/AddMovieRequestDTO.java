@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +38,11 @@ public class AddMovieRequestDTO {
     @NotNull
     private List<Genre> genres;
 
+    @NotNull
+    private MultipartFile imageFile;
+
+    private String imageURL;
+
     public Movie toEntity() {
         return Movie.builder()
                 .title(title)
@@ -45,6 +51,7 @@ public class AddMovieRequestDTO {
                 .status(1)
                 .endDate(endDate)
                 .genres(genres)
+                .thumbnailImage(imageURL)
 
                 .build();
     }

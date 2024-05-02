@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,7 +41,9 @@ public class MovieController {
     @PostMapping("/new")
     //@PreAuthorize("")
     public ResponseEntity<Object> addMovie(@Valid @ModelAttribute AddMovieRequestDTO request) {
-        Movie savedMovie = movieService.save(request);
+        MultipartFile imageFile = request.getImageFile();
+
+        Movie savedMovie = movieService.save(request, imageFile);
 
         return ResponseHandler.responseBuilder(
                 HttpStatus.CREATED,
