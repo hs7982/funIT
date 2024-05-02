@@ -19,10 +19,13 @@ const SignIn = () => {
                     email: email,
                     password: password,
                 }
-            }).then(({data}) => {
+            }).then((data) => {
                 if (data.status === 200) {
+                    alert("로그인ㅇㅇ")
                     window.open("/", "_self");
                 }
+            }).catch((e)=>{
+                alert(e.response.data)
             })
         }
     }
