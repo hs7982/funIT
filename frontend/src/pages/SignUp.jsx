@@ -1,31 +1,107 @@
+import {useState} from "react";
+import axios from "axios";
+
 const SignUp = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [password_second, setPassword_second] = useState('');
+    const [name, setName] = useState('');
+    const [tell, setTell] = useState('');
+    const [gender, setGender] = useState('');
+
+    const singup = (event) => {
+        event.preventDefault();
+        if (!email || !password || !name || !tell || !gender) {
+            alert("모든 필드를 입력해주세요!");
+        } else if (password !== password_second) {
+            alert("비밀번호가 일치하지 않습니다!");
+        } else {
+                axios({
+                    url: "/api/users/signup",
+                    method: "POST",
+                    withCredentials: true,
+                    timeout: 10000,
+                    data: {
+                        email: email,
+                        password: password,
+                        name: name,
+                        tell: tell,
+                        gender: gender
+                    }
+                }).then(({data}) => {
+                    if (data.status === 200) {
+                        window.open("/", "_self");
+                    }
+                })
+            }
+        }
+
+
     return (
         <div className="container m-auto p-4">
             <div className="card mx-auto shrink-0 w-full max-w-2xl shadow-2xl bg-slate-100">
                 <form className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">회원가입</div>
                     <div className="relative">
+                        <input type="email" id="floating_filled"
+                               className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                               placeholder=" " value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                        <label htmlFor="floating_filled"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">이메일</label>
+                    </div>
+                    <div className="relative">
+                        <input type="password" id="floating_filled"
+                               className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                               placeholder=" " value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                        <label htmlFor="floating_filled"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">비밀번호</label>
+                    </div>
+                    <div className="relative">
+                        <input type="password" id="floating_filled"
+                               className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                               placeholder=" " value={password_second} onChange={(e) => setPassword_second(e.target.value)} required/>
+                        <label htmlFor="floating_filled"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">비밀번호 확인</label>
+                    </div>
+                    <div className="relative">
                         <input type="text" id="floating_filled"
-                               className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required/>
+                               className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                               placeholder=" " value={name} onChange={(e) => setName(e.target.value)} required/>
                         <label htmlFor="floating_filled"
                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">이름</label>
                     </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">비밀번호</span>
-                        </label>
-                        <input type="password" placeholder="비밀번호" className="input input-bordered" required/>
+                    <div className="relative">
+                        <input type="text" id="floating_filled"
+                               className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                               placeholder=" " value={tell} onChange={(e) => setTell(e.target.value)} required/>
+                        <label htmlFor="floating_filled"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">전화번호</label>
                     </div>
-                    <div className="flex justify-between">
-                        <div/>
-                        <button className=" btn btn-sm">구</button>
-                        <button className="btn btn-sm">카</button>
-                        <button className="btn btn-sm">네</button>
-                        <div/>
+                    <div className="form-controls">
+                        <div className="form-control">
+                            <label className="label cursor-pointer">
+                                <span className="label-text">남</span>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    className="radio checked:bg-blue-500"
+                                    checked={gender === '남'}
+                                    onChange={() => setGender('남')} // 선택된 값으로 gender 상태 업데이트
+                                /></label>
+                        </div>
+                        <div className="form-control">
+                            <label className="label cursor-pointer">
+                                <span className="label-text">여</span>
+                                <input type="radio"
+                                       name="gender"
+                                       className="radio checked:bg-red-500"
+                                       checked={gender === '여'}
+                                       onChange={() => setGender('여')} // 선택된 값으로 gender 상태 업데이트
+                                /></label>
+                        </div>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary">로그인</button>
+                        <button className="btn text-lg btn-primary" onClick={(e) => singup(e)}>회원가입</button>
                     </div>
                 </form>
             </div>
