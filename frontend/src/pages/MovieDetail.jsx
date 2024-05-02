@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import TabContent from "../components/TabContent";
 
-const MovieDetailPage = () => {
+const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
-    const [activeTab, setActiveTab] = useState("모집현황"); // 초기 값으로 "모집현황"을 설정합니다.
 
     useEffect(() => {
         // 영화 정보를 가져오는 비동기 함수
@@ -13,7 +11,15 @@ const MovieDetailPage = () => {
                 id: 1,
                 title: "파묘",
                 image: "https://entertainimg.kbsmedia.co.kr/cms/uploads/BBSIMAGE_20240202201030_e56e9797d86c5c57fc3e3325befc74d1.jpg",
-                description: "인도네시아, 베트남 등 해외에서도 인기"
+                description: "인도네시아, 베트남 등 해외에서도 인기",
+                recruitmentStatus: "모집중",
+                gallery: [
+                    "https://image1.com",
+                    "https://image2.com",
+                    "https://image3.com"
+                ],
+                details: "상세 내용을 여기에 작성하세요.",
+                schedule: "2024년 5월 15일 - 2024년 6월 15일"
             };
             setMovie(exampleMovie);
         };
@@ -39,18 +45,34 @@ const MovieDetailPage = () => {
                     {movie.title}
                 </h1>
                 <p className="movie-description text-gray-600">{movie.description}</p>
-                <button className="btn btn-sm bg-fuchsia-300 mt-4">모집종료</button>
+                <button className="btn btn-sm bg-fuchsia-300 mt-4">{movie.recruitmentStatus}</button>
+                {/* 모집현황 */}
+                <div className="recruitment-status mt-4 p-4 bg-gray-100 rounded-lg">
+                    <h2 className="text-lg font-bold mb-2">모집현황</h2>
+                    <p>여기에 모집현황 내용을 작성하세요.</p>
+                </div>
+                {/* 갤러리 */}
+                <div className="gallery mt-4 p-4 bg-gray-100 rounded-lg">
+                    <h2 className="text-lg font-bold mb-2">갤러리</h2>
+                    <div className="flex">
+                        {movie.gallery.map((image, index) => (
+                            <img key={index} src={image} alt={`Image ${index}`} className="mr-2 rounded-lg shadow"/>
+                        ))}
+                    </div>
+                </div>
+                {/* 상세내용 */}
+                <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
+                    <h2 className="text-lg font-bold mb-2">상세내용</h2>
+                    <p>{movie.details}</p>
+                </div>
+                {/* 일정 */}
+                <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
+                    <h2 className="text-lg font-bold mb-2">일정</h2>
+                    <p>{movie.schedule}</p>
+                </div>
             </div>
-            <div role="tablist" className="tabs tabs-lifted mt-6">
-                <a role="tab" className={`tab ${activeTab === "모집현황" ? "tab-active" : ""}`} onClick={() => setActiveTab("모집현황")}>모집현황</a>
-                <a role="tab" className={`tab ${activeTab === "갤러리" ? "tab-active" : ""}`} onClick={() => setActiveTab("갤러리")}>갤러리</a>
-                <a role="tab" className={`tab ${activeTab === "상세내용" ? "tab-active" : ""}`} onClick={() => setActiveTab("상세내용")}>상세내용</a>
-                <a role="tab" className={`tab ${activeTab === "일정" ? "tab-active" : ""}`} onClick={() => setActiveTab("일정")}>일정</a>
-            </div>
-            {/* 탭 컨텐츠 */}
-            <TabContent activeTab={activeTab} />
         </div>
     );
 };
 
-export default MovieDetailPage;
+export default MovieDetail;
