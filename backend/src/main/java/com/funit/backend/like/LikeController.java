@@ -21,9 +21,9 @@ public class LikeController {
     /**
      * 모든 좋아요 리스트를 반환합니다.
      */
-    @GetMapping()
-    public ResponseEntity<Object> getAllLikes() {
-        List<MovieLike> like = likeService.getAllLikes();
+    @GetMapping("/{movieId}")
+    public ResponseEntity<Object> likeOne(@PathVariable Integer movieId) {
+        List<MovieLike> like = likeService.likeOne(movieId);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -31,8 +31,8 @@ public class LikeController {
         );
     }
 
-    @GetMapping("/count")
-    public ResponseEntity<Object> getLikeCount(@RequestParam Integer movieId) {
+    @GetMapping("/count/{movieId}")
+    public ResponseEntity<Object> getLikeCount(@PathVariable Integer movieId) {
         int count = likeService.countLike(movieId);
 
         return ResponseHandler.responseBuilder(

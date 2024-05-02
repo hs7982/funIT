@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import axios from "axios";
+import { TECarousel, TECarouselItem } from "tw-elements-react";
 
 
 const Home = () => {

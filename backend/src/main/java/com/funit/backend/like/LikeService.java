@@ -4,7 +4,6 @@ import com.funit.backend.like.domain.LikeRepository;
 import com.funit.backend.like.domain.MovieLike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -19,4 +18,6 @@ public class LikeService {
     public Integer countLike(Integer movieId) {
         return likeRepository.getCount(movieId);
     }
+
+    public List<MovieLike> likeOne(Integer movieId) { return likeRepository.findByMovieId(movieId);}
 }
