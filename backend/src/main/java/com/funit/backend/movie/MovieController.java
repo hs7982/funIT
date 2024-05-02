@@ -1,6 +1,7 @@
 package com.funit.backend.movie;
 
 
+import com.funit.backend.comment.CommentDTO;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.response.ResponseHandler;
 import jakarta.validation.Valid;
