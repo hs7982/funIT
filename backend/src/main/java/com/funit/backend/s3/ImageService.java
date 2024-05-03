@@ -26,7 +26,7 @@ public class ImageService {
     public List<String> saveManyImage(ImageSaveDto saveDto) {
         List<String> resultList = new ArrayList<>();
 
-        for(MultipartFile multipartFile : saveDto.getImages()) {
+        for (MultipartFile multipartFile : saveDto.getImages()) {
             String value = saveImage(multipartFile);
             resultList.add(value);
         }
@@ -37,7 +37,7 @@ public class ImageService {
     // 이미지 1개 업로드
     @Transactional
     public String saveImage(MultipartFile multipartFile) {
-        String uuidName = UUID.randomUUID().toString();
+        String uuidName = UUID.randomUUID().toString() + "-" + multipartFile.getOriginalFilename();
 //        Image image = new Image(originalName);
 //        String filename = image.getStoredName();
 
@@ -51,7 +51,7 @@ public class ImageService {
             String accessUrl = amazonS3Client.getUrl(bucketName, uuidName).toString();
             //image.setAccessUrl(accessUrl);
             return accessUrl;
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace(); // 예외 발생 시 적절한 처리를 수행하도록 수정
             return null;
         }

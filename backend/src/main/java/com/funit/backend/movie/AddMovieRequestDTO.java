@@ -37,8 +37,7 @@ public class AddMovieRequestDTO {
 
     @NotNull
     private List<Genre> genres;
-
-    @NotNull
+    
     private MultipartFile imageFile;
 
     private String imageURL;
