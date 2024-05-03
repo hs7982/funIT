@@ -7,7 +7,7 @@ const Moviebox = ({movie}) => {
             <div className="card w-96 bg-base-100 shadow-xl">
                 <figure>
                     <img
-                        src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1h6j7k.img?w=640&h=457&m=6&x=159&y=174&s=359&d=94"
+                        src={movie.thumbnailImage}
                         alt={movie.title}
                     />
                 </figure>
