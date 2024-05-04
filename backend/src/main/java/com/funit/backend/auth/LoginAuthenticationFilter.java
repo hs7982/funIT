@@ -10,6 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.context.DelegatingSecurityContextRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +22,12 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     public LoginAuthenticationFilter(final String defaultFilterProcessesUrl,
                                      final AuthenticationManager authenticationManager) {
         super(defaultFilterProcessesUrl, authenticationManager);
+        setSecurityContextRepository(
+                new DelegatingSecurityContextRepository(
+                        new HttpSessionSecurityContextRepository(),
+                        new RequestAttributeSecurityContextRepository()
+                )
+        );
     }
 
     @Override
