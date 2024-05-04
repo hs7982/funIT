@@ -16,25 +16,25 @@ const SignUp = () => {
         } else if (password !== password_second) {
             alert("비밀번호가 일치하지 않습니다!");
         } else {
-                axios({
-                    url: "/api/users/signup",
-                    method: "POST",
-                    withCredentials: true,
-                    timeout: 10000,
-                    data: {
-                        email: email,
-                        password: password,
-                        name: name,
-                        tell: tell,
-                        gender: gender
-                    }
-                }).then(({data}) => {
-                    if (data.status === 200) {
-                        window.open("/", "_self");
-                    }
-                })
-            }
+            axios({
+                url: "/api/users/signup",
+                method: "POST",
+                withCredentials: true,
+                timeout: 10000,
+                data: {
+                    email: email,
+                    password: password,
+                    name: name,
+                    tell: tell,
+                    gender: gender
+                }
+            }).then(({data}) => {
+                if (data.status === 200) {
+                    window.open("/", "_self");
+                }
+            })
         }
+    }
 
 
     return (
@@ -43,39 +43,45 @@ const SignUp = () => {
                 <form className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">회원가입</div>
                     <div className="relative">
-                        <input type="email" id="floating_filled"
+                        <input type="email" id="email"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                placeholder=" " value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                        <label htmlFor="floating_filled"
-                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">이메일</label>
+                        <label htmlFor="email"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        >이메일</label>
                     </div>
                     <div className="relative">
-                        <input type="password" id="floating_filled"
+                        <input type="password" id="password"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                placeholder=" " value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                        <label htmlFor="floating_filled"
-                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">비밀번호</label>
+                        <label htmlFor="password"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        >비밀번호</label>
                     </div>
                     <div className="relative">
-                        <input type="password" id="floating_filled"
+                        <input type="password" id="rePassword"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " value={password_second} onChange={(e) => setPassword_second(e.target.value)} required/>
-                        <label htmlFor="floating_filled"
-                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">비밀번호 확인</label>
+                               placeholder=" " value={password_second}
+                               onChange={(e) => setPassword_second(e.target.value)} required/>
+                        <label htmlFor="rePassword"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        >비밀번호 확인</label>
                     </div>
                     <div className="relative">
-                        <input type="text" id="floating_filled"
+                        <input type="text" id="name"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                placeholder=" " value={name} onChange={(e) => setName(e.target.value)} required/>
-                        <label htmlFor="floating_filled"
-                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">이름</label>
+                        <label htmlFor="name"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        >이름</label>
                     </div>
                     <div className="relative">
-                        <input type="text" id="floating_filled"
+                        <input type="text" id="tel"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                placeholder=" " value={tell} onChange={(e) => setTell(e.target.value)} required/>
-                        <label htmlFor="floating_filled"
-                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">전화번호</label>
+                        <label htmlFor="tel"
+                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        >전화번호</label>
                     </div>
                     <div className="form-controls">
                         <div className="form-control">
