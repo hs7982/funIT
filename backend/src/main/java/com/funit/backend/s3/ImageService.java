@@ -8,26 +8,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
 
-    private static String bucketName = "funit";
-
+    private static final String bucketName = "funit";
     private final AmazonS3Client amazonS3Client;
     //private final ImageRepository imageRepository;
 
     // 이미지 여러개 업로드
     @Transactional
-    public List<String> saveManyImage(ImageSaveDto saveDto) {
+    public List<String> saveManyImage(ImageSaveDto saveDto, String saveDir) {
         List<String> resultList = new ArrayList<>();
 
         for (MultipartFile multipartFile : saveDto.getImages()) {
-            String value = saveImage(multipartFile);
+            String value = saveImage(multipartFile, saveDir);
             resultList.add(value);
         }
 
@@ -36,21 +33,25 @@ public class ImageService {
 
     // 이미지 1개 업로드
     @Transactional
-    public String saveImage(MultipartFile multipartFile) {
-        String uuidName = UUID.randomUUID().toString() + "-" + multipartFile.getOriginalFilename();
-//        Image image = new Image(originalName);
-//        String filename = image.getStoredName();
+    public String saveImage(MultipartFile multipartFile, String saveDir) {
+        String fileName = multipartFile.getOriginalFilename();
+        String FileExt = fileName.substring(fileName.lastIndexOf("."));
+        String uuidName = UUID.randomUUID() + FileExt;
+
+        if (!Objects.requireNonNull(multipartFile.getContentType()).contains("image/")) {
+            throw new IllegalArgumentException("허용되지 않는 형식의 파일입니다: " + multipartFile.getContentType());
+        }
+
+        String bucketNameWithSaveDir = bucketName + saveDir;
 
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(multipartFile.getContentType());
             objectMetadata.setContentLength(multipartFile.getInputStream().available());
 
-            amazonS3Client.putObject(bucketName, uuidName, multipartFile.getInputStream(), objectMetadata);
+            amazonS3Client.putObject(bucketNameWithSaveDir, uuidName, multipartFile.getInputStream(), objectMetadata);
 
-            String accessUrl = amazonS3Client.getUrl(bucketName, uuidName).toString();
-            //image.setAccessUrl(accessUrl);
-            return accessUrl;
+            return amazonS3Client.getUrl(bucketNameWithSaveDir, uuidName).toString();
         } catch (IOException e) {
             e.printStackTrace(); // 예외 발생 시 적절한 처리를 수행하도록 수정
             return null;

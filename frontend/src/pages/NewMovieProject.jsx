@@ -48,7 +48,13 @@ const NewMovieProject = () => {
             if (e.response.status === 400) {
                 setIsError(true);
 
-                setErrorData([JSON.stringify(e.response.data.message), JSON.stringify(e.response.data.data)])
+                let err_msg = e.response.data.message;
+                let err_data = e.response.data.data;
+                if (err_data == null) {
+                    err_data = ""
+                }
+
+                setErrorData([JSON.stringify(err_msg), JSON.stringify(err_data)])
                 console.log(errorData)
             } else alert(JSON.stringify(e.response.data))
         }
@@ -60,7 +66,7 @@ const NewMovieProject = () => {
     return (
         <div className="container mx-auto p-6">
             <p className="text-3xl font-medium my-12 text-center">새로운 펀딩 등록</p>
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-6xl">
                 <label className="form-control w-full my-2">
                     <div className="label">
                         <span className="text-lg">프로젝트 제목을 입력해주세요.</span>
@@ -102,7 +108,7 @@ const NewMovieProject = () => {
                     <input type="file"
                            className="file-input file-input-bordered w-full"
                            accept="image/jpeg,image/png,image/heic,image/heif"
-                    onChange={(e)=>selectThumbnailImage(e)}/>
+                           onChange={(e) => selectThumbnailImage(e)}/>
                 </label>
                 <hr className="mt-6"/>
                 <label className="form-control w-full my-2">
