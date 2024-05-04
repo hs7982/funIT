@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 const MovieDetail = () => {
+    const params = useParams();
     const [movie, setMovie] = useState(null);
 
     useEffect(() => {
+        const movieId = params.id;
         // 영화 정보를 가져오는 비동기 함수
         const fetchMovie = async () => {
             // 여기서는 예시 데이터를 사용하겠습니다.

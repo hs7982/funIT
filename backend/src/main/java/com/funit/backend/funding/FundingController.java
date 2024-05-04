@@ -1,7 +1,7 @@
 package com.funit.backend.funding;
 
 import com.funit.backend.funding.domain.Funding;
-import com.funit.backend.response.ResponseHandler;
+import com.funit.backend.utils.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

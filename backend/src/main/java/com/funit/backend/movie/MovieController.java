@@ -2,7 +2,7 @@ package com.funit.backend.movie;
 
 
 import com.funit.backend.movie.domain.Movie;
-import com.funit.backend.response.ResponseHandler;
+import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
