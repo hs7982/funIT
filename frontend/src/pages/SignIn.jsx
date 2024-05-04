@@ -1,7 +1,9 @@
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const SignIn = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -21,10 +23,10 @@ const SignIn = () => {
                 }
             }).then((data) => {
                 if (data.status === 200) {
-                    alert("로그인ㅇㅇ")
-                    window.open("/", "_self");
+                    alert("로그인 성공")
+                    navigate("/")
                 }
-            }).catch((e)=>{
+            }).catch((e) => {
                 alert(e.response.data)
             })
         }

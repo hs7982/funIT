@@ -1,9 +1,10 @@
 package com.funit.backend.user.controller;
 
+import com.funit.backend.user.domain.AuthUser;
+import com.funit.backend.user.domain.User;
 import com.funit.backend.user.dto.UserRequestDTO;
 import com.funit.backend.user.service.UserService;
-import com.funit.backend.response.ResponseHandler;
-import jakarta.servlet.http.HttpServlet;
+import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -42,6 +43,15 @@ public class UserController {
                 HttpStatus.OK,
                 "로그아웃되었습니다.",
                 null
+        );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Object> getMyInfo(@AuthUser User user) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                user.getUsername()
         );
     }
 

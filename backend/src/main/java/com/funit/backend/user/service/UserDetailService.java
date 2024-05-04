@@ -1,6 +1,5 @@
 package com.funit.backend.user.service;
 
-import com.funit.backend.user.domain.User;
 import com.funit.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
