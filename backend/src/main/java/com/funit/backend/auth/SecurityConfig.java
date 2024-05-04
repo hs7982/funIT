@@ -40,14 +40,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-//                .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterAt(
                         this.abstractAuthenticationProcessingFilter(authenticationManager),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/admin/**").hasRole("admin")
-                        .requestMatchers("/api/user/**").hasRole("USER")
+                        .requestMatchers("/api/user/**").hasRole("user")
                         .requestMatchers("/api/loginOnly").authenticated()
                         .anyRequest().permitAll()   // authenticated ( 허용 x 나중에 permitAll을 authenticated로 바꿔야 됨 )
                 )
