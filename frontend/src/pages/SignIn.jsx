@@ -1,40 +1,45 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {axiosLogin} from "../api/axios.jsx";
+import {Modal} from "../components/Modal.jsx";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState("");
 
-    const login = (event) => {
+    const login = async (event) => {
         event.preventDefault();
         if (!email && !password) {
             alert("이메일과 비밀번호를 입력해주세요!");
         } else {
-            axios({
-                url: "/api/users/login",
-                method: "POST",
-                withCredentials: true,
-                timeout: 10000,
-                data: {
-                    email: email,
-                    password: password,
+            try {
+                const response = await axiosLogin(email, password);
+                if (response.status === 200) {
+                    navigate("/");
                 }
-            }).then((data) => {
-                if (data.status === 200) {
-                    alert("로그인 성공")
-                    navigate("/")
+            } catch (error) {
+                console.log(error)
+                if (axios.isAxiosError(error) && error.response.status === 401) {
+                    setLoginError(error.response.data);
+                    console.log(loginError);
+                    setTimeout(function () {
+                        document.getElementById('modal').showModal()
+                    }, 10);
+
                 }
-            }).catch((e) => {
-                alert(e.response.data)
-            })
+            }
         }
     }
+
     return (
         <div className="container m-auto p-4">
+            {loginError !== "" && (<Modal title="로그인에 실패하였습니다." message={loginError}/>)}
+
             <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100">
-                <form className="card-body">
+                <div className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">로그인</div>
                     <div className="form-control">
                         <label className="label">
@@ -66,7 +71,7 @@ const SignIn = () => {
                     <div className="form-control mt-3">
                         <button className="btn text-lg btn-primary" onClick={(e) => login(e)}>로그인</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     );

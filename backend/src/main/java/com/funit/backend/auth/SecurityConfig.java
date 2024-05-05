@@ -17,9 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.DelegatingSecurityContextRepository;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 
 @RequiredArgsConstructor
 @Configuration
@@ -48,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("admin")
                         .requestMatchers("/api/user/**").hasRole("user")
                         .requestMatchers("/api/loginOnly").authenticated()
-                        .anyRequest().permitAll()   // authenticated ( 허용 x 나중에 permitAll을 authenticated로 바꿔야 됨 )
+                        .anyRequest().permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/api/users/logout")
@@ -62,14 +59,6 @@ public class SecurityConfig {
                                 .maximumSessions(1) // 세션 쿠키는 한 개만 허용
                 );
         return http.build();
-    }
-
-    @Bean
-    public DelegatingSecurityContextRepository delegatingSecurityContextRepository() {
-        return new DelegatingSecurityContextRepository(
-                new RequestAttributeSecurityContextRepository(),
-                new HttpSessionSecurityContextRepository()
-        );
     }
 
     @Bean
