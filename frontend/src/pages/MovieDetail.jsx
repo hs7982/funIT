@@ -1,75 +1,104 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {axiosGetOneMovie} from "../api/axios.js";
+import DOMPurify from 'dompurify';
 
 const MovieDetail = () => {
+    const params = useParams();
     const [movie, setMovie] = useState(null);
+    const [noContent, setNoContent] = useState(false);
+
+    const fetchMovie = async (movieId) => {
+        const response = await axiosGetOneMovie(movieId);
+        console.log(response)
+        if (response.status === 200) {
+            setMovie(response.data.data);
+        } else if (response.status === 204) {
+            setNoContent(true);
+        }
+
+    };
 
     useEffect(() => {
-        // 영화 정보를 가져오는 비동기 함수
-        const fetchMovie = async () => {
-            // 여기서는 예시 데이터를 사용하겠습니다.
-            const exampleMovie = {
-                id: 1,
-                title: "파묘",
-                image: "https://entertainimg.kbsmedia.co.kr/cms/uploads/BBSIMAGE_20240202201030_e56e9797d86c5c57fc3e3325befc74d1.jpg",
-                description: "인도네시아, 베트남 등 해외에서도 인기",
-                recruitmentStatus: "모집중",
-                gallery: [
-                    "https://image1.com",
-                    "https://image2.com",
-                    "https://image3.com"
-                ],
-                details: "상세 내용을 여기에 작성하세요.",
-                schedule: "2024년 5월 15일 - 2024년 6월 15일"
-            };
-            setMovie(exampleMovie);
-        };
-
-        // 컴포넌트가 마운트될 때 영화 정보 가져오기
-        fetchMovie();
+        const movieId = params.id;
+        fetchMovie(movieId);
     }, []);
 
+    const formattedDate = (dateStr) => {
+        const date = new Date(dateStr);
+
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+
+        return `${year}년 ${month}월 ${day}일 ${hour}시${minute}분`;
+    }
+
+    if (noContent) {
+        return <div className="container p-6">
+            <div className="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                     stroke="currentColor" className="w-8 h-8 my-2">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+                </svg>
+                <p className="text-xl font-semibold">찾는 콘텐츠가 삭제되었거나 없습니다!</p>
+            </div>
+        </div>
+    }
+
     if (!movie) {
-        return <div>Loading...</div>;
+        return <span className="loading loading-spinner loading-md"></span>;
     }
 
     return (
-        <div className="movie-detail-container p-8">
+        <div className="container p-8">
             {/* 영화 이미지 */}
-            <div className="movie-image-container mb-6">
-                <img src={movie.image} alt={movie.title} className="rounded-lg shadow-lg"/>
+            <div className="flex flex-wrap">
+                <div className="max-w-60 mb-6">
+                    <img src={movie.thumbnailImage} alt={movie.title} className="rounded-lg shadow-lg"/>
+                </div>
+                <div className="p-3"></div>
+                {/* 영화 정보 */}
+                <div className="movie-info-container">
+                    <h1 className="movie-title flex items-center mb-1">
+                        {movie.title}
+                    </h1>
+                    {movie.genres.map(genre => (
+                        <div key={genre.id} className="badge badge-outline me-1">{genre.name}</div>
+                    ))}
+                    <p className="movie-description text-gray-600">{movie.description}</p>
+                    <button className="btn btn-sm bg-fuchsia-300 mt-4">{movie.recruitmentStatus}</button>
+                </div>
             </div>
-            {/* 영화 정보 */}
-            <div className="movie-info-container">
-                <h1 className="movie-title flex items-center mb-4">
-                    <div className="badge badge-outline mr-2 bg-gray-500 text-white">오컬트</div>
-                    {movie.title}
-                </h1>
-                <p className="movie-description text-gray-600">{movie.description}</p>
-                <button className="btn btn-sm bg-fuchsia-300 mt-4">{movie.recruitmentStatus}</button>
-                {/* 모집현황 */}
-                <div className="recruitment-status mt-4 p-4 bg-gray-100 rounded-lg">
-                    <h2 className="text-lg font-bold mb-2">모집현황</h2>
-                    <p>여기에 모집현황 내용을 작성하세요.</p>
+            {/* 모집현황 */}
+            <div className="recruitment-status mt-4 p-4 bg-gray-100 rounded-lg">
+                <h2 className="text-lg font-bold mb-2">모집현황</h2>
+                <p>목표 금액</p>
+                <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+            </div>
+            {/* 갤러리 */}
+            <div className="gallery mt-4 p-4 bg-gray-100 rounded-lg">
+                <h2 className="text-lg font-bold mb-2">갤러리</h2>
+                <div className="flex">
+                    {/*{movie.gallery.map((image, index) => (*/}
+                    {/*    <img key={index} src={image} alt={`Image ${index}`} className="mr-2 rounded-lg shadow"/>*/}
+                    {/*))}*/}
                 </div>
-                {/* 갤러리 */}
-                <div className="gallery mt-4 p-4 bg-gray-100 rounded-lg">
-                    <h2 className="text-lg font-bold mb-2">갤러리</h2>
-                    <div className="flex">
-                        {movie.gallery.map((image, index) => (
-                            <img key={index} src={image} alt={`Image ${index}`} className="mr-2 rounded-lg shadow"/>
-                        ))}
-                    </div>
-                </div>
-                {/* 상세내용 */}
-                <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
-                    <h2 className="text-lg font-bold mb-2">상세내용</h2>
-                    <p>{movie.details}</p>
-                </div>
-                {/* 일정 */}
-                <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
-                    <h2 className="text-lg font-bold mb-2">일정</h2>
-                    <p>{movie.schedule}</p>
-                </div>
+            </div>
+            {/* 상세내용 */}
+            <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
+                <h2 className="text-lg font-bold mb-2">상세내용</h2>
+                <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
+
+            </div>
+            {/* 일정 */}
+            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
+                <h2 className="text-lg font-bold mb-2">일정</h2>
+                <p>등록일: {formattedDate(movie.createDate)}</p>
+                <p>마감일: {formattedDate(movie.endDate)}</p>
             </div>
         </div>
     );

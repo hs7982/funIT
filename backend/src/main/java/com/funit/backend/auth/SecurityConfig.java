@@ -6,14 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -26,54 +29,50 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder sharedObject = http.getSharedObject(AuthenticationManagerBuilder.class);
+        AuthenticationManager authenticationManager = sharedObject.build();
+
+        http.authenticationManager(authenticationManager);
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterAfter(authenticationFilter(), LogoutFilter.class)
+                .addFilterAt(
+                        this.abstractAuthenticationProcessingFilter(authenticationManager),
+                        UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
-                        //.requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        //.requestMatchers("/api/user/**").hasRole("USER")
-                        .anyRequest().permitAll()   // authenticated ( 허용 x 나중에 permitAll을 authenticated로 바꿔야 됨 )
+                        .requestMatchers("/api/admin/**").hasRole("admin")
+                        .requestMatchers("/api/user/**").hasRole("user")
+                        .requestMatchers("/api/loginOnly").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true));
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .logoutUrl("/api/users/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
+                .sessionManagement(sessionManagementConfigurer -> // 세션 정책 적용
+                        sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                .sessionFixation(
+                                        SessionManagementConfigurer.SessionFixationConfigurer::newSession) // session rotate 허용
+                                .maximumSessions(1) // 세션 쿠키는 한 개만 허용
+                );
         return http.build();
     }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() throws Exception {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-
-        return daoAuthenticationProvider;
-    }
-
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        DaoAuthenticationProvider provider = daoAuthenticationProvider();
-        provider.setPasswordEncoder(bCryptPasswordEncoder());
-        return new ProviderManager(provider);
-    }
-
-    @Bean
-    public JsonUsernamePasswordAuthenticationFilter authenticationFilter() throws Exception {
-        JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordLoginFilter = new JsonUsernamePasswordAuthenticationFilter(objectMapper);
-        jsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
-        jsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(successHandler);
-        jsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(failureHandler);
-        return jsonUsernamePasswordLoginFilter;
+    public AbstractAuthenticationProcessingFilter abstractAuthenticationProcessingFilter(final AuthenticationManager authenticationManager) {
+        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(
+                "/api/users/login",
+                authenticationManager
+        );
+        loginAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
+        loginAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
+        return loginAuthenticationFilter;
     }
 }

@@ -1,5 +1,6 @@
-package com.funit.backend.response;
+package com.funit.backend.utils.response;
 
+import com.funit.backend.utils.exception.UnauthorizedAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,6 +37,15 @@ public class GlobalExceptionController {
     public ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException exception) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                null
+        );
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<Object> handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.UNAUTHORIZED,
                 exception.getMessage(),
                 null
         );

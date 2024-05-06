@@ -4,6 +4,7 @@ import com.funit.backend.genre.domain.Genre;
 import com.funit.backend.movie.domain.Movie;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,13 +33,12 @@ public class AddMovieRequestDTO {
     @Min(value = 1, message = "최소 금액은 1원 이상입니다.")
     private long targetCredit;
 
-    @NotNull
+    @NotNull(message = "종료일은 필수값입니다.")
     private LocalDateTime endDate;
 
-    @NotNull
+    @NotEmpty(message = "장르를 지정해야합니다.")
     private List<Genre> genres;
-
-    @NotNull
+    
     private MultipartFile imageFile;
 
     private String imageURL;

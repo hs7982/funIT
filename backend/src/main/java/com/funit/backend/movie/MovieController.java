@@ -1,9 +1,8 @@
 package com.funit.backend.movie;
 
 
-import com.funit.backend.comment.CommentDTO;
 import com.funit.backend.movie.domain.Movie;
-import com.funit.backend.response.ResponseHandler;
+import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +53,12 @@ public class MovieController {
     @GetMapping("/{movie_id}")
     public ResponseEntity<Object> findOne(@PathVariable int movie_id) {
         Movie findOne = movieService.findOne(movie_id);
+
+        if (findOne == null) return ResponseHandler.responseBuilder(
+                HttpStatus.NO_CONTENT,
+                null,
+                null
+        );
 
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,

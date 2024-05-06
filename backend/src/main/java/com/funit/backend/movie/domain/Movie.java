@@ -52,7 +52,7 @@ public class Movie {
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))

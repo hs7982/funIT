@@ -1,13 +1,22 @@
 import {Link} from "react-router-dom";
 import React, {useState} from 'react';
+import {useRecoilValue} from "recoil";
+import {UserState} from "../recoil/RecoilState.js";
+import {axiosLogout} from "../api/axios.js";
 
 const Navbar = () => {
     const [showInput, setShowInput] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState("")
+    const user = useRecoilValue(UserState);
 
     const enter = () => {
         //여기에서 이제 페이지 넘겨주기 하면됨
         console.log(searchKeyword)
+    }
+
+    const logout = () => {
+        axiosLogout();
+        window.location.reload();
     }
 
     return (
@@ -86,7 +95,9 @@ const Navbar = () => {
                     </div>
                     <div className="dropdown dropdown-end">
                         <div className="flex items-center">
-                            <div role="button" tabIndex={0} className="mx-2">사용자이름</div>
+                            <div role="button" tabIndex={0} className="mx-2">{user.name ? user.name :
+                                <span className="text-sm">로그인해주세요</span>}</div>
+
                             <div
                                 tabIndex={0}
                                 role="button"
@@ -112,6 +123,9 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <Link to="/signup">회원가입</Link>
+                            </li>
+                            <li>
+                                <Link to="#" onClick={logout}>로그아웃</Link>
                             </li>
                         </ul>
                     </div>

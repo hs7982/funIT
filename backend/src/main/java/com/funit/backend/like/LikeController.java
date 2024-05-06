@@ -1,7 +1,7 @@
 package com.funit.backend.like;
 
 import com.funit.backend.like.domain.MovieLike;
-import com.funit.backend.response.ResponseHandler;
+import com.funit.backend.utils.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
