@@ -3,12 +3,15 @@ import Moviebox from "../components/Moviebox.jsx";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Error from "./Error.jsx";
+import {useRecoilValue} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
 
 const MovieProject = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
     const [errorDetail, setErrorDetail] = useState();
+    const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovies = async () => {
         try {
@@ -32,11 +35,13 @@ const MovieProject = () => {
             <div className="container mx-auto p-6">
                 <div className="flex">
                     <div className="text-3xl font-medium my-8">진행중인 펀딩</div>
-                    <Link className="me-0 ms-auto my-auto" to="/funding/new">
-                        <button className="btn btn-m bg-fuchsia-300 rounded-full text-lg">프로젝트 생성</button>
-                    </Link>
+                    {isLogin &&
+                        <Link className="me-0 ms-auto my-auto" to="/funding/new">
+                            <button className="btn btn-m bg-fuchsia-300 rounded-full text-lg">프로젝트 생성</button>
+                        </Link>
+                    }
                 </div>
-                <hr style={{paddingBottom: '35px'}}/>
+                <hr className="mb-8"/>
                 {loading ? ( // 로딩 중인 동안 로딩 표시
                     <div className="flex justify-center"><span
                         className="loading loading-spinner loading-md"></span>

@@ -1,9 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {axiosLogin} from "../api/axios.js";
 import {Modal} from "../components/Modal.jsx";
-import {useSetRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
 
 const SignIn = () => {
@@ -12,7 +12,7 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState("");
     const [isOpenModal, setOpenModal] = useState(false);
-    const setIsLogin = useSetRecoilState(IsLoginState);
+    const [isLogin, setIsLogin] = useRecoilState(IsLoginState);
 
     const login = async (event) => {
         event.preventDefault();
@@ -40,6 +40,11 @@ const SignIn = () => {
     const closeModal = () => {
         setOpenModal(false)
     }
+
+    useEffect(() => {
+        if (isLogin === true)
+            navigate("/");
+    }, []);
 
     return (
         <div className="container m-auto p-4">
