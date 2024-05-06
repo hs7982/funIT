@@ -54,6 +54,12 @@ public class MovieController {
     public ResponseEntity<Object> findOne(@PathVariable int movie_id) {
         Movie findOne = movieService.findOne(movie_id);
 
+        if (findOne == null) return ResponseHandler.responseBuilder(
+                HttpStatus.NO_CONTENT,
+                null,
+                null
+        );
+
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,

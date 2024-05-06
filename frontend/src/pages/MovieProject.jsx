@@ -38,7 +38,10 @@ const MovieProject = () => {
                 </div>
                 <hr style={{paddingBottom: '35px'}}/>
                 {loading ? ( // 로딩 중인 동안 로딩 표시
-                    <div className="text-lg text-center">불러오는 중...</div>
+                    <div className="flex justify-center"><span
+                        className="loading loading-spinner loading-md"></span>
+                    </div>
+
                 ) : (
                     <div className="flex flex-wrap justify-evenly gap-8">
                         {movies.map(movie => (

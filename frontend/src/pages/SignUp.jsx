@@ -29,7 +29,8 @@ const SignUp = () => {
                     gender: gender
                 }
             }).then(({data}) => {
-                if (data.status === 200) {
+                if (data.status === 201) {
+                    alert("회원가입 성공")
                     window.open("/", "_self");
                 }
             })
