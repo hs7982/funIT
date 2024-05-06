@@ -1,4 +1,4 @@
-package com.funit.backend.response;
+package com.funit.backend.utils.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

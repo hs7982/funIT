@@ -8,10 +8,12 @@ import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import MovieDetail from "./pages/MovieDetail.jsx";
 import Search from "./pages/Search.jsx";
+import {UpdateUserInfo} from "./api/auth.js";
 
 function App() {
     return (
         <>
+            <UpdateUserInfo/>
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
