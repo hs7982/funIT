@@ -3,6 +3,7 @@ package com.funit.backend.user.controller;
 import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.user.dto.UserRequestDTO;
+import com.funit.backend.user.dto.UserResponseDTO;
 import com.funit.backend.user.service.UserService;
 import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,10 +49,11 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<Object> getMyInfo(@AuthUser User user) {
+        UserResponseDTO dto = UserResponseDTO.toDTO(user);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                user.getUsername()
+                dto
         );
     }
 

@@ -1,14 +1,18 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {axiosLogin} from "../api/axios.jsx";
+import {axiosLogin} from "../api/axios.js";
 import {Modal} from "../components/Modal.jsx";
+import {useSetRecoilState} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState("");
+    const [isOpenModal, setOpenModal] = useState(false);
+    const setIsLogin = useSetRecoilState(IsLoginState);
 
     const login = async (event) => {
         event.preventDefault();
@@ -18,25 +22,28 @@ const SignIn = () => {
             try {
                 const response = await axiosLogin(email, password);
                 if (response.status === 200) {
+                    setIsLogin(true);
                     navigate("/");
                 }
             } catch (error) {
                 console.log(error)
-                if (axios.isAxiosError(error) && error.response.status === 401) {
-                    setLoginError(error.response.data);
+                if (axios.isAxiosError(error)) {
+                    if (error.response.status === 401) setLoginError(error.response.data);
+                    else setLoginError(error.message)
+                    setOpenModal(true);
                     console.log(loginError);
-                    setTimeout(function () {
-                        document.getElementById('modal').showModal()
-                    }, 10);
-
                 }
             }
         }
     }
 
+    const closeModal = () => {
+        setOpenModal(false)
+    }
+
     return (
         <div className="container m-auto p-4">
-            {loginError !== "" && (<Modal title="로그인에 실패하였습니다." message={loginError}/>)}
+            <Modal title="로그인에 실패하였습니다." message={loginError} isOpenModal={isOpenModal} closeModal={closeModal}/>
 
             <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100">
                 <div className="card-body">

@@ -1,7 +1,10 @@
-import ReactQuill from "react-quill";
+import ReactQuill, {Quill} from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import {useMemo, useRef, useState} from "react";
 import axios from "axios";
+import ImageResize from "quill-image-resize";
+
+Quill.register('modules/imageResize', ImageResize);
 
 function Editor(props) {
     const [value, setValue] = useState("");
@@ -47,6 +50,7 @@ function Editor(props) {
                     [{'header': [1, 2, 3, 4, false]}],
                     ["bold", "underline", "italic", "strike"],
                     [{'color': []}, {'background': []}],
+                    [{'align': ''}, {'align': 'center'}, {'align': 'right'}, {'align': 'justify'}],
                     [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
                     ['link'],
                     ['image'],
@@ -56,6 +60,10 @@ function Editor(props) {
                     image: imageUploadHandler,
                 },
             },
+            imageResize: {
+                parchment: Quill.import("parchment"),
+                modules: ["Resize", "DisplaySize", "Toolbar"],
+            },
         }
     }, []);
 
@@ -63,6 +71,7 @@ function Editor(props) {
         "header",
         "bold", "underline", "italic", "strike",
         'color', 'background',
+        'align', 'center', 'right', 'justify',
         'list', 'bullet', 'check',
         'link', 'image',
         'clean'
