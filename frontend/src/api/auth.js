@@ -18,7 +18,6 @@ export const UpdateUserInfo = () => {
                 setUserInfo({email, id, name, profileImage})
 
             } catch (e) {
-                console.log("사라져라!")
                 setIsLogin(false);
                 setUserInfo({email: null, id: null, name: null, profileImage: null})
             }

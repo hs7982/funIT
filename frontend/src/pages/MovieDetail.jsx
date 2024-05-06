@@ -70,7 +70,7 @@ const MovieDetail = () => {
                         <div key={genre.id} className="badge badge-outline me-1">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
-                    <button className="btn btn-sm bg-fuchsia-300 mt-4">{movie.recruitmentStatus}</button>
+                    <button className="btn btn-sm bg-fuchsia-300 mt-4">투자하기</button>
                 </div>
             </div>
             {/* 모집현황 */}
@@ -97,8 +97,12 @@ const MovieDetail = () => {
             {/* 일정 */}
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
                 <h2 className="text-lg font-bold mb-2">일정</h2>
-                <p>등록일: {formattedDate(movie.createDate)}</p>
-                <p>마감일: {formattedDate(movie.endDate)}</p>
+                <div className="mb-2">
+                    <p className="font-semibold text-lg">등록일</p>
+                    <p> {formattedDate(movie.createDate)}</p>
+                </div>
+                <p className="font-semibold text-lg">마감일</p>
+                <p> {formattedDate(movie.endDate)}</p>
             </div>
         </div>
     );

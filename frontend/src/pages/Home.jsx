@@ -9,7 +9,7 @@ const Home = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <p className="text-3xl font-medium my-8">진행중인 펀딩</p>
+            <p className="text-3xl font-medium my-8">메인</p>
             <hr style={{paddingBottom: '35px'}}/>
             <div className="flex flex-wrap justify-evenly gap-8">
             </div>
