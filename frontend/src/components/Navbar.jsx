@@ -1,23 +1,34 @@
-import {Link} from "react-router-dom";
-import React, {useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from "recoil";
-import {UserState} from "../recoil/RecoilState.js";
+import {IsLoginState, UserState} from "../recoil/RecoilState.js";
 import {axiosLogout} from "../api/axios.js";
 
 const Navbar = () => {
     const [showInput, setShowInput] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState("")
     const user = useRecoilValue(UserState);
+    const isLogin = useRecoilValue(IsLoginState);
+    const navigate = useNavigate();
 
-    const enter = () => {
-        //여기에서 이제 페이지 넘겨주기 하면됨
-        console.log(searchKeyword)
+    const enter = (e) => {
+        if (e.key === 'Enter')
+            navigate("/search?keyword=" + searchKeyword);
     }
 
     const logout = () => {
         axiosLogout();
         window.location.reload();
     }
+
+    const closeSearchInput = () => {
+        setShowInput(false);
+    }
+
+    useEffect(() => {
+        if (location.pathname !== "/search")
+            closeSearchInput();
+    }, [location.pathname]);
 
     return (
         <div className="p-2 w-full">
@@ -48,51 +59,12 @@ const Navbar = () => {
                     </button>
                     {showInput && (
                         <div className="form-control">
-                            <input type="text" placeholder="Search"
+                            <input type="text" placeholder="검색"
                                    onChange={(e) => setSearchKeyword(e.target.value)}
-                                   onKeyDown={e => enter()}
+                                   onKeyDown={e => enter(e)}
                                    className="input input-bordered w-24 md:w-auto"/>
                         </div>
                     )}
-                    <div className="dropdown dropdown-end">
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            className="btn btn-ghost btn-circle"
-                        >
-                            <div className="indicator">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                    />
-                                </svg>
-                                <span className="badge badge-sm indicator-item">8</span>
-                            </div>
-                        </div>
-                        <div
-                            tabIndex={0}
-                            className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
-                        >
-                            <div className="card-body">
-                                <span className="font-bold text-lg">8 Items</span>
-                                <span className="text-info">Subtotal: $999</span>
-                                <div className="card-actions">
-                                    <button className="btn btn-primary btn-block">
-                                        장바구니
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div className="dropdown dropdown-end">
                         <div className="flex items-center">
                             <div role="button" tabIndex={0} className="mx-2">{user.name ? user.name :
@@ -115,18 +87,26 @@ const Navbar = () => {
                             tabIndex={0}
                             className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                         >
-                            <li>
-                                <Link to="/mypage">마이페이지</Link>
-                            </li>
-                            <li>
-                                <Link to="/signin">로그인</Link>
-                            </li>
-                            <li>
-                                <Link to="/signup">회원가입</Link>
-                            </li>
-                            <li>
-                                <Link to="#" onClick={logout}>로그아웃</Link>
-                            </li>
+                            {isLogin &&
+                                <li>
+                                    <Link to="/mypage">마이페이지</Link>
+                                </li>
+                            }
+                            {!isLogin &&
+                                <li>
+                                    <Link to="/signin">로그인</Link>
+                                </li>
+                            }
+                            {!isLogin &&
+                                <li>
+                                    <Link to="/signup">회원가입</Link>
+                                </li>
+                            }
+                            {isLogin &&
+                                <li>
+                                    <Link to="#" onClick={logout}>로그아웃</Link>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
