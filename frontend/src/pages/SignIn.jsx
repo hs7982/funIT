@@ -12,12 +12,15 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState("");
     const [isOpenModal, setOpenModal] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const [isLogin, setIsLogin] = useRecoilState(IsLoginState);
 
     const login = async (event) => {
         event.preventDefault();
+        setLoading(true);
         if (!email && !password) {
-            alert("이메일과 비밀번호를 입력해주세요!");
+            setLoginError("이메일과 비밀번호를 모두 입력해주세요.");
+            setOpenModal(true);
         } else {
             try {
                 const response = await axiosLogin(email, password);
@@ -35,6 +38,7 @@ const SignIn = () => {
                 }
             }
         }
+        setLoading(false);
     }
 
     const closeModal = () => {
@@ -81,7 +85,10 @@ const SignIn = () => {
                         <div/>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary" onClick={(e) => login(e)}>로그인</button>
+                        <button className="btn text-lg btn-primary"
+                                onClick={(e) =>
+                                    login(e)}>{!isLoading ? "로그인" : <span className="loading loading-spinner"></span>}
+                        </button>
                     </div>
                 </div>
             </div>

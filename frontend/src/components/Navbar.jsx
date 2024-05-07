@@ -1,13 +1,14 @@
 import {Link, useNavigate} from "react-router-dom";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from "recoil";
-import {UserState} from "../recoil/RecoilState.js";
+import {IsLoginState, UserState} from "../recoil/RecoilState.js";
 import {axiosLogout} from "../api/axios.js";
 
 const Navbar = () => {
     const [showInput, setShowInput] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState("")
     const user = useRecoilValue(UserState);
+    const isLogin = useRecoilValue(IsLoginState);
     const navigate = useNavigate();
 
     const enter = (e) => {
@@ -19,6 +20,15 @@ const Navbar = () => {
         axiosLogout();
         window.location.reload();
     }
+
+    const closeSearchInput = () => {
+        setShowInput(false);
+    }
+
+    useEffect(() => {
+        if (location.pathname !== "/search")
+            closeSearchInput();
+    }, [location.pathname]);
 
     return (
         <div className="p-2 w-full">
@@ -77,18 +87,26 @@ const Navbar = () => {
                             tabIndex={0}
                             className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                         >
-                            <li>
-                                <Link to="/mypage">마이페이지</Link>
-                            </li>
-                            <li>
-                                <Link to="/signin">로그인</Link>
-                            </li>
-                            <li>
-                                <Link to="/signup">회원가입</Link>
-                            </li>
-                            <li>
-                                <Link to="#" onClick={logout}>로그아웃</Link>
-                            </li>
+                            {isLogin &&
+                                <li>
+                                    <Link to="/mypage">마이페이지</Link>
+                                </li>
+                            }
+                            {!isLogin &&
+                                <li>
+                                    <Link to="/signin">로그인</Link>
+                                </li>
+                            }
+                            {!isLogin &&
+                                <li>
+                                    <Link to="/signup">회원가입</Link>
+                                </li>
+                            }
+                            {isLogin &&
+                                <li>
+                                    <Link to="#" onClick={logout}>로그아웃</Link>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ const Search = () => {
                 } else setMovies('');
 
             } catch (error) {
-                console.error("Error fetching movies:", error);
+                console.error(error);
             }
         };
         fetchMovies();
@@ -47,7 +47,10 @@ const Search = () => {
                         ))}
                     </div>
                 ) : (
-                    <div>검색 결과가 없습니다.</div>
+                    <div>
+                        <p className="font-semibold text-3xl mb-2">" {searchKeyword} "</p>
+                        <p>검색 결과가 없습니다.</p>
+                    </div>
                 )
             )}
         </div>
