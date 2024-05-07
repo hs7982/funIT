@@ -3,8 +3,6 @@ import axios from "axios";
 
 const Home = () => {
     useEffect(() => {
-        const movies = axios.get('/api/movies')
-        console.log(movies)
     }, []);
 
     return (

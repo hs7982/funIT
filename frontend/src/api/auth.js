@@ -9,17 +9,24 @@ export const UpdateUserInfo = () => {
     const [isLogin, setIsLogin] = useRecoilState(IsLoginState);
     const [userInfo, setUserInfo] = useRecoilState(UserState);
     const location = useLocation();
+    const unLogin = () => {
+        setIsLogin(false);
+        setUserInfo({email: null, id: null, name: null, profileImage: null})
+    }
     useEffect(() => {
         const loadUser = async () => {
             try {
                 const response = await axiosMe();
-                setIsLogin(true);
-                const {email, id, name, profileImage} = response.data.data
-                setUserInfo({email, id, name, profileImage})
-
+                if (response.data.data !== false) {
+                    setIsLogin(true);
+                    const {email, id, name, profileImage} = response.data.data
+                    setUserInfo({email, id, name, profileImage})
+                } else {
+                    unLogin();
+                }
             } catch (e) {
-                setIsLogin(false);
-                setUserInfo({email: null, id: null, name: null, profileImage: null})
+                console.error(e);
+                unLogin();
             }
         }
         loadUser();
