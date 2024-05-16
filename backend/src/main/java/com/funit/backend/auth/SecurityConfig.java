@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -34,16 +35,21 @@ public class SecurityConfig {
 
         http.authenticationManager(authenticationManager);
 
+        configureHttpSecurity(http, authenticationManager);
+        return http.build();
+    }
+
+    private void configureHttpSecurity(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable) // 실제 CORS 설정을 여기에 추가
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterAt(
-                        this.abstractAuthenticationProcessingFilter(authenticationManager),
+                        loginAuthenticationFilter(authenticationManager),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/admin/**").hasRole("admin")
-                        .requestMatchers("/api/user/**").hasRole("user")
+                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_admin")
+                        .requestMatchers("/api/user/**").hasAuthority("ROLE_user")
                         .requestMatchers("/api/loginOnly").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -54,11 +60,9 @@ public class SecurityConfig {
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
                 .sessionManagement(sessionManagementConfigurer -> // 세션 정책 적용
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .sessionFixation(
-                                        SessionManagementConfigurer.SessionFixationConfigurer::newSession) // session rotate 허용
+                                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // session rotate 허용
                                 .maximumSessions(1) // 세션 쿠키는 한 개만 허용
                 );
-        return http.build();
     }
 
     @Bean
@@ -66,7 +70,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public AbstractAuthenticationProcessingFilter abstractAuthenticationProcessingFilter(final AuthenticationManager authenticationManager) {
+    public AbstractAuthenticationProcessingFilter loginAuthenticationFilter(final AuthenticationManager authenticationManager) {
         LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(
                 "/api/users/login",
                 authenticationManager
