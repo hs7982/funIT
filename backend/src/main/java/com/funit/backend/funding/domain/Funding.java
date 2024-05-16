@@ -26,9 +26,9 @@ public class Funding {
     private int fundingStatus; //완료, 환불
 
     @Column(name = "refund_ornot", nullable = false, columnDefinition = "INT DEFAULT 1")
-    private int refundOrno;
+    private int refundOrno; // 환불여부
 
     @Column(name = "refund_reason")
-    private String refundReason;
+    private String refundReason; // 환불사유
 
 }
