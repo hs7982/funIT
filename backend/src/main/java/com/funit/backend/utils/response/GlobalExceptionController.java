@@ -29,8 +29,8 @@ public class GlobalExceptionController {
     public ResponseEntity<Object> handleBadRequest(IllegalArgumentException exception) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.BAD_REQUEST,
-                exception.getMessage(),
-                null);
+                null,
+                exception.getMessage());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
