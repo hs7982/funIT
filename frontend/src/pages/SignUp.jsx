@@ -1,7 +1,9 @@
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password_second, setPassword_second] = useState('');
@@ -28,12 +30,16 @@ const SignUp = () => {
                     tell: tell,
                     gender: gender
                 }
-            }).then(({data}) => {
+            }).then((data) => {
                 if (data.status === 201) {
                     alert("회원가입 성공")
-                    window.open("/", "_self");
+                    navigate("/"); // 회원가입 성공 시 홈 페이지로 이동
                 }
-            })
+            }).catch((error) => {
+                console.error("회원가입 실패:", error);
+                const errorMessage = JSON.stringify(error.response.data.data) || "회원가입 중 오류가 발생했습니다.";
+                alert(errorMessage);
+            });
         }
     }
 
