@@ -10,6 +10,8 @@ import MovieDetail from "./pages/MovieDetail.jsx";
 import Search from "./pages/Search.jsx";
 import {UpdateUserInfo} from "./api/auth.js";
 import Mypage from "./pages/Mypage.jsx";
+import Funding from "./pages/Funding.jsx";
+
 
 function App() {
     return (
@@ -25,6 +27,7 @@ function App() {
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/search" element={<Search/>}/>
                 <Route path="/mypage" element={<Mypage/>}/>
+                <Route path="/funding" element={<Funding/>}/>
 
                 {/*찾는 페이지 없을때 (NotFound는 항상 최하단 위치!)*/}
                 <Route path="*" element={<NotFound/>}/>

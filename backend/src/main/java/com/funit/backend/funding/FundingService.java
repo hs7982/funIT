@@ -15,4 +15,9 @@ public class FundingService {
     public List<Funding> getAllFundings() {
         return fundingRepository.findAll();
     }
+
+    public FundingDTO getTotalFundingByMoiveId(int movieId) {
+        int totalFunding = fundingRepository.findTotalFundingByMovieId(movieId);
+        return new FundingDTO(totalFunding);
+    }
 }

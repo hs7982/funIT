@@ -4,12 +4,12 @@ const Moviebox = ({movie}) => {
 
     return (
         <div className="" key={movie.id}>
-            <div className="card w-96 bg-base-100 shadow-xl">
+            <div className="card w-96 h-80 bg-base-100 shadow-2xl">
                 <figure>
                     <img
                         src={movie.thumbnailImage}
                         alt={movie.title}
-                        style={{width: "100%", height: "100%"}}/>
+                        style={{width: "100%", height: "100%", objectFit: "contain"}}/>
                 </figure>
                 <div className="p-4">
                     <h2 className="card-title">
