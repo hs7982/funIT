@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface FundingRepository extends JpaRepository<Funding, Integer> {
 
-    @Query("SELECT SUM(i.fundingCmount) FROM Funding i WHERE i.movie.id = :movieId")
+    @Query("SELECT COALESCE(SUM(i.fundingCmount), 0) FROM Funding i WHERE i.movie.id = :movieId")
     int findTotalFundingByMovieId(@Param("movieId") int movieId);
 
 }
