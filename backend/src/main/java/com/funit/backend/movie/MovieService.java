@@ -21,7 +21,7 @@ public class MovieService {
     }
 
     public Movie save(AddMovieRequestDTO request, MultipartFile imageFile) {
-        String imgUrl = imageService.saveImage(imageFile, "/movieThumbnailImage");
+        String imgUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
         request.setImageURL(imgUrl);
         return movieRepository.save(request.toEntity());
     }

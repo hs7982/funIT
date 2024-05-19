@@ -15,7 +15,7 @@ public class ImageController {
 
     @PostMapping("/api/image")
     public ResponseEntity<Object> uploadImage(@ModelAttribute ImageSaveDto dto) {
-        String imageUrl = imageService.saveImage(dto.getImage(), "/postContentImage");
+        String imageUrl = imageService.saveImage(dto.getImage(), "postContentImage");
         return ResponseHandler.responseBuilder(
                 HttpStatus.CREATED,
                 "이미지가 다음 위치에 성공적으로 업로드되었습니다.",
