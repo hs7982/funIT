@@ -1,22 +1,28 @@
 package com.funit.backend.s3;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import io.awspring.cloud.s3.ObjectMetadata;
+import io.awspring.cloud.s3.S3Resource;
+import io.awspring.cloud.s3.S3Template;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
 
-    private static final String bucketName = "funit";
-    private final AmazonS3Client amazonS3Client;
-    //private final ImageRepository imageRepository;
+    @Value("${spring.cloud.aws.s3.bucket}")
+    private String bucketName;
+    private final S3Template s3Template;
 
     // 이미지 여러개 업로드
     @Transactional
@@ -42,21 +48,15 @@ public class ImageService {
             throw new IllegalArgumentException("허용되지 않는 형식의 파일입니다: " + multipartFile.getContentType());
         }
 
-        String bucketNameWithSaveDir = bucketName + saveDir;
+        String saveDirWithUuidName = saveDir + "/" + uuidName;
 
         try {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(multipartFile.getContentType());
-            objectMetadata.setContentLength(multipartFile.getInputStream().available());
+            InputStream is = multipartFile.getInputStream();
+            S3Resource s3Resource = s3Template.upload(bucketName, saveDirWithUuidName, is, ObjectMetadata.builder().contentType(multipartFile.getContentType()).build());
 
-            amazonS3Client.putObject(bucketNameWithSaveDir, uuidName, multipartFile.getInputStream(), objectMetadata);
-
-            return amazonS3Client.getUrl(bucketNameWithSaveDir, uuidName).toString();
+            return s3Resource.getURL().toString();
         } catch (IOException e) {
-            e.printStackTrace(); // 예외 발생 시 적절한 처리를 수행하도록 수정
-            return null;
+            throw new RuntimeException(e);
         }
-//        imageRepository.save(image);
-//        return image.getAccessUrl();
     }
 }

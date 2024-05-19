@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FundingDTO {
-    private int fundingCmount;
+    private int fundingTotalAmount;
 }
