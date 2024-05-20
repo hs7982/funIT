@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Moviebox from "../components/Moviebox.jsx";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Error from "./Error.jsx";
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
@@ -12,6 +12,7 @@ const Mypage = () => {
     const [isError, setError] = useState(false);
     const [errorDetail, setErrorDetail] = useState();
     const isLogin = useRecoilValue(IsLoginState);
+    const navigate = useNavigate()
 
     const fetchMovies = async () => {
         try {
@@ -19,10 +20,13 @@ const Mypage = () => {
             setUserInfo(response.data.data);
             setLoading(false); // 데이터 불러오기 완료 시 로딩 상태 변경
         } catch (error) {
-            console.error("Error fetching movies:", error);
+            if (error.code === "ERR_BAD_REQUEST") {
+                navigate("/login");
+            }
+            console.error("Error fetching:", error);
             setError(true);
             setErrorDetail(error)
-            setLoading(false); // 에러 발생 시에도 로딩 상태 변경
+            setLoading(false);
         }
     };
 
@@ -45,10 +49,10 @@ const Mypage = () => {
                 ) : (
                     <div className="flex flex-wrap justify-evenly gap-8">
                         <div>
-                        {userInfo.name}
+                            {userInfo.name}
                         </div>
                         <div>
-                        {userInfo.email}
+                            {userInfo.email}
                         </div>
                     </div>
                 )}
