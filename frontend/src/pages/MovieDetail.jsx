@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {axiosGetOneMovie} from "../api/axios.js";
+import {axiosDeleteMovie, axiosGetOneMovie} from "../api/axios.js";
 import DOMPurify from 'dompurify';
 
 const MovieDetail = () => {
@@ -10,7 +10,6 @@ const MovieDetail = () => {
 
     const fetchMovie = async (movieId) => {
         const response = await axiosGetOneMovie(movieId);
-        console.log(response)
         if (response.status === 200) {
             setMovie(response.data.data);
         } else if (response.status === 204) {
@@ -18,6 +17,20 @@ const MovieDetail = () => {
         }
 
     };
+
+    const deleteMovie = async () => {
+        const movieId = params.id;
+        if (!confirm("삭제하시겠습니까?")) return
+        try {
+            const response = await axiosDeleteMovie(movieId);
+            if (response.status === 200) {
+                alert("삭제되었습니다.")
+            }
+        } catch (e) {
+            alert("오류가 발생하였습니다.\n" + e);
+        }
+    }
+
 
     useEffect(() => {
         const movieId = params.id;
@@ -36,9 +49,20 @@ const MovieDetail = () => {
         return `${year}년 ${month}월 ${day}일 ${hour}시${minute}분`;
     }
 
+    const calcPer = (target, total) => {
+        return Math.floor((total / target) * 100);
+    }
+
+    const calcDay = (endDate) => {
+        const today = new Date();
+        const date = new Date(endDate);
+        const timeGap = date - today;
+        return Math.ceil(timeGap / (1000 * 60 * 60 * 24))
+    }
+
     if (noContent) {
         return <div className="container p-6">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                      stroke="currentColor" className="w-8 h-8 my-2">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -70,14 +94,23 @@ const MovieDetail = () => {
                         <div key={genre.id} className="badge badge-outline me-1">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
-                    <button className="btn btn-sm bg-fuchsia-300 mt-4">투자하기</button>
+                    <button className="btn bg-fuchsia-300 mt-4">투자하기</button>
+                    <div className="mt-3">
+                        <button className="btn btn-outline btn-primary me-2">수정</button>
+                        <button className="btn btn-outline btn-error" onClick={deleteMovie}>삭제</button>
+                    </div>
                 </div>
             </div>
             {/* 모집현황 */}
             <div className="recruitment-status mt-4 p-4 bg-gray-100 rounded-lg">
                 <h2 className="text-lg font-bold mb-2">모집현황</h2>
+                <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
+                <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)}
+                          max="100"></progress>
                 <p>목표 금액</p>
                 <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                <p>현재 모인 금액</p>
+                <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
             </div>
             {/* 갤러리 */}
             <div className="gallery mt-4 p-4 bg-gray-100 rounded-lg">
@@ -98,6 +131,7 @@ const MovieDetail = () => {
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
                 <h2 className="text-lg font-bold mb-2">일정</h2>
                 <div className="mb-2">
+                    <p className="font-semibold text-2xl mb-2">D-{calcDay(movie.endDate)}일 남음</p>
                     <p className="font-semibold text-lg">등록일</p>
                     <p> {formattedDate(movie.createDate)}</p>
                 </div>

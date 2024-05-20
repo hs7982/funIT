@@ -1,4 +1,4 @@
-package com.funit.backend.movie;
+package com.funit.backend.movie.dto;
 
 import com.funit.backend.genre.domain.Genre;
 import com.funit.backend.movie.domain.Movie;
@@ -38,7 +38,7 @@ public class AddMovieRequestDTO {
 
     @NotEmpty(message = "장르를 지정해야합니다.")
     private List<Genre> genres;
-    
+
     private MultipartFile imageFile;
 
     private String imageURL;

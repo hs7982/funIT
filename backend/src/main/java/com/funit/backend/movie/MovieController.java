@@ -2,9 +2,12 @@ package com.funit.backend.movie;
 
 
 import com.funit.backend.movie.domain.Movie;
+import com.funit.backend.movie.dto.AddMovieRequestDTO;
+import com.funit.backend.movie.dto.MovieDTO;
+import com.funit.backend.movie.dto.MovieListDTO;
 import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +19,17 @@ import java.util.List;
  * 영화 프로젝트와 관련된 기능의 컨트롤러
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/movies")
 public class MovieController {
-    @Autowired
-    MovieService movieService;
+    private final MovieService movieService;
 
     /**
      * 등록된 모든 영화 프로젝트의 리스트를 반환합니다.
      */
     @GetMapping()
     public ResponseEntity<Object> getAllMovies() {
-        List<Movie> movie = movieService.getAllMovies();
+        List<MovieListDTO> movie = movieService.getAllMovies();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -52,7 +55,7 @@ public class MovieController {
 
     @GetMapping("/{movie_id}")
     public ResponseEntity<Object> findOne(@PathVariable int movie_id) {
-        Movie findOne = movieService.findOne(movie_id);
+        MovieDTO findOne = movieService.findOne(movie_id);
 
         if (findOne == null) return ResponseHandler.responseBuilder(
                 HttpStatus.NO_CONTENT,

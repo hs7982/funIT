@@ -4,7 +4,7 @@ import Home from "./pages/Home.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import NewMovieProject from "./pages/NewMovieProject.jsx";
 import MovieProject from "./pages/MovieProject.jsx";
-import SignIn from "./pages/SignIn.jsx";
+import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import MovieDetail from "./pages/MovieDetail.jsx";
 import Search from "./pages/Search.jsx";
@@ -20,7 +20,7 @@ function App() {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/signin" element={<SignIn/>}/>
+                <Route path="/login" element={<Login/>}/>
                 <Route path="/funding/new" element={<NewMovieProject/>}/>
                 <Route path="/funding" element={<MovieProject/>}/>
                 <Route path="/funding/detail/:id" element={<MovieDetail/>}/>
