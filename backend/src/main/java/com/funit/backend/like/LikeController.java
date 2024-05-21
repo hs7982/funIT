@@ -21,7 +21,7 @@ public class LikeController {
     /**
      * 모든 좋아요 리스트를 반환합니다.
      */
-    @GetMapping("/{movieId}")
+    @GetMapping("   /{movieId}")
     public ResponseEntity<Object> likeOne(@PathVariable Integer movieId) {
         List<MovieLike> like = likeService.likeOne(movieId);
         return ResponseHandler.responseBuilder(
