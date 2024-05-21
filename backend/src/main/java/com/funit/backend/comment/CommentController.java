@@ -15,16 +15,21 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping()
-    public ResponseEntity<Object> getAllComment() {
-        List<Comment> comment = commentService.getAllComments();
+    /**
+     *  해당 영화에 대한 댓글 표시
+     */
+    @GetMapping("/count/{movieId}")
+    public ResponseEntity<Object> getMovieComment(@PathVariable Integer movieId) {
+        List<Comment> comment = commentService.getMovieComments(movieId);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
                 comment
         );
     }
-
+    /**
+     *  댓글생성
+     */
     @PostMapping("/new")
     public ResponseEntity<Object> addComment(@RequestBody CommentDTO request) {
         Comment savedComment = commentService.save(request);

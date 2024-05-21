@@ -8,6 +8,7 @@ import com.funit.backend.user.dto.UserRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -54,5 +55,17 @@ public class UserService {
         return user.getId();
 
     }
-    
+
+    @Transactional
+    public void changePassword(User user, String newPassword) {
+        String newEncodePW = bCryptPasswordEncoder.encode(newPassword);
+        userRepository.updatePW(newEncodePW, user.getId());
+    }
+
+    @Transactional
+    public void changeName(User user, String newName) {
+        //String newEncodePW = bCryptPasswordEncoder.encode(newName);
+        userRepository.updateName(newName, user.getId());
+    }
+
 }
