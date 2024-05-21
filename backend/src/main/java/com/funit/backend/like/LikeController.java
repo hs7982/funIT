@@ -31,6 +31,11 @@ public class LikeController {
         );
     }
 
+    /**
+     *
+     * 해당 영화 id에 대한 좋아요 수
+     *
+     */
     @GetMapping("/count/{movieId}")
     public ResponseEntity<Object> getLikeCount(@PathVariable Integer movieId) {
         int count = likeService.countLike(movieId);

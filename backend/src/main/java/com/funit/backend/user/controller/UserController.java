@@ -113,5 +113,51 @@ public class UserController {
         }
     }
 
+    // 마이페이지에서 비번 수정
+    public static class PasswordChangeRequest {
+        public String newPassword;
+    }
+    @PostMapping("/change-pw")
+    public ResponseEntity<Object> changePassword(@AuthUser User user, @RequestBody PasswordChangeRequest request) {
+        try {
+            userService.changePassword(user, request.newPassword);
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.OK,
+                    "비밀번호 정보 수정 성공",
+                    null
+            );
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "비밀번호 정보 수정 실패",
+                    null
+            );
+        }
+    }
+
+    // 마이페이지에서 닉네임 수정
+    public static class NameChangeRequest {
+        public String newName;
+    }
+    @PostMapping("/change-name")
+    public ResponseEntity<Object> changeName(@AuthUser User user, @RequestBody NameChangeRequest request) {
+        try {
+            userService.changeName(user, request.newName);
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.OK,
+                    "이름 정보 수정 성공",
+                    null
+            );
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "이름 정보 수정 실패",
+                    null
+            );
+        }
+    }
+
 
 }
