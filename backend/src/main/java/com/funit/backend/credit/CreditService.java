@@ -15,4 +15,5 @@ public class CreditService {
     public List<Credit> getAllCredits() {
         return creditRepository.findAll();
     }
+    public int getUserCredit(int userid) { return creditRepository.findTotalCreditUserId(userid);}
 }

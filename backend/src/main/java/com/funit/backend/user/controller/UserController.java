@@ -1,5 +1,8 @@
 package com.funit.backend.user.controller;
 
+import com.funit.backend.credit.CreditController;
+import com.funit.backend.credit.CreditService;
+import com.funit.backend.credit.domain.CreditRepository;
 import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.user.dto.UserRequestDTO;
@@ -29,6 +32,7 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
     private final UserDetailService userDetailService;
+    private final CreditService creditService;
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@Valid @RequestBody UserRequestDTO.UserSingupDTO user) {
@@ -55,7 +59,7 @@ public class UserController {
     public ResponseEntity<Object> getMyInfo(Principal principal) {
         try {
             User user = (User) userDetailService.loadUserByUsername(principal.getName());
-            UserResponseDTO dto = UserResponseDTO.toDTO(user);
+            UserResponseDTO dto = UserResponseDTO.toMeDTO(user);
             return ResponseHandler.responseBuilder(
                     HttpStatus.OK,
                     null,
@@ -75,8 +79,8 @@ public class UserController {
     @GetMapping("/mypage")
     public ResponseEntity<Object> getMyPage(@AuthUser User user) {
         try {
-//            User user = (User) userDetailService.loadUserByUsername(user.getName());
-            UserResponseDTO dto = UserResponseDTO.toDTO(user);
+            int credit = creditService.getUserCredit(user.getId());
+            UserResponseDTO dto = UserResponseDTO.toMypageDTO(user, credit);
             return ResponseHandler.responseBuilder(
                     HttpStatus.OK,
                     "마이페이지 정보 조회 성공",

@@ -8,5 +8,4 @@ public interface FundingRepository extends JpaRepository<Funding, Integer> {
 
     @Query("SELECT COALESCE(SUM(i.fundingCmount), 0) FROM Funding i WHERE i.movie.id = :movieId")
     int findTotalFundingByMovieId(@Param("movieId") int movieId);
-
 }
