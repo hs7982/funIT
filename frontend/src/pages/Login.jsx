@@ -6,7 +6,7 @@ import {Modal} from "../components/Modal.jsx";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
 
-const SignIn = () => {
+const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -95,4 +95,4 @@ const SignIn = () => {
         </div>
     );
 }
-export default SignIn;
+export default Login;

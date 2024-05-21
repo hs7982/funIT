@@ -1,5 +1,6 @@
 package com.funit.backend.user.controller;
 
+import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.user.dto.UserRequestDTO;
 import com.funit.backend.user.dto.UserResponseDTO;
@@ -51,7 +52,6 @@ public class UserController {
     }
 
     @GetMapping("/me")
-//    public ResponseEntity<Object> getMyInfo(@AuthUser User user) {
     public ResponseEntity<Object> getMyInfo(Principal principal) {
         try {
             User user = (User) userDetailService.loadUserByUsername(principal.getName());
@@ -70,11 +70,12 @@ public class UserController {
         }
 
     }
+
     // 마이페이지 조회
     @GetMapping("/mypage")
-    public ResponseEntity<Object> getMyPage(Principal principal) {
+    public ResponseEntity<Object> getMyPage(@AuthUser User user) {
         try {
-            User user = (User) userDetailService.loadUserByUsername(principal.getName());
+//            User user = (User) userDetailService.loadUserByUsername(user.getName());
             UserResponseDTO dto = UserResponseDTO.toDTO(user);
             return ResponseHandler.responseBuilder(
                     HttpStatus.OK,
@@ -111,7 +112,6 @@ public class UserController {
             );
         }
     }
-
 
 
 }

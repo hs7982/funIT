@@ -59,3 +59,12 @@ export const axiosGetOneMovie = async (movieId) => {
     }
 
 }
+
+export const axiosDeleteMovie = async (movieId) => {
+    try {
+        const response = await instance.delete("/movies/" + movieId,);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
