@@ -14,13 +14,24 @@ public class UserResponseDTO {
     private String email;
     private String name;
     private String profileImage;
+    private int credit;
 
-    public static UserResponseDTO toDTO(User user) {
+    public static UserResponseDTO toMeDTO(User user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
+                .build();
+    }
+
+    public static UserResponseDTO toMypageDTO(User user, int newCredit) {
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .profileImage(user.getProfileImage())
+                .credit(newCredit)
                 .build();
     }
 }
