@@ -20,19 +20,11 @@ public class UserService {
 
     private static final int DEFAULT_CREDITS = 10000000; // 기본 크레딧 값 설정
     private static final int TRANSACTION_TYPE_INITIAL = 1; // 초기 적립 타입 설정
-    public int save(UserRequestDTO.UserSingupDTO dto) {
+
+    public int save(UserRequestDTO.UserSingup dto) {
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
         }
-//        User user = User.builder()
-//                .email(dto.getEmail())
-//                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-//                .name(dto.getName())
-//                .tel(dto.getTel())
-//                .gender(dto.getGender())
-//                //.credit(DEFAULT_CREDITS) // 기본 크레딧 값 설정
-//                .build();
-//        return userRepository.save(user).getId();
 
         User user = User.builder()
                 .email(dto.getEmail())
@@ -53,7 +45,6 @@ public class UserService {
         creditRepository.save(credit);
 
         return user.getId();
-
     }
 
     @Transactional
@@ -64,7 +55,6 @@ public class UserService {
 
     @Transactional
     public void changeName(User user, String newName) {
-        //String newEncodePW = bCryptPasswordEncoder.encode(newName);
         userRepository.updateName(newName, user.getId());
     }
 

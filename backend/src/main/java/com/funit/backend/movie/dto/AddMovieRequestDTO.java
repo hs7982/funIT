@@ -2,6 +2,7 @@ package com.funit.backend.movie.dto;
 
 import com.funit.backend.genre.domain.Genre;
 import com.funit.backend.movie.domain.Movie;
+import com.funit.backend.user.domain.User;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -43,6 +44,8 @@ public class AddMovieRequestDTO {
 
     private String imageURL;
 
+    private User user;
+
     public Movie toEntity() {
         return Movie.builder()
                 .title(title)
@@ -52,6 +55,7 @@ public class AddMovieRequestDTO {
                 .endDate(endDate)
                 .genres(genres)
                 .thumbnailImage(imageURL)
+                .user(user)
 
                 .build();
     }
