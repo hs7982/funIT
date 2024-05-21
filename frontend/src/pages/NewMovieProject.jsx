@@ -11,6 +11,8 @@ const NewMovieProject = () => {
     const [genres, setGenres] = useState({});
     const [detail, setDetail] = useState("");
     const [thumbnailImage, setThumbnailImage] = useState("");
+    const [posting, setPosting] = useState(false);
+
     useEffect(() => {
         const movies = axios.get('/api/movies')
     }, []);
@@ -24,7 +26,8 @@ const NewMovieProject = () => {
     }
     const submit = async () => {
         try {
-            setIsError(false)
+            setPosting(true);
+            setIsError(false);
             const formData = new FormData();
             formData.append("title", title);
             formData.append("targetCredit", targetCredit);
@@ -41,12 +44,14 @@ const NewMovieProject = () => {
                 },
             });
             alert("성공적으로 등록되었습니다!")
+            setPosting(false);
             window.open("/funding", "_self");
 
         } catch (e) {
             console.log(e);
             if (e.response.status === 400) {
                 setIsError(true);
+                setPosting(false);
 
                 let err_msg = e.response.data.message;
                 let err_data = e.response.data.data;
@@ -56,7 +61,7 @@ const NewMovieProject = () => {
 
                 setErrorData([JSON.stringify(err_msg), JSON.stringify(err_data)])
                 console.log(errorData)
-            } else alert(JSON.stringify(e.response.data))
+            } else alert("오류가 발생하였습니다\n" + JSON.stringify(e.response.data))
         }
     }
 
@@ -136,11 +141,14 @@ const NewMovieProject = () => {
                             </div>
                         </div>
                     )}
-                    <button className="flex btn btn-primary btn-wide mx-auto text-lg" onClick={submit}>등록</button>
+                    {!posting ?
+                        <button className="flex btn btn-primary btn-wide mx-auto text-lg" onClick={submit}>등록</button> :
+                        <button className="flex btn btn-primary btn-wide mx-auto text-lg" disabled><span
+                            className="loading loading-spinner"></span>처리중
+                        </button>
+                    }
                 </div>
             </div>
-
-
         </div>
     );
 };
