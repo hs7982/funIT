@@ -82,7 +82,8 @@ const MovieDetail = () => {
             {/* 영화 이미지 */}
             <div className="flex">
                 <div className="max-w-[17rem] max-h-[16rem] mb-5">
-                    <img src={movie.thumbnailImage} alt={movie.title} className="object-contain rounded-lg shadow-lg w-full h-full"/>
+                    <img src={movie.thumbnailImage} alt={movie.title}
+                         className="object-contain rounded-lg shadow-lg w-full h-full"/>
                 </div>
                 <div className="p-3"></div>
                 {/* 영화 정보 */}
@@ -117,7 +118,7 @@ const MovieDetail = () => {
             <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
                 <h2 className="text-lg font-bold mb-2">상세내용</h2>
                 <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
-
+                <small>작성자:{movie.user.name}</small>
             </div>
             {/* 일정 */}
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
