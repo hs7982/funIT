@@ -59,9 +59,10 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
                 .sessionManagement(sessionManagementConfigurer -> // 세션 정책 적용
-                        sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // session rotate 허용
-                                .maximumSessions(1) // 세션 쿠키는 한 개만 허용
+                                sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // session rotate 허용
+//                                .maximumSessions(1)
+//                                .maxSessionsPreventsLogin(false)// 세션 쿠키는 한 개만 허용
                 );
     }
 
