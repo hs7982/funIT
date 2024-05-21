@@ -80,45 +80,37 @@ const MovieDetail = () => {
     return (
         <div className="container p-8">
             {/* 영화 이미지 */}
-            <div className="flex flex-wrap">
-                <div className="max-w-60 mb-6">
-                    <img src={movie.thumbnailImage} alt={movie.title} className="rounded-lg shadow-lg"/>
+            <div className="flex">
+                <div className="max-w-[17rem] max-h-[16rem] mb-5">
+                    <img src={movie.thumbnailImage} alt={movie.title} className="object-contain rounded-lg shadow-lg w-full h-full"/>
                 </div>
                 <div className="p-3"></div>
                 {/* 영화 정보 */}
-                <div className="movie-info-container">
-                    <h1 className="movie-title flex items-center mb-1">
+                <div className="movie-info-container grow">
+                    <h1 className="flex-none movie-title flex items-center mb-1">
                         {movie.title}
                     </h1>
                     {movie.genres.map(genre => (
                         <div key={genre.id} className="badge badge-outline me-1.5">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
-                    <button className="btn bg-fuchsia-300 mt-4">투자하기</button>
                     <div className="mt-3">
-                        <button className="btn btn-outline btn-primary me-2">수정</button>
-                        <button className="btn btn-outline btn-error" onClick={deleteMovie}>삭제</button>
+                        <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
+                        <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                     </div>
+                    <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
                 </div>
-            </div>
-            {/* 모집현황 */}
-            <div className="recruitment-status mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">모집현황</h2>
-                <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
-                <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)}
-                          max="100"></progress>
-                <p>목표 금액</p>
-                <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
-                <p>현재 모인 금액</p>
-                <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
-            </div>
-            {/* 갤러리 */}
-            <div className="gallery mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">갤러리</h2>
-                <div className="flex">
-                    {/*{movie.gallery.map((image, index) => (*/}
-                    {/*    <img key={index} src={image} alt={`Image ${index}`} className="mr-2 rounded-lg shadow"/>*/}
-                    {/*))}*/}
+                <div className="p-3"></div>
+                {/* 모집현황 */}
+                <div className="recruitment-status mt-4 p-4 bg-white rounded-lg border border-black w-70 h-60">
+                    <h2 className="text-lg font-bold mb-2">모집현황</h2>
+                    <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
+                    <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)}
+                              max="100"></progress>
+                    <p>목표 금액</p>
+                    <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p>현재 모인 금액</p>
+                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                 </div>
             </div>
             {/* 상세내용 */}
