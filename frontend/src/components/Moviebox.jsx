@@ -19,7 +19,6 @@ const Moviebox = ({movie}) => {
                         style={{backgroundImage: `url(${movie.thumbnailImage})`}}>
                     <div
                         className="flex justify-center backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 w-full h-full">
-
                         <img
                             src={movie.thumbnailImage}
                             alt={movie.title}
