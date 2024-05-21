@@ -9,12 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public class UserRequestDTO {
-
     @Builder
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class UserSingupDTO {
+    public static class UserSingup {
         @NotNull(message = "이메일은 필수값입니다.")
         @Email(message = "이메일 형식이 올바르지 않습니다.")
         private String email;
@@ -27,5 +26,21 @@ public class UserRequestDTO {
 
         private String tel;
         private String gender;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PasswordChange {
+        @NotNull(message = "새로운 비밀번호는 필수값입니다.")
+        private String newPassword;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class NameChange {
+        @NotNull(message = "새로운 이름은 필수값입니다.")
+        public String newName;
     }
 }

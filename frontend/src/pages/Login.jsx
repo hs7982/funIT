@@ -29,12 +29,10 @@ const Login = () => {
                     navigate("/");
                 }
             } catch (error) {
-                console.log(error)
                 if (axios.isAxiosError(error)) {
                     if (error.response.status === 401) setLoginError(error.response.data);
                     else setLoginError(error.message)
                     setOpenModal(true);
-                    console.log(loginError);
                 }
             }
         }
@@ -43,6 +41,11 @@ const Login = () => {
 
     const closeModal = () => {
         setOpenModal(false)
+    }
+
+    const enter = (e) => {
+        if (e.key === 'Enter')
+            login(e);
     }
 
     useEffect(() => {
@@ -61,17 +64,31 @@ const Login = () => {
                         <label className="label">
                             <span className="label-text">이메일</span>
                         </label>
-                        <input type="email" placeholder="이메일" className="input input-bordered" onChange={(e) => {
-                            setEmail(e.target.value)
-                        }} required/>
+                        <input type="email"
+                               placeholder="이메일"
+                               className="input input-bordered"
+                               onChange={(e) => {
+                                   setEmail(e.target.value)
+                               }}
+                               onKeyDown={(e) => {
+                                   enter(e)
+                               }}
+                               required/>
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">비밀번호</span>
                         </label>
-                        <input type="password" placeholder="비밀번호" className="input input-bordered" onChange={(e) => {
-                            setPassword(e.target.value)
-                        }} required/>
+                        <input type="password"
+                               placeholder="비밀번호"
+                               className="input input-bordered"
+                               onChange={(e) => {
+                                   setPassword(e.target.value)
+                               }}
+                               onKeyDown={(e) => {
+                                   enter(e)
+                               }}
+                               required/>
                         <label className="label">
                             <a href="#" className="label-text-alt link link-hover">비밀번호를 잊어버렸다면?</a>
                             <a href="/signup" className="label-text-alt link link-hover">회원가입</a>

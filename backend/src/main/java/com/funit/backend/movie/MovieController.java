@@ -5,6 +5,8 @@ import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.dto.AddMovieRequestDTO;
 import com.funit.backend.movie.dto.MovieDTO;
 import com.funit.backend.movie.dto.MovieListDTO;
+import com.funit.backend.user.domain.AuthUser;
+import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +44,9 @@ public class MovieController {
      */
     @PostMapping("/new")
     //@PreAuthorize("")
-    public ResponseEntity<Object> addMovie(@Valid @ModelAttribute AddMovieRequestDTO request) {
+    public ResponseEntity<Object> addMovie(@AuthUser User user, @Valid @ModelAttribute AddMovieRequestDTO request) {
+        request.setUser(user);
         MultipartFile imageFile = request.getImageFile();
-
         Movie savedMovie = movieService.save(request, imageFile);
 
         return ResponseHandler.responseBuilder(

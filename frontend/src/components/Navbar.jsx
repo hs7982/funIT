@@ -67,7 +67,7 @@ const Navbar = () => {
                     )}
                     <div className="dropdown dropdown-end">
                         <div className="flex items-center">
-                            <div role="button" tabIndex={0} className="mx-2">{user.name ? user.name :
+                            <div role="button" tabIndex={0} className="mx-2">{isLogin ? user.name :
                                 <span className="text-sm">로그인해주세요</span>}</div>
 
                             <div
