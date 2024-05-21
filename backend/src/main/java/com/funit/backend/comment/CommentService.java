@@ -12,8 +12,8 @@ public class CommentService {
     @Autowired
     CommentRepository commentRepository;
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<Comment> getMovieComments(int movieId) {
+        return commentRepository.findByMovieId(movieId);
     }
 
     public Comment save(CommentDTO request) {
