@@ -50,7 +50,7 @@ const MovieDetail = () => {
     }
 
     const calcPer = (target, total) => {
-        return Math.floor((total / target) * 100);
+        return (total / target * 100).toFixed(1);
     }
 
     const calcDay = (endDate) => {
@@ -91,7 +91,7 @@ const MovieDetail = () => {
                         {movie.title}
                     </h1>
                     {movie.genres.map(genre => (
-                        <div key={genre.id} className="badge badge-outline me-1">{genre.name}</div>
+                        <div key={genre.id} className="badge badge-outline me-1.5">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
                     <button className="btn bg-fuchsia-300 mt-4">투자하기</button>
