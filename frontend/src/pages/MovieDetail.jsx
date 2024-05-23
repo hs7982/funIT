@@ -99,7 +99,7 @@ const MovieDetail = () => {
                         <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
                         <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                     </div>
-                    <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
+                        <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
                 </div>
                 <div className="p-3"></div>
                 {/* 모집현황 */}
