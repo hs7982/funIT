@@ -28,7 +28,7 @@ public class CommentController {
         );
     }
     /**
-     *  댓글생성
+     *  댓글생성 //user id 안들어감수정해야함
      */
     @PostMapping("/new")
     public ResponseEntity<Object> addComment(@RequestBody CommentDTO request) {
