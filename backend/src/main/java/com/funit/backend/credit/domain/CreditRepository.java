@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
     @Query("SELECT COALESCE(SUM(i.amount), 0) FROM Credit i WHERE i.user.id = :userId")
     int findTotalCreditUserId(@Param("userId") int userId);
+
+
 }
