@@ -1,14 +1,14 @@
 package com.funit.backend.funding;
 
 import com.funit.backend.funding.domain.Funding;
+import com.funit.backend.user.domain.AuthUser;
+import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +31,17 @@ public class FundingController {
     @GetMapping("/total/{movieId}")
     public FundingDTO getTotalFunding(@PathVariable int movieId) {
         return fundingService.getTotalFundingByMoiveId(movieId);
+    }
+
+    /**
+     *
+     *
+     * 영화에 펀딩시 펀딩서비스 -> 사용자서비스
+     *
+     */
+    @PostMapping()
+    public Funding newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
+        System.out.println(dto);
+        return fundingService.getAddFundingCredit(user, dto);
     }
 }
