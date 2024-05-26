@@ -2,7 +2,7 @@ package com.funit.backend.comment;
 
 import com.funit.backend.comment.domain.Comment;
 import com.funit.backend.utils.response.ResponseHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/comments")
 public class CommentController {
-    @Autowired
-    CommentService commentService;
+    private final CommentService commentService;
 
     /**
-     *  해당 영화에 대한 댓글 표시
+     * 해당 영화에 대한 댓글 표시
      */
     @GetMapping("/count/{movieId}")
     public ResponseEntity<Object> getMovieComment(@PathVariable Integer movieId) {
@@ -27,8 +27,9 @@ public class CommentController {
                 comment
         );
     }
+
     /**
-     *  댓글생성 //user id 안들어감수정해야함
+     * 댓글생성 //user id 안들어감수정해야함
      */
     @PostMapping("/new")
     public ResponseEntity<Object> addComment(@RequestBody CommentDTO request) {

@@ -19,7 +19,7 @@ public class FundingDTO {
     @NoArgsConstructor
     public static class FundingMoney {
         @NotNull(message = "투자 금액을 입력해주세요.")
-        @Min(value = 1, message = "투자 금액은 1 이상이어야 합니다.")
+        @Min(value = 1, message = "투자 금액은 1 크레딧 이상이어야 합니다.")
         private int fundingMoney;
 
         private Movie movie;

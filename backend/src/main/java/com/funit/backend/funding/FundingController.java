@@ -3,38 +3,28 @@ package com.funit.backend.funding;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
-import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/fundings")
 public class FundingController {
-    @Autowired
-    FundingService fundingService;
+    private final FundingService fundingService;
 
-    @GetMapping()
-    public ResponseEntity<Object> getAllFunding() {
-        List<Funding> funding = fundingService.getAllFundings();
-        return ResponseHandler.responseBuilder(
-                HttpStatus.OK,
-                null,
-                funding
-        );
-    }
-
+    /**
+     * 영화 ID를 받고 해당 영화의 펀딩 총액을 반환해줌
+     *
+     * @param movieId
+     */
     @GetMapping("/total/{movieId}")
     public FundingDTO getTotalFunding(@PathVariable int movieId) {
         return fundingService.getTotalFundingByMoiveId(movieId);
     }
 
     /**
-     * 영화에 펀딩시 펀딩서비스 -> 사용자서비스
+     * 영화에 펀딩하는 메소드
      */
     @PostMapping()
     public Funding newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {

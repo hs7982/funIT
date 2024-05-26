@@ -71,6 +71,16 @@ public class MovieController {
                 findOne);
     }
 
+    @DeleteMapping("/{movieId}")
+    public ResponseEntity<Object> deleteMovie(@AuthUser User user, @PathVariable int movieId) {
+        movieService.delete(user, movieId);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                movieId + "가 삭제되었습니다.",
+                null
+        );
+    }
+
     @GetMapping("/count")
     public ResponseEntity<Object> getMovieCount() {
         int count = movieService.countMovie();

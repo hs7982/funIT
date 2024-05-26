@@ -1,19 +1,21 @@
 package com.funit.backend.s3;
 
 import com.funit.backend.utils.response.ResponseHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/image")
 public class ImageController {
-    @Autowired
-    ImageService imageService;
+    private final ImageService imageService;
 
-    @PostMapping("/api/image")
+    @PostMapping()
     public ResponseEntity<Object> uploadImage(@ModelAttribute ImageSaveDto dto) {
         String imageUrl = imageService.saveImage(dto.getImage(), "postContentImage");
         return ResponseHandler.responseBuilder(
