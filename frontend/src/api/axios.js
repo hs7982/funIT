@@ -54,7 +54,7 @@ export const axiosMyPage = async () => {
 
 export const axiosSignup = async (data) => {
     try {
-        const response = await instance.post("/users/signup", data);
+        const response = await instance.post("/users/signup", data)
         return response;
     } catch (error) {
         throw error;
@@ -135,7 +135,25 @@ export const axiosPostNewImage = async (formData) => {
  */
 export const axiosGetOneMovie = async (movieId) => {
     try {
-        const response = await instance.get("/movies/" + movieId,);
+        const response = await instance.get("/movies/" + movieId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosGetCommentByMovie = async (movieId) => {
+    try {
+        const response = await instance.get("/comments/" + movieId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosPostComment = async (data) => {
+    try {
+        const response = await instance.post("/comments", data);
         return response;
     } catch (error) {
         throw error;

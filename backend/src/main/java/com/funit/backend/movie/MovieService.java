@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,10 +52,7 @@ public class MovieService {
     }
 
     public void delete(User user, int movieId) {
-        Movie movie = movieRepository.findById(movieId).orElse(null);
-        if (movie == null) {
-            throw new IllegalArgumentException("삭제하려는 게시물이 없습니다.");
-        }
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new NoSuchElementException("해당 영화를 찾을 수 없습니다."));
         if (!user.getRole().equals("admin") && movie.getUser().getId() != user.getId()) {
             throw new AccessDeniedException("삭제할 권한이 없습니다!");
         }
