@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {axiosDeleteMovie, axiosGetOneMovie} from "../api/axios.js";
 import DOMPurify from 'dompurify';
 
@@ -99,7 +99,10 @@ const MovieDetail = () => {
                         <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
                         <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                     </div>
+                    <Link to={"/funding/invest/" + movie.id}>
                         <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
+                    </Link>
+
                 </div>
                 <div className="p-3"></div>
                 {/* 모집현황 */}

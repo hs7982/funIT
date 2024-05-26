@@ -34,14 +34,10 @@ public class FundingController {
     }
 
     /**
-     *
-     *
      * 영화에 펀딩시 펀딩서비스 -> 사용자서비스
-     *
      */
     @PostMapping()
     public Funding newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
-        System.out.println(dto);
         return fundingService.getAddFundingCredit(user, dto);
     }
 }
