@@ -1,6 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {axiosSignup} from "../api/axios.js";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -11,26 +12,21 @@ const SignUp = () => {
     const [tell, setTell] = useState('');
     const [gender, setGender] = useState('');
 
-    const singup = (event) => {
+    const signup = async (event) => {
         event.preventDefault();
         if (!email || !password || !name || !tell || !gender) {
             alert("모든 필드를 입력해주세요!");
         } else if (password !== password_second) {
             alert("비밀번호가 일치하지 않습니다!");
         } else {
-            axios({
-                url: "/api/users/signup",
-                method: "POST",
-                withCredentials: true,
-                timeout: 10000,
-                data: {
-                    email: email,
-                    password: password,
-                    name: name,
-                    tell: tell,
-                    gender: gender
-                }
-            }).then((data) => {
+            const data = {
+                email: email,
+                password: password,
+                name: name,
+                tell: tell,
+                gender: gender
+            }
+            await axiosSignup(data).then((data) => {
                 if (data.status === 201) {
                     alert("회원가입 성공")
                     navigate("/"); // 회원가입 성공 시 홈 페이지로 이동
@@ -114,7 +110,7 @@ const SignUp = () => {
                         </div>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary" onClick={(e) => singup(e)}>회원가입</button>
+                        <button className="btn text-lg btn-primary" onClick={(e) => signup(e)}>회원가입</button>
                     </div>
                 </form>
             </div>

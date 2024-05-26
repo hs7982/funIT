@@ -3,6 +3,7 @@ import axios from "axios";
 import Editor from "../components/Editor.jsx";
 import {useEffect, useState} from "react";
 import GenreSelect from "../components/GenreSelect.jsx";
+import {axiosPostNewMovie} from "../api/axios.js";
 
 const NewMovieProject = () => {
     const [title, setTitle] = useState("");
@@ -11,14 +12,12 @@ const NewMovieProject = () => {
     const [genres, setGenres] = useState({});
     const [detail, setDetail] = useState("");
     const [thumbnailImage, setThumbnailImage] = useState("");
+
+
     const [posting, setPosting] = useState(false);
-
-    useEffect(() => {
-        const movies = axios.get('/api/movies')
-    }, []);
-
     const [isError, setIsError] = useState(false);
     const [errorData, setErrorData] = useState([]);
+
     const selectThumbnailImage = (e) => {
         e.preventDefault();
         console.log(e.target.files);
@@ -36,13 +35,7 @@ const NewMovieProject = () => {
             formData.append("detail", detail);
             formData.append("imageFile", thumbnailImage);
 
-            await axios.post("/api/movies/new", formData, {
-                withCredentials: true,
-                timeout: 30000,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            await axiosPostNewMovie(formData);
             alert("성공적으로 등록되었습니다!")
             setPosting(false);
             window.open("/funding", "_self");

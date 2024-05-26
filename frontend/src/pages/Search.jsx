@@ -2,6 +2,7 @@ import Moviebox from "../components/Moviebox.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useLocation} from "react-router-dom";
+import {axiosSearchMovie} from "../api/axios.js";
 
 
 const Search = () => {
@@ -20,7 +21,7 @@ const Search = () => {
         const fetchMovies = async () => {
             try {
                 if (searchKeyword !== '') {
-                    const response = await axios.get('/api/movies/search?keyword=' + searchKeyword);
+                    const response = await axiosSearchMovie(searchKeyword);
                     setMovies(response.data.data)
                 } else setMovies('');
 

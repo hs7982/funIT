@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import Error from "./Error.jsx";
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
+import {axiosGetMovieList} from "../api/axios.js";
 
 const MovieProject = () => {
     const [movies, setMovies] = useState([]);
@@ -15,7 +16,7 @@ const MovieProject = () => {
 
     const fetchMovies = async () => {
         try {
-            const response = await axios.get('/api/movies');
+            const response = await axiosGetMovieList();
             setMovies(response.data.data);
             setLoading(false); // 데이터 불러오기 완료 시 로딩 상태 변경
         } catch (error) {

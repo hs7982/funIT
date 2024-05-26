@@ -25,9 +25,10 @@ const MovieDetail = () => {
             const response = await axiosDeleteMovie(movieId);
             if (response.status === 200) {
                 alert("삭제되었습니다.")
+                window.location.reload();
             }
         } catch (e) {
-            alert("오류가 발생하였습니다.\n" + e);
+            alert("오류가 발생하였습니다.\n" + e.response.data.message);
         }
     }
 
@@ -80,15 +81,14 @@ const MovieDetail = () => {
     return (
         <div className="container p-8">
             {/* 영화 이미지 */}
-            <div className="flex">
-                <div className="max-w-[17rem] max-h-[16rem] mb-5">
+            <div className="flex flex-wrap lg:flex-nowrap">
+                <div className="max-h-96 md:max-w-[20rem] md:max-h-[16rem] mb-5">
                     <img src={movie.thumbnailImage} alt={movie.title}
-                         className="object-contain rounded-lg shadow-lg w-full h-full"/>
+                         className="object-contain w-full h-full"/>
                 </div>
-                <div className="p-3"></div>
                 {/* 영화 정보 */}
-                <div className="movie-info-container grow">
-                    <h1 className="flex-none movie-title flex items-center mb-1">
+                <div className="movie-info-container grow lg:mx-6">
+                    <h1 className="flex-none movie-title flex items-center mb-1 text-pretty">
                         {movie.title}
                     </h1>
                     {movie.genres.map(genre => (
@@ -102,14 +102,13 @@ const MovieDetail = () => {
                     <Link to={"/funding/invest/" + movie.id}>
                         <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
                     </Link>
-
                 </div>
-                <div className="p-3"></div>
                 {/* 모집현황 */}
-                <div className="recruitment-status mt-4 p-4 bg-white rounded-lg border border-black w-70 h-60">
+                <div
+                    className="mt-4 p-4 bg-white rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
                     <h2 className="text-lg font-bold mb-2">모집현황</h2>
                     <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
-                    <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)}
+                    <progress className="progress w-full" value={calcPer(movie.targetCredit, movie.totalFunding)}
                               max="100"></progress>
                     <p>목표 금액</p>
                     <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
@@ -119,13 +118,13 @@ const MovieDetail = () => {
             </div>
             {/* 상세내용 */}
             <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">상세내용</h2>
+                <h2 className="text-lg font-bold mb-4">상세내용</h2>
                 <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
                 <small>작성자:{movie.user.name}</small>
             </div>
             {/* 일정 */}
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">일정</h2>
+                <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
                     <p className="font-semibold text-2xl mb-2">D-{calcDay(movie.endDate)}일 남음</p>
                     <p className="font-semibold text-lg">등록일</p>
