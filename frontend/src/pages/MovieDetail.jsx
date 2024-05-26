@@ -1,12 +1,18 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {axiosDeleteMovie, axiosGetOneMovie} from "../api/axios.js";
+import {axiosDeleteMovie, axiosGetCommentByMovie, axiosGetOneMovie, axiosPostComment} from "../api/axios.js";
 import DOMPurify from 'dompurify';
+import {useRecoilValue} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
 
 const MovieDetail = () => {
     const params = useParams();
+    const movieId = params.id;
     const [movie, setMovie] = useState(null);
+    const [comments, setComments] = useState(null);
     const [noContent, setNoContent] = useState(false);
+    const [inputComment, setInputComment] = useState("");
+    const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
         const response = await axiosGetOneMovie(movieId);
@@ -15,8 +21,15 @@ const MovieDetail = () => {
         } else if (response.status === 204) {
             setNoContent(true);
         }
-
     };
+
+    const fetchComments = async (movieId) => {
+        const response = await axiosGetCommentByMovie(movieId);
+        if (response.status === 200) {
+            setComments(response.data.data);
+            console.log(comments)
+        }
+    }
 
     const deleteMovie = async () => {
         const movieId = params.id;
@@ -25,16 +38,38 @@ const MovieDetail = () => {
             const response = await axiosDeleteMovie(movieId);
             if (response.status === 200) {
                 alert("삭제되었습니다.")
+                window.location.reload();
             }
         } catch (e) {
-            alert("오류가 발생하였습니다.\n" + e);
+            alert("오류가 발생하였습니다.\n" + e.response.data.message);
+        }
+    }
+
+    const postComment = async () => {
+        if (inputComment === "") {
+            alert("내용을 입력하세요.")
+            return
+        }
+        const data = {
+            movie: {
+                id: movieId
+            },
+            content: inputComment
+        }
+        try {
+            const response = await axiosPostComment(data);
+            if (response.status === 201) {
+                fetchComments(movieId);
+            }
+        } catch (e) {
+            alert("오류가 발생하였습니다.\n" + e.response.data.message);
         }
     }
 
 
     useEffect(() => {
-        const movieId = params.id;
         fetchMovie(movieId);
+        fetchComments(movieId);
     }, []);
 
     const formattedDate = (dateStr) => {
@@ -60,6 +95,20 @@ const MovieDetail = () => {
         return Math.ceil(timeGap / (1000 * 60 * 60 * 24))
     }
 
+    const tab1Ref = useRef(null);
+    const tab2Ref = useRef(null);
+    const tab3Ref = useRef(null);
+
+    const onTab1Click = () => {
+        tab1Ref.current?.scrollIntoView({behavior: "smooth"});
+    }
+    const onTab2Click = () => {
+        tab2Ref.current?.scrollIntoView({behavior: "smooth"});
+    }
+    const onTab3Click = () => {
+        tab3Ref.current?.scrollIntoView({behavior: "smooth"});
+    }
+
     if (noContent) {
         return <div className="container p-6">
             <div className="flex flex-col items-center w-full">
@@ -80,36 +129,36 @@ const MovieDetail = () => {
     return (
         <div className="container p-8">
             {/* 영화 이미지 */}
-            <div className="flex">
-                <div className="max-w-[17rem] max-h-[16rem] mb-5">
+            <div className="flex flex-wrap lg:flex-nowrap">
+                <div className="max-h-96 md:max-w-[20rem] md:max-h-[16rem] mb-5">
                     <img src={movie.thumbnailImage} alt={movie.title}
-                         className="object-contain rounded-lg shadow-lg w-full h-full"/>
+                         className="object-contain w-full h-full"/>
                 </div>
-                <div className="p-3"></div>
                 {/* 영화 정보 */}
-                <div className="movie-info-container grow">
-                    <h1 className="flex-none movie-title flex items-center mb-1">
+                <div className="movie-info-container grow lg:mx-6">
+                    <h1 className="flex-none movie-title flex items-center mb-1 text-pretty">
                         {movie.title}
                     </h1>
                     {movie.genres.map(genre => (
                         <div key={genre.id} className="badge badge-outline me-1.5">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
-                    <div className="mt-3">
-                        <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
-                        <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
-                    </div>
+                    {isLogin &&
+                        <div className="mt-3">
+                            <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
+                            <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
+                        </div>
+                    }
                     <Link to={"/funding/invest/" + movie.id}>
                         <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
                     </Link>
-
                 </div>
-                <div className="p-3"></div>
                 {/* 모집현황 */}
-                <div className="recruitment-status mt-4 p-4 bg-white rounded-lg border border-black w-70 h-60">
+                <div
+                    className="mt-4 p-4 bg-white rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
                     <h2 className="text-lg font-bold mb-2">모집현황</h2>
                     <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
-                    <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)}
+                    <progress className="progress w-full" value={calcPer(movie.targetCredit, movie.totalFunding)}
                               max="100"></progress>
                     <p>목표 금액</p>
                     <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
@@ -117,15 +166,21 @@ const MovieDetail = () => {
                     <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                 </div>
             </div>
+            {/*바로가기 탭*/}
+            <div role="tablist" className="tabs tabs-boxed my-5 py-2">
+                <a role="tab" className="tab" onClick={onTab1Click}>상세내용</a>
+                <a role="tab" className="tab" onClick={onTab2Click}>일정</a>
+                <a role="tab" className="tab" onClick={onTab3Click}>댓글</a>
+            </div>
             {/* 상세내용 */}
-            <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">상세내용</h2>
+            <div className="details mt-4 p-4 bg-gray-100 rounded-lg" ref={tab1Ref}>
+                <h2 className="text-lg font-bold mb-4">상세내용</h2>
                 <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
                 <small>작성자:{movie.user.name}</small>
             </div>
             {/* 일정 */}
-            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-lg font-bold mb-2">일정</h2>
+            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab2Ref}>
+                <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
                     <p className="font-semibold text-2xl mb-2">D-{calcDay(movie.endDate)}일 남음</p>
                     <p className="font-semibold text-lg">등록일</p>
@@ -133,6 +188,40 @@ const MovieDetail = () => {
                 </div>
                 <p className="font-semibold text-lg">마감일</p>
                 <p> {formattedDate(movie.endDate)}</p>
+            </div>
+            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab3Ref}>
+                <h2 className="text-lg font-bold mb-4">댓글</h2>
+                <div className="">
+                    {
+                        comments.length === 0 ? <div>작성된 댓글이 없습니다!</div> : <>{comments.map(comment => (
+                            <div key={comment.id} className="chat chat-start">
+                                <div className="chat-image avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img src="/default-profile.png" alt="프로필사진"/>
+                                    </div>
+                                </div>
+                                <div className="chat-header">{comment.user.name}</div>
+                                <div className="chat-bubble">{comment.content}</div>
+                            </div>
+                        ))}</>
+                    }
+                </div>
+                <div>
+                    {isLogin ?
+                        <div className="flex mt-4">
+                            <input type="text" className="input input-bordered grow me-2" placeholder="작성할 댓글을 입력하세요."
+                                   onChange={(e) => setInputComment(e.target.value)}/>
+                            <button className="btn btn-primary" onClick={postComment}>등록</button>
+                        </div> :
+                        <div className="flex mt-4">
+                            <input type="text" className="input input-bordered grow me-2"
+                                   placeholder="로그인하여 댓글을 작성해 보세요!" disabled/>
+                            <button className="btn btn-disabled">등록</button>
+                        </div>
+
+                    }
+
+                </div>
             </div>
         </div>
     );

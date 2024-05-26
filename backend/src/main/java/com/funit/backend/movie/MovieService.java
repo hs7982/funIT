@@ -8,11 +8,14 @@ import com.funit.backend.movie.dto.AddMovieRequestDTO;
 import com.funit.backend.movie.dto.MovieDTO;
 import com.funit.backend.movie.dto.MovieListDTO;
 import com.funit.backend.s3.ImageService;
+import com.funit.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +49,14 @@ public class MovieService {
         String imgUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
         request.setImageURL(imgUrl);
         return movieRepository.save(request.toEntity());
+    }
+
+    public void delete(User user, int movieId) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new NoSuchElementException("해당 영화를 찾을 수 없습니다."));
+        if (!user.getRole().equals("admin") && movie.getUser().getId() != user.getId()) {
+            throw new AccessDeniedException("삭제할 권한이 없습니다!");
+        }
+        movieRepository.deleteById(movieId);
     }
 
     public Integer countMovie() {

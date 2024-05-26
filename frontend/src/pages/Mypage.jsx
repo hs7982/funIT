@@ -6,6 +6,7 @@ import {IsLoginState} from "../recoil/RecoilState.js";
 import Error from "./Error.jsx";
 import NewMovie from "../components/NewMovie.jsx";
 import UserData from "../components/UserData.jsx";
+import {axiosMyPage} from "../api/axios.js";
 
 const Mypage = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -19,7 +20,7 @@ const Mypage = () => {
 
     const fetchUserData = async () => {
         try {
-            const response = await axios.get('/api/users/mypage');
+            const response = await axiosMyPage();
             setUserInfo(response.data.data);
             setLoading(false); // 데이터 불러오기 완료 시 로딩 상태 변경
         } catch (error) {

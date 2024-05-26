@@ -3,6 +3,7 @@ import 'react-quill/dist/quill.snow.css';
 import {useMemo, useRef, useState} from "react";
 import axios from "axios";
 import ImageResize from "quill-image-resize";
+import {axiosPostNewImage} from "../api/axios.js";
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -26,13 +27,7 @@ function Editor(props) {
             const formData = new FormData();
             formData.append("image", file);
 
-            await axios.post("/api/image", formData, {
-                withCredentials: true,
-                timeout: 30000,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }).then((result) => {
+            await axiosPostNewImage(formData).then((result) => {
                 const imageUrl = result.data.data;
                 const editor = quillRef.current.getEditor();
                 const range = editor.getSelection();

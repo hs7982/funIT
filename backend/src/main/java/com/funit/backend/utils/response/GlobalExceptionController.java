@@ -3,6 +3,7 @@ package com.funit.backend.utils.response;
 import com.funit.backend.utils.exception.UnauthorizedAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -46,6 +47,15 @@ public class GlobalExceptionController {
     public ResponseEntity<Object> handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.UNAUTHORIZED,
+                exception.getMessage(),
+                null
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.FORBIDDEN,
                 exception.getMessage(),
                 null
         );
