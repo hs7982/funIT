@@ -4,6 +4,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+    h1 {
+        @apply text-2xl;
+    }
+
+    h2 {
+        @apply text-xl;
+    }
+
+    h3 {
+        @apply text-lg;
+    }
+}
 
 :root {
     /*font-family: Pretendard, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
@@ -72,6 +85,17 @@ button:hover {
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
+}
+
+#htmlViewer .ql-align-center {
+    text-align: center;
+}
+
+#htmlViewer img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 @media (prefers-color-scheme: light) {

@@ -108,6 +108,21 @@ export const axiosPostNewMovie = async (formData) => {
 
 }
 
+export const axiosPostNewProfileImage = async (formData) => {
+    try {
+        const response = await instance.post("/users/change-profileImage", formData, {
+            timeout: 30000,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+
+}
+
 /**
  * axios api 새로운 이미지 등록 요청
  * @param formData

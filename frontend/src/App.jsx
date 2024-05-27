@@ -12,6 +12,7 @@ import Search from "./pages/Search.jsx";
 import {UpdateUserInfo} from "./api/auth.js";
 import Mypage from "./pages/Mypage.jsx";
 import InvestPage from "./pages/InvestPage.jsx";
+import Footer from "./components/Footer.jsx";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
             <UpdateUserInfo/>
             <Navbar/>
             <Routes>
-                <Route path="/" element={<Home/>}/>
+                <Route path="/" element={<MovieProject/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/funding/new" element={<NewMovieProject/>}/>
                 <Route path="/funding/edit" element={<EditMovieProject/>}/>
@@ -29,7 +30,7 @@ function App() {
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/search" element={<Search/>}/>
                 <Route path="/mypage" element={<Mypage/>}/>
-                <Route path="/funding/invest/:id" element={<InvestPage />} />
+                <Route path="/funding/invest/:id" element={<InvestPage/>}/>
                 {/*찾는 페이지 없을때 (NotFound는 항상 최하단 위치!)*/}
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

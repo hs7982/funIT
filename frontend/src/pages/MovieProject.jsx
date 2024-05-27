@@ -33,16 +33,7 @@ const MovieProject = () => {
 
     if (!isError) {
         return (
-            <div className="container mx-auto p-6">
-                <div className="flex">
-                    <div className="text-3xl font-medium my-8">진행중인 펀딩</div>
-                    {isLogin &&
-                        <Link className="me-0 ms-auto my-auto" to="/funding/new">
-                            <button className="btn btn-m bg-fuchsia-300 rounded-full text-lg">프로젝트 생성</button>
-                        </Link>
-                    }
-                </div>
-                <hr className="mb-8"/>
+            <div className="container max-w-[1440px] mx-auto my-8">
                 {loading ? ( // 로딩 중인 동안 로딩 표시
                     <div className="flex justify-center"><span
                         className="loading loading-spinner loading-md"></span>
