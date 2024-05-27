@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -116,8 +117,18 @@ public class UserController {
     }
 
     /**
-     * 로그인한 사용자 본인계정의 비밀번호 변경
+     * 로그인한 사용자 본인계정의 프로필 이미지 변경
      */
+    @PostMapping("/change-profileImage")
+    public ResponseEntity<Object> changeProfileImage(@AuthUser User user, @RequestBody MultipartFile image) {
+        String img = userService.changeProfileImage(image, user);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                "프로필 파일 변경 성공",
+                img
+        );
+    }
+
     @PostMapping("/change-pw")
     public ResponseEntity<Object> changePassword(@AuthUser User user, @Valid @RequestBody UserRequestDTO.PasswordChange newPassword) {
         userService.changePassword(user, newPassword.getNewPassword());

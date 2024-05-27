@@ -17,11 +17,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("UPDATE User m SET m.password = :password where m.id = :id")
-    int updatePW(@Param(value="password") String password, @Param(value="id") int id);
+    int updatePW(@Param(value = "password") String password, @Param(value = "id") int id);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("UPDATE User m SET m.name = :name where m.id = :id")
-    int updateName(@Param(value="name") String name, @Param(value="id") int id);
+    int updateName(@Param(value = "name") String name, @Param(value = "id") int id);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE User m SET m.profileImage = :imageURL where m.id = :id")
+    int updateProfileImage(@Param(value = "imageURL") String image, @Param(value = "id") int id);
 
 }

@@ -62,7 +62,7 @@ const NewMovieProject = () => {
     var today = dt.getFullYear() + '-' + ("0" + (1 + dt.getMonth())).slice(-2) + '-' + ("0" + dt.getDate()).slice(-2);
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container max-w-[1440px] mx-auto p-6">
             <p className="text-3xl font-medium my-12 text-center">새로운 펀딩 등록</p>
             <div className="mx-auto max-w-6xl">
                 <label className="form-control w-full my-2">
@@ -105,7 +105,7 @@ const NewMovieProject = () => {
                     <div className="text-sm text-gray-500 ms-1 mb-2.5 -mt-2.5">프로젝트의 대표 이미지로 사용됩니다.</div>
                     <input type="file"
                            className="file-input file-input-bordered w-full"
-                           accept="image/jpeg,image/png,image/heic,image/heif"
+                           accept="image/*"
                            onChange={(e) => selectThumbnailImage(e)}/>
                 </label>
                 <hr className="mt-6"/>
