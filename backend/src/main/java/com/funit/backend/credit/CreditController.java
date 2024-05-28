@@ -1,10 +1,13 @@
 package com.funit.backend.credit;
 
 import com.funit.backend.credit.domain.Credit;
+import com.funit.backend.user.domain.AuthUser;
+import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +50,6 @@ public class CreditController {
                 credits
         );
     }
-
 
 
 }
