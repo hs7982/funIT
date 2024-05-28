@@ -17,10 +17,15 @@ const InvestPage = () => {
     const [investmentAmount, setInvestmentAmount] = useState(0);
 
     const fetchMovie = async (movieId) => {
-        const response = await axiosGetOneMovie(movieId);
-        if (response.status === 200) {
-            setMovie(response.data.data);
-        } else if (response.status === 204) {
+        try {
+            const response = await axiosGetOneMovie(movieId);
+            if (response.status === 200) {
+                setMovie(response.data.data);
+            } else if (response.status === 204) {
+                setNoContent(true);
+            }
+        } catch (error) {
+            console.error("Failed to fetch movie:", error);
             setNoContent(true);
         }
     };
@@ -28,10 +33,10 @@ const InvestPage = () => {
     useEffect(() => {
         const movieId = params.id;
         fetchMovie(movieId);
-    }, []);
+    }, [params.id]);
 
     const handleInvestmentChange = (e) => {
-        const amount = Number(e.target.value) || 0;
+        const amount = Math.max(0, Number(e.target.value) || 0);
         setInvestmentAmount(amount);
     };
 
@@ -74,7 +79,7 @@ const InvestPage = () => {
     return (
         <div className="container p-8">
             {/* 투자하기 */}
-            <div className="bg-black p-6 rounded-lg">
+            <div className="bg-rose-300 p-6 rounded-lg mb-8">
                 <h1 className="text-2xl font-bold mb-4 text-white">영화 투자하기</h1>
                 <div className="flex items-center mb-4">
                     <label htmlFor="investmentAmount" className="mr-2 text-white">
@@ -86,35 +91,36 @@ const InvestPage = () => {
                         className="border rounded p-2"
                         value={investmentAmount}
                         onChange={handleInvestmentChange}
+                        min={MIN_AMOUNT}
+                        max={MAX_AMOUNT}
                     />
                     원
                 </div>
-                <p className="text-white mb-2">보유 크레딧 : {movie.targetCredit}원</p>
+                <p className="text-white mb-2">보유 크레딧 : {movie.targetCredit.toLocaleString()}원</p>
                 <button className="btn bg-pink-300" onClick={invest}>
                     투자하기
                 </button>
             </div>
 
-
-
-            {/* 모집현황 */}
+            {/* 영화정보 */}
             <div className="flex mt-8">
                 <div className="max-w-[17rem] max-h-[16rem] mb-5">
                     <img src={movie.thumbnailImage} alt={movie.title}
                          className="object-contain rounded-lg shadow-lg w-full h-full"/>
                 </div>
                 <div className="movie-info-container grow">
-                    <h1 className="flex-none movie-title flex items-center mb-1">
-                        {movie.title}</h1>
+                    <h1 className="movie-title text-3xl font-bold mb-1">{movie.title}</h1>
+                    <p>{movie.description}</p>
                 </div>
+                {/* 모집현황 */}
                 <div className="recruitment-status ml-8 mt-4 p-4 bg-white rounded-lg border border-black w-70 h-60">
                     <h2 className="text-lg font-bold mb-2">모집현황</h2>
                     <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
                     <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)} max="100"></progress>
                     <p>목표 금액</p>
-                    <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p className="text-xl font-semibold">{movie.targetCredit.toLocaleString()}원</p>
                     <p>현재 모인 금액</p>
-                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p className="text-xl font-semibold">{movie.totalFunding.toLocaleString()}원</p>
                 </div>
             </div>
         </div>
