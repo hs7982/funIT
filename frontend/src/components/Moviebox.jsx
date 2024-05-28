@@ -14,9 +14,10 @@ const Moviebox = ({movie}) => {
     }
 
     return (
-        <div onClick={()=> navigate("/funding/detail/" + movie.id)}>
+        <div onClick={() => navigate("/funding/detail/" + movie.id)}>
             <div className="cursor-pointer" id={"movie-" + movie.id} key={movie.id}>
-                <div className="card w-[28rem] h-[25rem] bg-base-100 shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                <div
+                    className="card w-[28rem] h-[25rem] max-w-[100vw] bg-base-100 shadow-2xl transform transition-transform duration-300 hover:scale-105">
                     <figure className="bg-cover w-full h-full"
                             style={{backgroundImage: `url(${movie.thumbnailImage})`}}>
                         <div
