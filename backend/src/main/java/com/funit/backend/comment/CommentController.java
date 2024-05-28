@@ -56,4 +56,17 @@ public class CommentController {
                 "댓글 삭제되었습니다.",
                 null);
     }
+
+    /**
+     * 해당 영화에 대한 총 댓글 수
+     */
+    @GetMapping("/{movieId}/commentcount")
+    public ResponseEntity<Object> getCommentCount(@PathVariable Integer movieId) {
+        int count = commentService.getcountComment(movieId);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                count
+        );
+    }
 }

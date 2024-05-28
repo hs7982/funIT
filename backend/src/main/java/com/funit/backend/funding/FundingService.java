@@ -39,4 +39,9 @@ public class FundingService {
         return  funding;
     }
 
+
+    public Integer countFunding(Integer movieId) {
+        return fundingRepository.getCount(movieId);
+    }
+
 }
