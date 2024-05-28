@@ -7,6 +7,7 @@ import com.funit.backend.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,5 +32,16 @@ public class CreditService {
 
     }
 
+    public List<CreditDTO> getUserHistory(int userId) {
+        List<Credit> credits = creditRepository.findByUserHistory(userId);
+        List<CreditDTO> dtoList = new ArrayList<>();
+
+        for (Credit credit : credits) {
+            CreditDTO dto = CreditDTO.toDTO(credit);
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
 
 }

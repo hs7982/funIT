@@ -16,5 +16,6 @@ public interface FundingRepository extends JpaRepository<Funding, Integer> {
     @Query("UPDATE User m SET m.name = :name where m.id = :id")
     int updateName(@Param(value="name") String name, @Param(value="id") int id);
 
-
+    @Query(value = "select count(*) from Funding f where f.movie.id = :movieId")
+    Integer getCount(Integer movieId);
 }

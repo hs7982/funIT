@@ -10,4 +10,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     @Query("select c from Comment c where c.movie.id = :movieId")
     List<Comment> findByMovieId(@Param("movieId") int movieId);
+
+    @Query(value = "select count(*) from Comment c where c.movie.id = :movieId")
+    Integer getCount(Integer movieId);
 }

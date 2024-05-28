@@ -3,8 +3,11 @@ package com.funit.backend.funding;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
+import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +32,18 @@ public class FundingController {
     @PostMapping()
     public Funding newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
         return fundingService.getAddFundingCredit(user, dto);
+    }
+
+    /**
+     *  해당 영화에 총 펀딩 수
+     */
+    @GetMapping("/{movieId}/fundingcount")
+    public ResponseEntity<Object> getFundingCount(@PathVariable Integer movieId) {
+        int count = fundingService.countFunding(movieId);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                count
+        );
     }
 }

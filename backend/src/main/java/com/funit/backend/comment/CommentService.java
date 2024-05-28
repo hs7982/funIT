@@ -30,4 +30,8 @@ public class CommentService {
         }
         commentRepository.deleteById(id);
     }
+
+    public Integer getcountComment(Integer movieId) {
+        return commentRepository.getCount(movieId);
+    }
 }
