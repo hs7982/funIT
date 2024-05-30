@@ -25,7 +25,7 @@ public class FundingDTO {
         private Movie movie;
 
         public Funding toEntity() {
-            return Funding.builder()
+            return com.funit.backend.funding.domain.Funding.builder()
                     .movie(movie)
                     .fundingCmount(fundingMoney)
 

@@ -27,11 +27,24 @@ public class MovieController {
     private final MovieService movieService;
 
     /**
-     * 등록된 모든 영화 프로젝트의 리스트를 반환합니다.
+     * 등록된 진행중 영화 프로젝트의 리스트를 반환합니다.
      */
     @GetMapping()
     public ResponseEntity<Object> getAllMovies() {
         List<MovieListDTO> movie = movieService.getAllMovies();
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                movie
+        );
+    }
+
+    /**
+     * 등록된 종료된 영화 프로젝트의 리스트를 반환합니다.
+     */
+    @GetMapping("/end")
+    public ResponseEntity<Object> getAllMoviesEnd() {
+        List<MovieListDTO> movie = movieService.getAllMoviesEnd();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,

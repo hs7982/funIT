@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,12 @@ public class FundingService {
     }
 
     public Funding getAddFundingCredit(User user, FundingDTO.FundingMoney request) {
+        //투자 기간이 마감되면 오류
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime endTime = fundingRepository.getEndTimeByMovieId(request.getMovie().getId());
+        if (isInvestmentPeriodClosed(currentTime, endTime)) {
+            throw new IllegalArgumentException("투자 기간이 이미 종료되었습니다.");
+        }
         //크레딧 서비스 getUserCredit 호출해서 비교하고
         if (CreditService.getUserCredit(user.getId()) < request.getFundingMoney()) {
             throw new IllegalArgumentException("금액이 부족합니다.");
@@ -39,6 +46,9 @@ public class FundingService {
         return  funding;
     }
 
+    public boolean isInvestmentPeriodClosed(LocalDateTime currentTime, LocalDateTime endTime) {
+        return currentTime.isAfter(endTime) || currentTime.isEqual(endTime);
+    }
 
     public Integer countFunding(Integer movieId) {
         return fundingRepository.getCount(movieId);
