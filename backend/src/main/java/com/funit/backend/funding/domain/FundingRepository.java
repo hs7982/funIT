@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+
 public interface FundingRepository extends JpaRepository<Funding, Integer> {
 
     @Query("SELECT COALESCE(SUM(i.fundingCmount), 0) FROM Funding i WHERE i.movie.id = :movieId")
@@ -18,4 +20,9 @@ public interface FundingRepository extends JpaRepository<Funding, Integer> {
 
     @Query(value = "select count(*) from Funding f where f.movie.id = :movieId")
     Integer getCount(Integer movieId);
+
+    @Query(value = "SELECT f.movie.endDate FROM Funding f WHERE f.movie.id = :movieId")
+    LocalDateTime getEndTimeByMovieId(@Param("movieId") Integer movieId);
+
+
 }
