@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { axiosGetOneMovie } from "../api/axios.js";
+import axios from "axios";
 
 const MIN_AMOUNT = 500000;
 const MAX_AMOUNT = 5000000;
@@ -15,6 +16,7 @@ const InvestPage = () => {
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const [investmentAmount, setInvestmentAmount] = useState(0);
+    const [money, setMoney] = useState(0);
 
     const fetchMovie = async (movieId) => {
         try {
@@ -30,9 +32,19 @@ const InvestPage = () => {
         }
     };
 
+    const fetchMoney = async () => {
+        try {
+            const response = await axios.get("/api/credits/balance")
+            setMoney(response.data.data);
+        } catch (error) {
+            alert("돈 못가져옴")
+        }
+    }
+
     useEffect(() => {
         const movieId = params.id;
         fetchMovie(movieId);
+        fetchMoney();
     }, [params.id]);
 
     const handleInvestmentChange = (e) => {
@@ -63,8 +75,10 @@ const InvestPage = () => {
         return (
             <div className="container p-6">
                 <div className="flex flex-col items-center w-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 my-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                         stroke="currentColor" className="w-8 h-8 my-2">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
                     </svg>
                     <p className="text-xl font-semibold">찾는 콘텐츠가 삭제되었거나 없습니다!</p>
                 </div>
@@ -77,54 +91,55 @@ const InvestPage = () => {
     }
 
     return (
-        <div className="container p-8">
-            {/* 투자하기 */}
-            <div className="bg-rose-300 p-6 rounded-lg mb-8">
-                <h1 className="text-2xl font-bold mb-4 text-white">영화 투자하기</h1>
-                <div className="flex items-center mb-4">
-                    <label htmlFor="investmentAmount" className="mr-2 text-white">
-                        투자 금액:
-                    </label>
-                    <input
-                        type="number"
-                        id="investmentAmount"
-                        className="border rounded p-2"
-                        value={investmentAmount}
-                        onChange={handleInvestmentChange}
-                        min={MIN_AMOUNT}
-                        max={MAX_AMOUNT}
-                    />
-                    원
+        <div className="container p-24 flex">
+            {/* 왼쪽 섹션: 영화 정보 */}
+            <div className="left-section flex-grow mr-4 flex flex-col p-4">
+                <div className="max-w-[20rem] max-h-[30rem] mb-4">
+                    <img src={movie.thumbnailImage} alt={movie.title} className="object-contain rounded-lg shadow-lg"
+                         style={{ width: "20rem", height: "30rem" }} />
                 </div>
-                <p className="text-white mb-2">보유 크레딧 : {movie.targetCredit.toLocaleString()}원</p>
-                <button className="btn bg-pink-300" onClick={invest}>
-                    투자하기
-                </button>
+                <div className="movie-info-container">
+                    <h1 className="text-4xl font-bold mb-2 break-words">{movie.title}</h1>
+                    <p className="text-lg">{movie.description}</p>
+                </div>
             </div>
 
-            {/* 영화정보 */}
-            <div className="flex mt-8">
-                <div className="max-w-[17rem] max-h-[16rem] mb-5">
-                    <img src={movie.thumbnailImage} alt={movie.title}
-                         className="object-contain rounded-lg shadow-lg w-full h-full"/>
-                </div>
-                <div className="movie-info-container grow">
-                    <h1 className="movie-title text-3xl font-bold mb-1">{movie.title}</h1>
-                    <p>{movie.description}</p>
-                </div>
-                {/* 모집현황 */}
-                <div className="recruitment-status ml-8 mt-4 p-4 bg-white rounded-lg border border-black w-70 h-60">
-                    <h2 className="text-lg font-bold mb-2">모집현황</h2>
-                    <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
-                    <progress className="progress w-56" value={calcPer(movie.targetCredit, movie.totalFunding)} max="100"></progress>
-                    <p>목표 금액</p>
-                    <p className="text-xl font-semibold">{movie.targetCredit.toLocaleString()}원</p>
-                    <p>현재 모인 금액</p>
-                    <p className="text-xl font-semibold">{movie.totalFunding.toLocaleString()}원</p>
+            {/* 오른쪽 섹션: 영화 투자하기 */}
+            <div className="right-section w-96 flex flex-col p-4 mr-4">
+                <div className="bg-rose-300 p-6 rounded-lg mb-4">
+                    <h1 className="text-2xl font-bold mb-4 text-white">영화 투자하기</h1>
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center">
+                            <label htmlFor="investmentAmount" className="mr-2 text-white">
+                                투자 금액:
+                            </label>
+                            <input
+                                type="number"
+                                id="investmentAmount"
+                                className="border rounded p-2"
+                                value={investmentAmount}
+                                onChange={handleInvestmentChange}
+                                min={MIN_AMOUNT}
+                                max={MAX_AMOUNT}
+                            />
+                            <span className="text-white"> 크레딧</span>
+                        </div>
+                    </div>
+                    <p className="text-white mb-2">보유 크레딧 : {money}</p>
+                    <div className="flex justify-between">
+                        <button className="btn bg-pink-300" onClick={invest}>
+                            투자하기
+                        </button>
+                        <div className="text-xs text-gray-500">
+                            최소금액: {MIN_AMOUNT.toLocaleString()}원,<br/>
+                            최대금액: {MAX_AMOUNT.toLocaleString()}원
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
-};
+
+}
 
 export default InvestPage;
