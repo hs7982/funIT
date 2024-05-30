@@ -4,6 +4,7 @@ import NotFound from "./pages/NotFound.jsx";
 import NewMovieProject from "./pages/NewMovieProject.jsx";
 import EditMovieProject from "./pages/EditMovieProject.jsx";
 import MovieProject from "./pages/MovieProject.jsx";
+import EndMovieProject from "./pages/EndMovieProject.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import MovieDetail from "./pages/MovieDetail.jsx";
@@ -21,6 +22,7 @@ function App() {
             <Navbar />
             <Routes>
                 <Route path="/" element={<MovieProject />} />
+                <Route path="/end" element={<EndMovieProject />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/funding/new" element={<NewMovieProject />} />
                 <Route path="/funding/edit" element={<EditMovieProject />} />

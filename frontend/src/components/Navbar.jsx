@@ -48,7 +48,7 @@ const Navbar = () => {
                             메인
                         </div>
                     </Link>
-                    <Link className="btn btn-ghost text-xl mx-4" to={"/"}>
+                    <Link className="btn btn-ghost text-xl mx-4" to={"/end"}>
                         <div className="flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                  stroke="currentColor" className="size-5 my-auto me-1.5">
