@@ -83,6 +83,13 @@ public class MovieService {
         if (!user.getRole().equals("admin") && movie.getUser().getId() != user.getId()) {
             throw new AccessDeniedException("삭제할 권한이 없습니다!");
         }
+
+        //연관 관계 정리
+        movie.getGenres().clear();
+        movie.getProductions().clear();
+        movieRepository.save(movie);
+
+        //후 삭제
         movieRepository.deleteById(movieId);
     }
 

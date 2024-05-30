@@ -5,9 +5,15 @@ import {Link} from "react-router-dom";
 import Error from "./Error.jsx";
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
-import {axiosGetMovieList} from "../api/axios.js";
+import {axiosGetMovieEndList, axiosGetMovieList} from "../api/axios.js";
 
-const MovieProject = () => {
+/**
+ * 영화 목록을 표시하는 페이지
+ * @param showType - 1:진행중, 2:종료
+ * @returns {Element}
+ * @constructor
+ */
+const MovieProject = ({showType}) => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
@@ -15,8 +21,14 @@ const MovieProject = () => {
     const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovies = async () => {
+        setLoading(true);
         try {
-            const response = await axiosGetMovieList();
+            let response
+            if (showType === 1)
+                response = await axiosGetMovieList();
+            else if (showType === 2)
+                response = await axiosGetMovieEndList();
+            else alert('불러올 영화목록 타입이 지정되지 않았습니다!')
             setMovies(response.data.data);
             setLoading(false); // 데이터 불러오기 완료 시 로딩 상태 변경
         } catch (error) {
@@ -29,7 +41,7 @@ const MovieProject = () => {
 
     useEffect(() => {
         fetchMovies();
-    }, []);
+    }, [showType]);
 
     if (!isError) {
         return (

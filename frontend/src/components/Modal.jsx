@@ -4,7 +4,6 @@ import {Dialog, Transition} from '@headlessui/react';
 export const Modal = (props) => {
     const handleConfirm = () => {
         props.closeModal();
-        window.location.reload();
     };
     return (
         <Transition appear show={props.isOpenModal} as={Fragment}>

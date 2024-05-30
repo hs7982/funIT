@@ -38,7 +38,7 @@ const NewMovieProject = () => {
             await axiosPostNewMovie(formData);
             alert("성공적으로 등록되었습니다!")
             setPosting(false);
-            window.open("/funding", "_self");
+            window.open("/", "_self");
 
         } catch (e) {
             console.log(e);

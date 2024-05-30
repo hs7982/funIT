@@ -9,7 +9,6 @@ const ChangePassword = () => {
     const [loading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
     const [errorDetail, setErrorDetail] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,7 +19,6 @@ const ChangePassword = () => {
     const fetchUserData = async () => {
         try {
             const response = await axiosMyPage();
-            setUserInfo(response.data.data);
             setLoading(false);
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -40,11 +38,8 @@ const ChangePassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            setError(true);
-            setErrorDetail("새로운 비밀번호가 일치하지 않습니다");
             setOpenModal(true);
             setModalMessage("새로운 비밀번호가 일치하지 않습니다");
-            return;
         }
         try {
             const response = await axios.post('/api/users/change-pw', {
@@ -53,7 +48,9 @@ const ChangePassword = () => {
             });
             setModalMessage('비밀번호 변경 되었습니다.');
             setOpenModal(true);
-            setError(false); // 이전에 발생한 오류 상태를 초기화
+            setCurrentPassword("");
+            setNewPassword("")
+            setConfirmPassword("");
         } catch (error) {
             if (error.response.status === 401) {
                 setModalMessage(error.response.data.message);
@@ -62,9 +59,6 @@ const ChangePassword = () => {
             } else {
                 setModalMessage("오류가 발생했습니다.")
             }
-            setError(true);
-            setErrorDetail(error);
-
             setOpenModal(true);
         }
     };
@@ -83,7 +77,6 @@ const ChangePassword = () => {
             <div className="max-w-[1440px] mx-auto">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold my-8 text-gray-800">비밀번호 변경</h1>
-                    <hr className="mx-auto border-t border-gray-300 mb-8"/>
                 </div>
                 {loading ? (
                     <div className="flex justify-center">
@@ -92,7 +85,7 @@ const ChangePassword = () => {
                 ) : (
                     <div
                         className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
-                        <div className="w-full mx-auto md:w-1/2 bg-white p-8 rounded-xl shadow-lg">
+                        <div className="w-full mx-auto bg-white p-8 rounded-xl shadow-lg">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2"

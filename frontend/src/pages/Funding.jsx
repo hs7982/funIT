@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { axiosGetOneMovie } from "../api/axios.js";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {axiosGetOneMovie, axiosPostFunding} from "../api/axios.js";
 import axios from "axios";
 
-const MIN_AMOUNT = 500000;
+const MIN_AMOUNT = 100;
 const MAX_AMOUNT = 5000000;
 
 const calcPer = (targetCredit, totalFunding) => {
@@ -11,12 +11,13 @@ const calcPer = (targetCredit, totalFunding) => {
     return ((totalFunding / targetCredit) * 100).toFixed(2);
 };
 
-const InvestPage = () => {
+const Funding = () => {
     const params = useParams();
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const [investmentAmount, setInvestmentAmount] = useState(0);
-    const [money, setMoney] = useState(0);
+    const [hasCredit, setHasCredit] = useState(0);
+    const navigate = useNavigate();
 
     const fetchMovie = async (movieId) => {
         try {
@@ -35,9 +36,9 @@ const InvestPage = () => {
     const fetchMoney = async () => {
         try {
             const response = await axios.get("/api/credits/balance")
-            setMoney(response.data.data);
+            setHasCredit(response.data.data);
         } catch (error) {
-            alert("돈 못가져옴")
+            alert("보유 크레딧 정보 가져오기에 실패하였습니다.")
         }
     }
 
@@ -52,22 +53,36 @@ const InvestPage = () => {
         setInvestmentAmount(amount);
     };
 
-    const invest = () => {
+    const invest = async () => {
         if (investmentAmount < MIN_AMOUNT) {
-            alert("최소 투자 금액은 500,000원입니다.");
+            alert("최소 투자 금액은 100원입니다.");
             return;
         } else if (investmentAmount > MAX_AMOUNT) {
             alert("최대 투자 금액은 5,000,000원입니다.");
             return;
         }
 
-        const confirmInvestment = window.confirm(
+        if (!confirm(
             `${investmentAmount.toLocaleString()}원을 투자하시겠습니까?`
-        );
+        )) return;
 
-        if (confirmInvestment) {
-            alert("투자가 완료되었습니다!");
-            setInvestmentAmount(0);
+        const data = {
+            movie: {
+                id: movie.id
+            },
+            fundingMoney: investmentAmount,
+        }
+
+        try {
+            const response = await axiosPostFunding(data)
+            if (response.status === 200) {
+                alert("투자가 완료되었습니다!");
+                navigate("/funding/detail/" + movie.id);
+            }
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert(error.response.data.data);
+            }
         }
     };
 
@@ -96,7 +111,7 @@ const InvestPage = () => {
             <div className="left-section flex-grow mr-4 flex flex-col p-4">
                 <div className="max-w-[20rem] max-h-[30rem] mb-4">
                     <img src={movie.thumbnailImage} alt={movie.title} className="object-contain rounded-lg shadow-lg"
-                         style={{ width: "20rem", height: "30rem" }} />
+                         style={{width: "20rem", height: "30rem"}}/>
                 </div>
                 <div className="movie-info-container">
                     <h1 className="text-4xl font-bold mb-2 break-words">{movie.title}</h1>
@@ -125,7 +140,7 @@ const InvestPage = () => {
                             <span className="text-white"> 크레딧</span>
                         </div>
                     </div>
-                    <p className="text-white mb-2">보유 크레딧 : {money}</p>
+                    <p className="text-white mb-2">보유 크레딧 : {hasCredit}</p>
                     <div className="flex justify-between">
                         <button className="btn bg-pink-300" onClick={invest}>
                             투자하기
@@ -142,4 +157,4 @@ const InvestPage = () => {
 
 }
 
-export default InvestPage;
+export default Funding;
