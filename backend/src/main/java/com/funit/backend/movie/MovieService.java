@@ -11,15 +11,14 @@ import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
 @EnableScheduling
 @Service
 @RequiredArgsConstructor
@@ -71,27 +70,6 @@ public class MovieService {
                             .build();
                 })
                 .collect(Collectors.toList());
-    }
-
-    // 1분 마다 실행되도록 스케줄링
-    @Scheduled(cron = "0 * * * * *")
-    public void updateMoviesStatusPeriodically() {
-        System.out.println("스케쥴링");
-        updateMoviesStatus();
-    }
-    // 마감 시간이 지난 영화의 상태를 변경하는 메서드
-    public void updateMoviesStatus() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        List<Movie> movies = movieRepository.findAll();
-
-        for (Movie movie : movies) {
-            LocalDateTime endTime = movie.getEndDate();
-            if (endTime.isBefore(currentTime) && movie.getStatus() != 2) {
-                // 영화의 상태를 변경
-                //movie.setStatus(2); // 2는 마감 상태를 나타냄
-                movieRepository.updateMovieStatus(movie.getId(), 2);
-            }
-        }
     }
 
     public Movie save(AddMovieRequestDTO request, MultipartFile imageFile) {
