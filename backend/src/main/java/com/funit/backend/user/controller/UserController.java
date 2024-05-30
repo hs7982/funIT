@@ -131,7 +131,7 @@ public class UserController {
 
     @PostMapping("/change-pw")
     public ResponseEntity<Object> changePassword(@AuthUser User user, @Valid @RequestBody UserRequestDTO.PasswordChange newPassword) {
-        userService.changePassword(user, newPassword.getNewPassword());
+        userService.changePassword(user, newPassword);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 "비밀번호 정보 수정 성공",

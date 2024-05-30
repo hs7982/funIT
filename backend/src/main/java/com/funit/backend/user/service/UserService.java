@@ -6,6 +6,7 @@ import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.user.domain.UserRepository;
 import com.funit.backend.user.dto.UserRequestDTO;
+import com.funit.backend.utils.exception.UnauthorizedAccessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -78,9 +79,15 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(User user, String newPassword) {
-        String newEncodePW = bCryptPasswordEncoder.encode(newPassword);
+    public void changePassword(User user, UserRequestDTO.PasswordChange newPassword) {
+        // 입력한 현재 비밀번호와 사용자의 현재 비밀번호를 비교하여 일치하는지 확인
+        if (!bCryptPasswordEncoder.matches(newPassword.getOriPassword(), user.getPassword())) {
+            throw new UnauthorizedAccessException("현재 비밀번호가 일치하지 않습니다.");
+        }
+        // 새로운 비밀번호를 암호화하여 저장
+        String newEncodePW = bCryptPasswordEncoder.encode(newPassword.getNewPassword());
         userRepository.updatePW(newEncodePW, user.getId());
+        updatePrincipal();
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 public class UserRequestDTO {
     @Builder
@@ -32,6 +33,8 @@ public class UserRequestDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PasswordChange {
+        @NotNull(message = "현재 비밀번호는 필수값입니다.")
+        private String oriPassword;
         @NotNull(message = "새로운 비밀번호는 필수값입니다.")
         private String newPassword;
     }
