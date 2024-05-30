@@ -1,7 +1,11 @@
-import {Fragment, useState} from 'react'
-import {Dialog, Transition} from '@headlessui/react'
+import {Fragment} from 'react';
+import {Dialog, Transition} from '@headlessui/react';
 
 export const Modal = (props) => {
+    const handleConfirm = () => {
+        props.closeModal();
+        window.location.reload();
+    };
     return (
         <Transition appear show={props.isOpenModal} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
@@ -42,13 +46,13 @@ export const Modal = (props) => {
                                     </p>
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="mt-4 flex justify-end">
                                     <button
                                         type="button"
                                         className="rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        onClick={props.closeModal}
+                                        onClick={handleConfirm}
                                     >
-                                        닫기
+                                        확인
                                     </button>
                                 </div>
                             </Dialog.Panel>
