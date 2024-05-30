@@ -25,7 +25,7 @@ const Moviebox = ({ movie }) => {
                     <figure className={`bg-cover w-full h-full`}
                             style={{ backgroundImage: `url(${movie.thumbnailImage})` }}>
                         <div
-                            className={`flex justify-center backdrop-filter backdrop-blur-lg w-full h-full`}>
+                            className={`flex justify-center backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 w-full h-full`}>
                             <img
                                 src={movie.thumbnailImage}
                                 alt={movie.title}

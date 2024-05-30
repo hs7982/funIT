@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
 import Moviebox from "../components/Moviebox.jsx";
-import axios from "axios";
-import {Link} from "react-router-dom";
 import Error from "./Error.jsx";
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
