@@ -5,19 +5,19 @@ import {Link} from "react-router-dom";
 import Error from "./Error.jsx";
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
-import {axiosGetMovieList} from "../api/axios.js";
+import {axiosGetMovieEndList, axiosGetMovieList} from "../api/axios.js";
 
 const EndMovieProject = () => {
-    const [movies, setMovies] = useState([]);
+    const [movies, setMoviesEnd] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
     const [errorDetail, setErrorDetail] = useState();
     const isLogin = useRecoilValue(IsLoginState);
 
-    const fetchMovies = async () => {
+    const fetchMoviesEnd = async () => {
         try {
-            const response = await axiosGetMovieList();
-            setMovies(response.data.data);
+            const response = await axiosGetMovieEndList();
+            setMoviesEnd(response.data.data);
             setLoading(false); // 데이터 불러오기 완료 시 로딩 상태 변경
         } catch (error) {
             console.error("Error fetching movies:", error);
@@ -28,7 +28,7 @@ const EndMovieProject = () => {
     };
 
     useEffect(() => {
-        fetchMovies();
+        fetchMoviesEnd();
     }, []);
 
     if (!isError) {
@@ -42,7 +42,7 @@ const EndMovieProject = () => {
                 ) : (
                     <div className="flex flex-wrap justify-evenly gap-8">
                         {movies.map(movie => (
-                            <Moviebox key={movie.id} movie={movie.end}/> // key 추가
+                            <Moviebox key={movie.id} movie={movie}/> // key 추가
                         ))}
                     </div>
                 )}

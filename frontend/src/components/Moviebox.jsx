@@ -22,10 +22,10 @@ const Moviebox = ({ movie }) => {
             <div className="cursor-pointer" id={"movie-" + movie.id} key={movie.id}>
                 <div
                     className="card w-[28rem] h-[25rem] max-w-[100vw] bg-base-100 shadow-2xl transform transition-transform duration-300 hover:scale-105">
-                    <figure className={`bg-cover w-full h-full ${isEnded ? "bg-black bg-opacity-70" : ""}`}
+                    <figure className={`bg-cover w-full h-full`}
                             style={{ backgroundImage: `url(${movie.thumbnailImage})` }}>
                         <div
-                            className={`flex justify-center ${isEnded ? "backdrop-filter backdrop-blur-lg bg-black bg-opacity-70" : "backdrop-filter backdrop-blur-lg bg-white bg-opacity-20"} w-full h-full`}>
+                            className={`flex justify-center backdrop-filter backdrop-blur-lg w-full h-full`}>
                             <img
                                 src={movie.thumbnailImage}
                                 alt={movie.title}
