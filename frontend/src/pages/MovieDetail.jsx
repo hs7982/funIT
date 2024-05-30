@@ -43,7 +43,6 @@ const MovieDetail = () => {
 
     const formattedDate = (dateStr) => {
         const date = new Date(dateStr);
-
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
@@ -61,7 +60,8 @@ const MovieDetail = () => {
         const today = new Date();
         const date = new Date(endDate);
         const timeGap = date - today;
-        return Math.ceil(timeGap / (1000 * 60 * 60 * 24))
+        const dayGap = Math.ceil(timeGap / (1000 * 60 * 60 * 24));
+        return dayGap < 0 ? -1 : dayGap;
     }
 
     const tab1Ref = useRef(null);
@@ -151,7 +151,7 @@ const MovieDetail = () => {
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab2Ref}>
                 <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
-                    <p className="font-semibold text-2xl mb-2">D-{calcDay(movie.endDate)}일 남음</p>
+                    <p className="font-semibold text-2xl mb-2">{calcDay(movie.endDate) === -1 ? "모집종료" : `D-${calcDay(movie.endDate)}일 남음`}</p>
                     <p className="font-semibold text-lg">등록일</p>
                     <p> {formattedDate(movie.createDate)}</p>
                 </div>
