@@ -54,17 +54,15 @@ public class Movie {
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres = new ArrayList<>();
-
 
     @ManyToMany
     @JoinTable(name = "movie_production",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "production_id"))
     private List<Production> productions = new ArrayList<>();
-
 }

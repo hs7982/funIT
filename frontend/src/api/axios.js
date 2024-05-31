@@ -52,6 +52,15 @@ export const axiosMyPage = async () => {
     }
 }
 
+export const axiosMyCreditList = async () => {
+    try {
+        const response = await instance.get("/credits");
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const axiosSignup = async (data) => {
     try {
         const response = await instance.post("/users/signup", data)
@@ -179,6 +188,24 @@ export const axiosGetCommentByMovie = async (movieId) => {
 export const axiosPostComment = async (data) => {
     try {
         const response = await instance.post("/comments", data);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosDeleteComment = async (id) => {
+    try {
+        const response = await instance.delete("/comments/" + id);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosPostFunding = async (data) => {
+    try {
+        const response = await instance.post("/fundings", data);
         return response;
     } catch (error) {
         throw error;

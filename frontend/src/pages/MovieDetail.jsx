@@ -118,9 +118,13 @@ const MovieDetail = () => {
                             <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                         </div>
                     }
-                    <Link to={"/funding/invest/" + movie.id}>
-                        <button className="btn bg-fuchsia-300 mt-5 btn-lg">투자하기</button>
-                    </Link>
+                    {movie.status === 1 ?
+                        <Link to={"/funding/prgrs/" + movie.id}>
+                            <button className="btn bg-fuchsia-300 mt-5 btn-md">투자하기</button>
+                        </Link> :
+                        <button className="btn bg-fuchsia-300 mt-5 btn-md" disabled>종료됨</button>
+                    }
+
                 </div>
                 {/* 모집현황 */}
                 <div
@@ -151,7 +155,7 @@ const MovieDetail = () => {
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab2Ref}>
                 <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
-                    <p className="font-semibold text-2xl mb-2">{calcDay(movie.endDate) === -1 ? "모집종료" : `D-${calcDay(movie.endDate)}일 남음`}</p>
+                    <p className="font-semibold text-2xl mb-2">{movie.status === 2 ? "모집종료" : `D-${calcDay(movie.endDate)}일 남음`}</p>
                     <p className="font-semibold text-lg">등록일</p>
                     <p> {formattedDate(movie.createDate)}</p>
                 </div>

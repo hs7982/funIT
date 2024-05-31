@@ -6,15 +6,9 @@ import {IsLoginState} from "../recoil/RecoilState.js";
 import NewMovie from "../components/NewMovie.jsx";
 import UserData from "../components/UserData.jsx";
 import ChangePassword from "./ChangePassword.jsx";
-import {axiosMyPage, axiosPostNewProfileImage} from "../api/axios.js";
+import {axiosMyCreditList, axiosMyPage, axiosPostNewProfileImage} from "../api/axios.js";
 import Error from "./Error.jsx";
-
-const CreditTransaction = () => (
-    <div>
-        <h2>크래딧 거래 내역</h2>
-        {/* 크래딧 거래 내역 내용을 여기에 추가 */}
-    </div>
-);
+import CreditUseList from "../components/CreditUseList.jsx";
 
 const Mypage = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -69,17 +63,14 @@ const Mypage = () => {
 
     useEffect(() => {
         fetchUserData();
-        fetchRecentInvestments();
     }, []);
 
     const renderContent = () => {
         switch (activeTab) {
             case 'creditTransaction':
-                return <CreditTransaction/>;
+                return <CreditUseList/>;
             case 'UserData':
                 return <UserData/>;
-            case 'newMovie':
-                return <NewMovie/>;
             case 'changePassword':
                 return <ChangePassword/>;
             default:
@@ -147,17 +138,6 @@ const Mypage = () => {
                                 </div>
                                 <ul className="menu w-full rounded-box text-lg">
                                     <li>
-                                        <span onClick={() => setActiveTab('newMovie')} style={{cursor: 'pointer'}}>
-                                            {/* 클릭 가능한 손가락 커서를 표시하도록 스타일 추가 */}
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                      d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0 1 18 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0 1 18 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 0 1 6 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5"/>
-                                            </svg>
-                                            최근 투자한 영화
-                                        </span>
-                                    </li>
-                                    <li>
                                         <span onClick={() => setActiveTab('creditTransaction')}
                                               style={{cursor: 'pointer'}}>
                                             {/* 클릭 가능한 손가락 커서를 표시하도록 스타일 추가 */}
@@ -187,7 +167,7 @@ const Mypage = () => {
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round"
-                                                      d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/>/>
+                                                      d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/>
                                             </svg>
                                             비밀번호 변경
                                         </span>

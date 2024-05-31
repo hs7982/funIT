@@ -1,11 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
-import {axiosGetCommentByMovie, axiosPostComment} from "../api/axios.js";
+import {axiosDeleteComment, axiosGetCommentByMovie, axiosPostComment} from "../api/axios.js";
 import {useEffect, useState} from "react";
 import {useRecoilValue} from "recoil";
-import {IsLoginState} from "../recoil/RecoilState.js";
+import {IsLoginState, UserState} from "../recoil/RecoilState.js";
 
 const MovieComment = ({movieId}) => {
     const isLogin = useRecoilValue(IsLoginState);
+    const user = useRecoilValue(UserState);
     const [comments, setComments] = useState([]);
     const [inputComment, setInputComment] = useState("");
 
@@ -32,11 +33,35 @@ const MovieComment = ({movieId}) => {
     }
 
     const fetchComments = async () => {
-        const response = await axiosGetCommentByMovie(movieId);
-        if (response.status === 200) {
-            setComments(response.data.data);
-            console.log(comments)
+        try {
+            const response = await axiosGetCommentByMovie(movieId);
+            if (response.status === 200) {
+                setComments(response.data.data);
+            }
+        } catch (error) {
+            console.error(error)
+            alert("댓글을 가져오는 중 오류가 발생하였습니다.")
         }
+
+    }
+
+    const deleteComment = async (id) => {
+        if (!confirm("댓글을 삭제하시겠습니까?")) return
+        try {
+            const response = await axiosDeleteComment(id);
+            if (response.status === 200) {
+                fetchComments()
+            }
+        } catch (error) {
+            if (error.code === "ERR_BAD_REQUEST") {
+                alert(error.response.data.message);
+            } else {
+                console.error(error)
+                alert("댓글을 삭제하는 중 오류가 발생하였습니다.")
+            }
+        }
+
+
     }
 
     useEffect(() => {
@@ -48,17 +73,23 @@ const MovieComment = ({movieId}) => {
         <>
             <div className="">
                 {
-                    comments.length === 0 ? <div>작성된 댓글이 없습니다!</div> : <>{comments.map(comment => (
-                        <div key={comment.id} className="chat chat-start">
-                            <div className="chat-image avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src={comment.user.profileImage} alt="프로필사진"/>
+                    comments.length === 0 ? <div>작성된 댓글이 없습니다!</div> :
+                        <>
+                            {comments.map(comment => (
+                                <div key={comment.id} className="chat chat-start">
+                                    <div className="chat-image avatar">
+                                        <div className="w-10 rounded-full">
+                                            <img src={comment.user.profileImage} alt="프로필사진"/>
+                                        </div>
+                                    </div>
+                                    <div className="chat-header">{comment.user.name}
+                                        {comment.user.id === user.id &&
+                                            <span role="button" className="ms-2 text-red-800"
+                                                  onClick={() => deleteComment(comment.id)}>X</span>}</div>
+                                    <div className="chat-bubble">{comment.content}</div>
                                 </div>
-                            </div>
-                            <div className="chat-header">{comment.user.name}</div>
-                            <div className="chat-bubble">{comment.content}</div>
-                        </div>
-                    ))}</>
+                            ))}
+                        </>
                 }
             </div>
             <div>
