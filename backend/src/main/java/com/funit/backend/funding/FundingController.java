@@ -22,20 +22,30 @@ public class FundingController {
      * @param movieId
      */
     @GetMapping("/total/{movieId}")
-    public FundingDTO getTotalFunding(@PathVariable int movieId) {
-        return fundingService.getTotalFundingByMoiveId(movieId);
+    public ResponseEntity<Object> getTotalFunding(@PathVariable int movieId) {
+        FundingDTO dto = fundingService.getTotalFundingByMoiveId(movieId);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                dto
+        );
     }
 
     /**
      * 영화에 펀딩하는 메소드
      */
     @PostMapping()
-    public Funding newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
-        return fundingService.getAddFundingCredit(user, dto);
+    public ResponseEntity<Object> newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
+        Funding funding = fundingService.getAddFundingCredit(user, dto);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                "펀딩이 완료되었습니다.",
+                funding
+        );
     }
 
     /**
-     *  해당 영화에 총 펀딩 수
+     * 해당 영화에 총 펀딩 수
      */
     @GetMapping("/{movieId}/fundingcount")
     public ResponseEntity<Object> getFundingCount(@PathVariable Integer movieId) {

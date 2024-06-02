@@ -18,8 +18,10 @@ public class CreditDTO {
     private int amount;
     private int transactionType;
     private LocalDateTime transactionDate;
-    private String movieTitle; // 영화 제목을 저장할 새로운 필드
+    private String movieTitle;
+    private int movieId;
     private Funding funding;
+
     public static CreditDTO toDTO(Credit credit) {
 //        return CreditDTO.builder()
 //                .id(credit.getId())
@@ -37,6 +39,7 @@ public class CreditDTO {
         Funding funding = credit.getFunding();
         if (funding != null && funding.getMovie() != null) {
             dto.setMovieTitle(funding.getMovie().getTitle());
+            dto.setMovieId(funding.getMovie().getId());
         } else {
             // 처리할 작업 추가 (예: 기본값 설정 또는 예외 처리)
         }
