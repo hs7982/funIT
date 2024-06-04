@@ -9,12 +9,12 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [password_second, setPassword_second] = useState('');
     const [name, setName] = useState('');
-    const [tell, setTell] = useState('');
+    const [tel, setTel] = useState('');
     const [gender, setGender] = useState('');
 
     const signup = async (event) => {
         event.preventDefault();
-        if (!email || !password || !name || !tell || !gender) {
+        if (!email || !password || !name || !tel || !gender) {
             alert("모든 필드를 입력해주세요!");
         } else if (password !== password_second) {
             alert("비밀번호가 일치하지 않습니다!");
@@ -23,7 +23,7 @@ const SignUp = () => {
                 email: email,
                 password: password,
                 name: name,
-                tell: tell,
+                tel: tel,
                 gender: gender
             }
             await axiosSignup(data).then((data) => {
@@ -81,7 +81,7 @@ const SignUp = () => {
                     <div className="relative">
                         <input type="text" id="tel"
                                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " value={tell} onChange={(e) => setTell(e.target.value)} required/>
+                               placeholder=" " value={tel} onChange={(e) => setTel(e.target.value)} required/>
                         <label htmlFor="tel"
                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                         >전화번호</label>

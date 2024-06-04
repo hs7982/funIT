@@ -21,7 +21,9 @@ const UserData = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="flex justify-center">
+            <span className="loading loading-spinner loading-md"></span>
+        </div>;
     }
 
     return (

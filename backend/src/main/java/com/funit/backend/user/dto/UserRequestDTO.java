@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 public class UserRequestDTO {
     @Builder
@@ -25,6 +24,7 @@ public class UserRequestDTO {
         @NotBlank(message = "이름은 필수값입니다.")
         private String name;
 
+        @NotBlank(message = "전화번호는 필수값입니다.")
         private String tel;
         private String gender;
     }

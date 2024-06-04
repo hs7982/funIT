@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {axiosGetOneMovie, axiosPostFunding} from "../api/axios.js";
 import axios from "axios";
+import {useRecoilValue} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
 
 const MIN_AMOUNT = 100;
 const MAX_AMOUNT = 5000000;
@@ -18,6 +20,7 @@ const Funding = () => {
     const [investmentAmount, setInvestmentAmount] = useState(0);
     const [hasCredit, setHasCredit] = useState(0);
     const navigate = useNavigate();
+    const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
         try {
@@ -44,8 +47,13 @@ const Funding = () => {
 
     useEffect(() => {
         const movieId = params.id;
-        fetchMovie(movieId);
-        fetchMoney();
+        if (isLogin !== true) {
+            alert("로그인 후 이용가능한 서비스입니다.")
+            navigate("/login");
+        } else {
+            fetchMovie(movieId);
+            fetchMoney();
+        }
     }, [params.id]);
 
     const handleInvestmentChange = (e) => {

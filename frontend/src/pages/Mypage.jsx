@@ -16,7 +16,7 @@ const Mypage = () => {
     const [isError, setError] = useState(false);
     const [errorDetail, setErrorDetail] = useState();
     const [recentInvestments, setRecentInvestments] = useState([]);
-    const [activeTab, setActiveTab] = useState('newMovie'); // 기본값을 'newMovie'로 설정
+    const [activeTab, setActiveTab] = useState('creditTransaction'); // 기본값을 'newMovie'로 설정
     const isLogin = useRecoilValue(IsLoginState);
     const navigate = useNavigate();
 
@@ -61,6 +61,20 @@ const Mypage = () => {
         }
     }
 
+    const deleteProfileImg = async () => {
+        if (!confirm("프로필 사진을 삭제하시겠습니까?")) return;
+        const data = new FormData();
+        data.append("image", null);
+        try {
+            const response = await axiosPostNewProfileImage(data);
+            if (response.status === 200) {
+                window.location.reload();
+            }
+        } catch (error) {
+            alert("프로필 사진 삭제 실패");
+        }
+    }
+
     useEffect(() => {
         fetchUserData();
     }, []);
@@ -81,7 +95,7 @@ const Mypage = () => {
     if (!isError) {
         return (
             <div className="w-full p-6 bg-gray-50 min-h-screen">
-                <div className="max-w-[1440px] mx-auto">
+                <div className="max-w-[1600px] mx-auto">
                     <div className="text-center mb-8">
                         <h1 className="text-4xl font-bold my-8 text-gray-800">마이페이지</h1>
                         <hr className="w-1/2 mx-auto border-t border-gray-300 mb-8"/>
@@ -94,7 +108,8 @@ const Mypage = () => {
                         <div
                             className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
                             <div className="w-full md:w-1/2 bg-white p-8 rounded-xl shadow-lg">
-                                <div className="flex items-center mb-8">
+                                <div className="flex items-center">
+
                                     <div
                                         className="relative btn btn-ghost btn-circle avatar rounded-full w-24 h-24 overflow-hidden mr-6 shadow-lg"
                                         onClick={() => imageInput.current?.click()}
@@ -107,7 +122,8 @@ const Mypage = () => {
                                         <div
                                             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
                                             <div className="flex flex-col items-center justify-center h-full">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24"
                                                      strokeWidth={1.5} stroke="currentColor"
                                                      className="w-6 h-6 mb-1 text-white">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -120,14 +136,20 @@ const Mypage = () => {
                                         </div>
                                         <input type="file" accept="image/*" className="hidden" ref={imageInput}
                                                onChange={(e) => changeProfileImg(e)}/>
+
                                     </div>
                                     <div>
                                         <p className="text-3xl font-bold text-gray-800">{userInfo.name}</p>
                                         <p className="text-gray-500">{userInfo.email}</p>
                                     </div>
                                 </div>
+                                <div>
+                                    <button className="btm btn-sm btn-ghost w-24 text-xs"
+                                            onClick={() => deleteProfileImg()}>이미지 제거
+                                    </button>
+                                </div>
                                 <div
-                                    className="flex flex-col border rounded-3xl h-40 p-6 my-8 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
+                                    className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
                                     <p className="text-lg font-medium">보유 크레딧</p>
                                     <p className="my-auto text-4xl font-medium">
                                         {userInfo.credit

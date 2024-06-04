@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {axiosMyCreditList} from "../api/axios.js";
 
 const CreditUseList = () => {
@@ -26,14 +26,27 @@ const CreditUseList = () => {
         }
     }
 
+    const formattedDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+
+        return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+    }
+
     useEffect(() => {
         fetchCreditData();
     }, []);
 
     return (
         <div>
-            <h2>크래딧 거래 내역</h2>
-            {loading && <p>Loading...</p>}
+            <p className="text-3xl font-medium my-12 text-center">크래딧 거래 내역</p>
+            {loading && <div className="flex justify-center">
+                <span className="loading loading-spinner loading-md"></span>
+            </div>}
             {isError && <p>Error: {errorDetail?.message}</p>}
             <div className="overflow-x-auto">
                 <table className="table text-md text-center w-full mt-4">
@@ -47,15 +60,16 @@ const CreditUseList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {credit.map((creditItem, index) => (
+                    {credit.reverse().map((creditItem, index) => (
                         <tr key={index} className="hover">
-                            <th>{index}</th>
-                            <td>{creditItem.amount}</td>
+                            <th>{index + 1}</th>
+                            <td>{creditItem.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                             <td>{creditItem.transactionType === 1 ?
-                                <span className="text-blue-700">지급</span> :
-                                <span className="text-red-700">사용</span>}</td>
-                            <td>{Date(creditItem.transactionDate)}</td>
-                            <td>{creditItem.movieTitle}</td>
+                                <span className="text-blue-700 font-medium">지급</span> :
+                                <span className="text-red-700 font-medium">사용</span>}</td>
+                            <td>{formattedDate(creditItem.transactionDate)}</td>
+                            <td className="truncate ..."><Link
+                                to={"/funding/detail/" + creditItem.movieId}>{creditItem.movieTitle}</Link></td>
                         </tr>
                     ))}
                     </tbody>

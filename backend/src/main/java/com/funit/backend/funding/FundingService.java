@@ -28,7 +28,7 @@ public class FundingService {
     }
 
     public Funding getAddFundingCredit(User user, FundingDTO.FundingMoney request) {
-        //투자 기간이 마감되면 오류
+        //투자 기간이 마감되면 예외처리
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime endTime = movieRepository.getEndTimeByMovieId(request.getMovie().getId());
         if (isInvestmentPeriodClosed(currentTime, endTime)) {

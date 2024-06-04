@@ -72,8 +72,13 @@ public class UserService {
     }
 
     public String changeProfileImage(MultipartFile file, User user) {
-        String imageURL = imageService.saveImage(file, "userProfile");
+        String imageURL = "/default-profile.png";
+        if (file != null) {
+            imageURL = imageService.saveImage(file, "userProfile");
+        }
+
         userRepository.updateProfileImage(imageURL, user.getId());
+
         updatePrincipal();
         return imageURL;
     }
