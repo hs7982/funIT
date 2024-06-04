@@ -43,7 +43,7 @@ const CreditUseList = () => {
 
     return (
         <div>
-            <h2>크래딧 거래 내역</h2>
+            <p className="text-3xl font-medium my-12 text-center">크래딧 거래 내역</p>
             {loading && <div className="flex justify-center">
                 <span className="loading loading-spinner loading-md"></span>
             </div>}

@@ -95,7 +95,7 @@ const Mypage = () => {
     if (!isError) {
         return (
             <div className="w-full p-6 bg-gray-50 min-h-screen">
-                <div className="max-w-[1440px] mx-auto">
+                <div className="max-w-[1600px] mx-auto">
                     <div className="text-center mb-8">
                         <h1 className="text-4xl font-bold my-8 text-gray-800">마이페이지</h1>
                         <hr className="w-1/2 mx-auto border-t border-gray-300 mb-8"/>
