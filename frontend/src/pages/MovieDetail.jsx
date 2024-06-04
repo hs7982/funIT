@@ -12,6 +12,7 @@ const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const isLogin = useRecoilValue(IsLoginState);
+    const [movieLike, setMovieLike] = useState(null);
 
     const fetchMovie = async (movieId) => {
         const response = await axiosGetOneMovie(movieId);
@@ -36,9 +37,19 @@ const MovieDetail = () => {
         }
     }
 
+    const fetchLike =async () => {
+        try {
+            const response = await axios.get("/api/likes")
+            setMovieLike(response.data.data);
+        } catch (error) {
+            alert("좋아요 정보 가져오기에 실패하였습니다.")
+        }
+    }
+
 
     useEffect(() => {
         fetchMovie(movieId);
+        fetchLike()
     }, []);
 
     const formattedDate = (dateStr) => {
