@@ -45,6 +45,20 @@ const UserData = () => {
                         <input type="text" className="input input-bordered w-full" placeholder={userData.email}
                                onChange={(e) => setTitle(e.target.value)}/>
                     </label>
+                    <label className="form-control w-full my-2">
+                        <div className="label">
+                            <span className="text-lg">전화번호</span>
+                        </div>
+                        <input type="text" className="input input-bordered w-full" placeholder={userData.tel}
+                               onChange={(e) => setTitle(e.target.value)}/>
+                    </label>
+                    <div className="flex items-center justify-end">
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            개인정보 수정
+                        </button>
+                    </div>
 
                 </div>
             </div>
