@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-const Moviebox = ({ movie }) => {
+const Moviebox = ({movie}) => {
     const navigate = useNavigate();
 
     const calcPer = (target, total) => {
@@ -15,7 +15,7 @@ const Moviebox = ({ movie }) => {
         return dayGap < 0 ? -1 : dayGap;
     }
 
-    const isEnded = calcDay(movie.endDate) === -1;
+    const isEnded = movie.status === 2;
 
     return (
         <div onClick={() => navigate("/funding/detail/" + movie.id)}>
@@ -23,7 +23,7 @@ const Moviebox = ({ movie }) => {
                 <div
                     className="card w-[28rem] h-[25rem] max-w-[100vw] bg-base-100 shadow-2xl transform transition-transform duration-300 hover:scale-105">
                     <figure className={`bg-cover w-full h-full`}
-                            style={{ backgroundImage: `url(${movie.thumbnailImage})` }}>
+                            style={{backgroundImage: `url(${movie.thumbnailImage})`}}>
                         <div
                             className={`flex justify-center backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 w-full h-full`}>
                             <img

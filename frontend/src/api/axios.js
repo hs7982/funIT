@@ -52,6 +52,10 @@ export const axiosMyPage = async () => {
     }
 }
 
+/**
+ * axios 크래딧 사용 내역 요청
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosMyCreditList = async () => {
     try {
         const response = await instance.get("/credits");
@@ -61,6 +65,11 @@ export const axiosMyCreditList = async () => {
     }
 }
 
+/**
+ * axios 회원가입 요청
+ * @param data
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosSignup = async (data) => {
     try {
         const response = await instance.post("/users/signup", data)
@@ -97,6 +106,10 @@ export const axiosGetMovieList = async () => {
 
 }
 
+/**
+ * axios 펀딩이 종료된 영화 목록 요청
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosGetMovieEndList = async () => {
     try {
         const response = await instance.get("/movies/end");
@@ -127,6 +140,11 @@ export const axiosPostNewMovie = async (formData) => {
 
 }
 
+/**
+ * axios 새로운 프로필사진 등록 요청
+ * @param formData
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosPostNewProfileImage = async (formData) => {
     try {
         const response = await instance.post("/users/change-profileImage", formData, {
@@ -176,6 +194,11 @@ export const axiosGetOneMovie = async (movieId) => {
     }
 }
 
+/**
+ * 영화 id에 대한 댓글 리스트 요청
+ * @param movieId
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosGetCommentByMovie = async (movieId) => {
     try {
         const response = await instance.get("/comments/" + movieId);
@@ -185,6 +208,11 @@ export const axiosGetCommentByMovie = async (movieId) => {
     }
 }
 
+/**
+ * axios 댓글 작성 요청
+ * @param data
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosPostComment = async (data) => {
     try {
         const response = await instance.post("/comments", data);
@@ -194,6 +222,11 @@ export const axiosPostComment = async (data) => {
     }
 }
 
+/**
+ * axios 댓글 삭제 요청
+ * @param id
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosDeleteComment = async (id) => {
     try {
         const response = await instance.delete("/comments/" + id);
@@ -203,6 +236,11 @@ export const axiosDeleteComment = async (id) => {
     }
 }
 
+/**
+ * axios 투자하기 요청
+ * @param data
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const axiosPostFunding = async (data) => {
     try {
         const response = await instance.post("/fundings", data);
@@ -234,6 +272,33 @@ export const axiosDeleteMovie = async (movieId) => {
 export const axiosSearchMovie = async (keyword) => {
     try {
         const response = await instance.get("/movies/search?keyword=" + keyword);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosLikeMovie = async (movieId) => {
+    try {
+        const response = await instance.post("/likes/" + movieId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosUnLikeMovie = async (movieId) => {
+    try {
+        const response = await instance.delete("/likes/" + movieId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const axiosLikeStatus = async (movieId) => {
+    try {
+        const response = await instance.get("/likes/" + movieId);
         return response;
     } catch (error) {
         throw error;
