@@ -47,7 +47,7 @@ public class FundingController {
     /**
      * 해당 영화에 총 펀딩 수
      */
-    @GetMapping("/{movieId}/fundingcount")
+    @GetMapping("/{movieId}/count")
     public ResponseEntity<Object> getFundingCount(@PathVariable Integer movieId) {
         int count = fundingService.countFunding(movieId);
         return ResponseHandler.responseBuilder(

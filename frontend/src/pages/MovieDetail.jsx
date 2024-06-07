@@ -1,6 +1,12 @@
 import {useEffect, useRef, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {axiosDeleteMovie, axiosGetCommentByMovie, axiosGetOneMovie, axiosPostComment} from "../api/axios.js";
+import {
+    axiosDeleteMovie,
+    axiosGetCommentByMovie,
+    axiosGetOneMovie, axiosLikeMovie,
+    axiosLikeStatus,
+    axiosPostComment, axiosUnLikeMovie
+} from "../api/axios.js";
 import DOMPurify from 'dompurify';
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
@@ -11,6 +17,7 @@ const MovieDetail = () => {
     const movieId = params.id;
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
+    const [likeStatus, setLikeStatus] = useState(false);
     const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
@@ -36,9 +43,38 @@ const MovieDetail = () => {
         }
     }
 
+    const fetchLikeStatus = async (movieId) => {
+        try {
+            const response = await axiosLikeStatus(movieId);
+            if (response.status === 200 && response.data.data === true) {
+                setLikeStatus(true);
+            } else {
+                setLikeStatus(false);
+            }
+        } catch (e) {
+
+        }
+
+    }
+
+    const clickHeart = () => {
+        if (likeStatus) {
+            axiosUnLikeMovie(movieId);
+            movie.likeCount -= 1;
+        } else {
+            axiosLikeMovie(movieId);
+            movie.likeCount += 1;
+        }
+
+        setTimeout(() => {
+            fetchLikeStatus(movieId);
+        }, 300);
+    }
+
 
     useEffect(() => {
         fetchMovie(movieId);
+        fetchLikeStatus(movieId);
     }, []);
 
     const formattedDate = (dateStr) => {
@@ -118,12 +154,30 @@ const MovieDetail = () => {
                             <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                         </div>
                     }
-                    {movie.status === 1 ?
-                        <Link to={"/funding/prgrs/" + movie.id}>
-                            <button className="btn bg-fuchsia-300 mt-5 btn-md">투자하기</button>
-                        </Link> :
-                        <button className="btn bg-fuchsia-300 mt-5 btn-md" disabled>종료됨</button>
-                    }
+                    <div className="flex mt-5">
+                        {movie.status === 1 ?
+                            <Link to={"/funding/prgrs/" + movie.id}>
+                                <button className="btn bg-fuchsia-300 btn-md">투자하기</button>
+                            </Link> :
+                            <button className="btn bg-fuchsia-300  btn-md" disabled>종료됨</button>
+                        }
+
+                        <button className="btn btn-md ms-2" onClick={() => clickHeart()}>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill={likeStatus ? "currentColor" : "none"} viewBox="0 0 24 24"
+                                 strokeWidth={1.5}
+                                 stroke="currentColor" className={!likeStatus ? "size-6" : "size-6 text-red-600"}>
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+                            </svg>
+                            {movie.likeCount}
+
+
+                        </button>
+
+
+                    </div>
+
 
                 </div>
                 {/* 모집현황 */}
