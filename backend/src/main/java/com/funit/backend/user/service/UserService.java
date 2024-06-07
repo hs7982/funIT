@@ -26,7 +26,7 @@ public class UserService {
     private final CreditRepository creditRepository;
     private final ImageService imageService;
 
-    private static final int DEFAULT_CREDITS = 10000000; // 기본 크레딧 값 설정
+    private static final int DEFAULT_CREDITS = 5000000; // 기본 크레딧 값 설정
     private static final int TRANSACTION_TYPE_INITIAL = 1; // 초기 적립 타입 설정
     private final UserDetailService userDetailService;
 

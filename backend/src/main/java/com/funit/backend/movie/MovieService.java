@@ -2,6 +2,7 @@ package com.funit.backend.movie;
 
 import com.funit.backend.funding.FundingDTO;
 import com.funit.backend.funding.FundingService;
+import com.funit.backend.like.LikeService;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.movie.dto.AddMovieRequestDTO;
@@ -26,6 +27,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final ImageService imageService;
     private final FundingService fundingService;
+    private final LikeService likeService;
 
     public List<MovieListDTO> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
@@ -99,6 +101,7 @@ public class MovieService {
 
     public MovieDTO findOne(int movieId) {
         Movie movie = movieRepository.findById(movieId).orElse(null);
+        int likeCount = likeService.countLike(movieId);
         if (movie == null) {
             return null;
         }
@@ -117,6 +120,7 @@ public class MovieService {
                 .genres(movie.getGenres())
                 .productions(movie.getProductions())
                 .totalFunding(totalFunding.getFundingTotalAmount()) // 펀딩 금액 설정
+                .likeCount(likeCount)
                 .build();
     }
 
