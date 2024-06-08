@@ -94,4 +94,15 @@ public class LikeController {
         );
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<Object> getMyLike(@AuthUser User user) {
+        List<LikeDTO.MyLike> like = likeService.getMyLike(user);
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                like
+        );
+    }
+
 }

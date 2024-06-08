@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios"; // axios를 임포트합니다.
-import Error from "./Error";
-import {axiosMyPage} from "../api/axios";
-import {Modal} from "../components/Modal.jsx";
+import Error from "../pages/Error.jsx";
+import {axiosMyPage} from "../api/axios.js";
+import {Modal} from "./Modal.jsx";
 
 const ChangePassword = () => {
     const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ const ChangePassword = () => {
             } else if (error.response.status === 400) {
                 setModalMessage(JSON.stringify(error.response.data.data));
             } else {
-                setModalMessage("오류가 발생했습니다.")
+                setModalMessage("오류가 발생했습니다! : " + error.response.data.message)
             }
             setOpenModal(true);
         }
@@ -72,11 +72,11 @@ const ChangePassword = () => {
     }
 
     return (
-        <div className="w-full p-6 bg-gray-50 min-h-screen">
+        <div className="w-full p-6 bg-gray-50">
             <Modal title="비밀번호 변경" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal}/>
             <div className="max-w-[1440px] mx-auto">
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold my-8 text-gray-800">비밀번호 변경</h1>
+                    <p className="text-3xl font-medium my-12 text-center">비밀번호 변경</p>
                 </div>
                 {loading ? (
                     <div className="flex justify-center">

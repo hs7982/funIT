@@ -21,12 +21,17 @@ const MovieDetail = () => {
     const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
-        const response = await axiosGetOneMovie(movieId);
-        if (response.status === 200) {
-            setMovie(response.data.data);
-        } else if (response.status === 204) {
-            setNoContent(true);
+        try {
+            const response = await axiosGetOneMovie(movieId);
+            if (response.status === 200) {
+                setMovie(response.data.data);
+            } else if (response.status === 204) {
+                setNoContent(true);
+            }
+        } catch (e) {
+            alert(e.response.data.message);
         }
+
     };
 
     const deleteMovie = async () => {

@@ -5,10 +5,11 @@ import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
 import NewMovie from "../components/NewMovie.jsx";
 import UserData from "../components/UserData.jsx";
-import ChangePassword from "./ChangePassword.jsx";
+import ChangePassword from "../components/ChangePassword.jsx";
 import {axiosMyCreditList, axiosMyPage, axiosPostNewProfileImage} from "../api/axios.js";
 import Error from "./Error.jsx";
 import CreditUseList from "../components/CreditUseList.jsx";
+import MyLike from "../components/MyLike.jsx";
 
 const Mypage = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -87,6 +88,8 @@ const Mypage = () => {
                 return <UserData/>;
             case 'changePassword':
                 return <ChangePassword/>;
+            case 'like':
+                return <MyLike/>
             default:
                 return null;
         }
@@ -94,7 +97,7 @@ const Mypage = () => {
 
     if (!isError) {
         return (
-            <div className="w-full p-6 bg-gray-50 min-h-screen">
+            <div className="w-full p-6 bg-gray-50">
                 <div className="max-w-[1600px] mx-auto">
                     <div className="text-center mb-8">
                         <h1 className="text-4xl font-bold my-8 text-gray-800">마이페이지</h1>

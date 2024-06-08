@@ -12,5 +12,7 @@ public interface LikeRepository extends JpaRepository<MovieLike, Integer> {
 
     List<MovieLike> findByMovieId(Integer movieId);
 
+    List<MovieLike> findByUserId(Integer userId);
+
     MovieLike findByMovieIdAndUserId(Integer movieId, Integer userId);
 }

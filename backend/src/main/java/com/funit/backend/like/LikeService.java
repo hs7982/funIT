@@ -5,6 +5,7 @@ import com.funit.backend.like.domain.MovieLike;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.user.domain.User;
+import com.funit.backend.utils.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +51,11 @@ public class LikeService {
         MovieLike like = likeRepository.findByMovieIdAndUserId(movieId, user.getId());
         return like != null;
     }
+
+    public List<LikeDTO.MyLike> getMyLike(User user) {
+        List<MovieLike> likeEntity = likeRepository.findByUserId(user.getId());
+        return LikeMapper.INSTANCE.toLikeDTO(likeEntity);
+    }
+
+    ;
 }
