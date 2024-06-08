@@ -10,7 +10,7 @@ import MovieDetail from "./pages/MovieDetail.jsx";
 import Search from "./pages/Search.jsx";
 import {UpdateUserInfo} from "./api/auth.js";
 import Mypage from "./pages/Mypage.jsx";
-import ChangePassword from "./pages/ChangePassword.jsx";
+import ChangePassword from "./components/ChangePassword.jsx";
 import Funding from "./pages/Funding.jsx";
 import Footer from "./components/Footer.jsx";
 

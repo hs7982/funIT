@@ -47,7 +47,7 @@ const CreditUseList = () => {
             {loading && <div className="flex justify-center">
                 <span className="loading loading-spinner loading-md"></span>
             </div>}
-            {isError && <p>Error: {errorDetail?.message}</p>}
+            {isError && <p>{errorDetail?.message}: {errorDetail?.response?.data.message}</p>}
             <div className="overflow-x-auto">
                 <table className="table text-md text-center w-full mt-4">
                     <thead>

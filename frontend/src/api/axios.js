@@ -304,3 +304,12 @@ export const axiosLikeStatus = async (movieId) => {
         throw error;
     }
 }
+
+export const axiosMyLike = async () => {
+    try {
+        const response = await instance.get("/likes/my");
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

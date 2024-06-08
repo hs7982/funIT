@@ -29,7 +29,7 @@ const UserData = () => {
     return (
         <div className="container mx-auto p-6">
             <div className="user-data">
-                <p className="text-3xl font-medium my-12 text-center">개인 정보</p>
+                <p className="text-3xl font-medium my-12 text-center">개인정보 수정</p>
                 <div className="mx-auto max-w-6xl">
                     <label className="form-control w-full my-2">
                         <div className="label">
