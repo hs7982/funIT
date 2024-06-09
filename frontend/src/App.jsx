@@ -13,6 +13,7 @@ import Mypage from "./pages/Mypage.jsx";
 import ChangePassword from "./components/ChangePassword.jsx";
 import Funding from "./pages/Funding.jsx";
 import Footer from "./components/Footer.jsx";
+import {FundingRefund} from "./pages/FundingRefund.jsx";
 
 function App() {
     return (
@@ -24,8 +25,9 @@ function App() {
                 <Route path="/end" element={<MovieProject showType={2}/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/funding/new" element={<NewMovieProject/>}/>
-                <Route path="/funding/edit" element={<EditMovieProject/>}/>
+                <Route path="/funding/edit/:id" element={<EditMovieProject/>}/>
                 <Route path="/funding/detail/:id" element={<MovieDetail/>}/>
+                <Route path="/funding/refund/:id" element={<FundingRefund/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/search" element={<Search/>}/>
                 <Route path="/mypage" element={<Mypage/>}/>

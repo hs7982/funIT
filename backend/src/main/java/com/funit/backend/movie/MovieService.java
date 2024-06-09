@@ -2,6 +2,7 @@ package com.funit.backend.movie;
 
 import com.funit.backend.funding.FundingDTO;
 import com.funit.backend.funding.FundingService;
+import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.like.LikeService;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
@@ -85,6 +86,15 @@ public class MovieService {
         if (!user.getRole().equals("admin") && movie.getUser().getId() != user.getId()) {
             throw new AccessDeniedException("삭제할 권한이 없습니다!");
         }
+        if (movie.getStatus() == 3) {
+            throw new IllegalArgumentException("이미 삭제처리된 프로젝트입니다.");
+        }
+        List<Funding> fundingList = fundingService.getFundingByMovieId(movieId);
+        if (!fundingList.isEmpty()) {
+            fundingList.forEach(funding -> {
+                fundingService.refundFunding(funding, "프로젝트 삭제요청으로 자동환불처리");
+            });
+        }
 
         //연관 관계 정리
         movie.getGenres().clear();
@@ -92,7 +102,8 @@ public class MovieService {
         movieRepository.save(movie);
 
         //후 삭제
-        movieRepository.deleteById(movieId);
+//        movieRepository.deleteById(movieId);
+        movieRepository.disableByMovieId(movieId);
     }
 
     public Integer countMovie() {

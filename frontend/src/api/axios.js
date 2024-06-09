@@ -313,3 +313,12 @@ export const axiosMyLike = async () => {
         throw error;
     }
 }
+
+export const axiosFundingDetail = async (fundingId) => {
+    try {
+        const response = await instance.get("/fundings/" + fundingId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

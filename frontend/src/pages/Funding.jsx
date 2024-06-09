@@ -89,7 +89,7 @@ const Funding = () => {
             }
         } catch (error) {
             if (error.response.status === 400) {
-                alert(error.response.data.data);
+                alert("투자에 실패하였습니다!\n" + error.response.data.data);
             }
         }
     };

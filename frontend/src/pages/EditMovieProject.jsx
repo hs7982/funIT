@@ -3,15 +3,18 @@ import axios from "axios";
 import Editor from "../components/Editor.jsx";
 import {useEffect, useState} from "react";
 import GenreSelect from "../components/GenreSelect.jsx";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 const EditMovieProject = () => {
-    const { movieId } = useParams();
+    const params = useParams();
+    const movieId = params.id;
     const [title, setTitle] = useState("");
     const [targetCredit, setTargetCredit] = useState(0);
     const [endDate, setEndDate] = useState("");
     const [genres, setGenres] = useState([]);
+    const [oriGenres, setOriGenres] = useState([]);
     const [detail, setDetail] = useState("");
+    const [oriDetail, setOriDetail] = useState("");
     const [thumbnailImage, setThumbnailImage] = useState("");
     const [posting, setPosting] = useState(false);
 
@@ -19,12 +22,14 @@ const EditMovieProject = () => {
         const fetchMovieData = async () => {
             try {
                 const response = await axios.get(`/api/movies/${movieId}`);
-                const movieData = response.data;
+                const movieData = response.data.data;
+                console.log(movieData)
                 setTitle(movieData.title);
                 setTargetCredit(movieData.targetCredit);
                 setEndDate(movieData.endDate.split(".")[0]); // datetime-local 형식에 맞게 수정
-                setGenres(movieData.genres);
-                setDetail(movieData.detail);
+                const genreIds = movieData.genres.map((genre) => genre.id);
+                setOriGenres(genreIds);
+                setOriDetail(movieData.detail);
                 setThumbnailImage(movieData.thumbnailImage);
             } catch (error) {
                 console.error("Failed to fetch movie data", error);
@@ -98,7 +103,7 @@ const EditMovieProject = () => {
                     <div className="label">
                         <span className="text-lg">장르를 선택해주세요.</span>
                     </div>
-                    <GenreSelect updateGenre={setGenres} selectedGenres={genres}/>
+                    <GenreSelect updateGenre={setGenres} selectedGenres={genres} oriSelect={oriGenres}/>
                 </label>
                 <label className="form-control w-full my-2">
                     <div className="label">
@@ -142,6 +147,7 @@ const EditMovieProject = () => {
                     onContentChange={(e) => {
                         setDetail(e)
                     }}
+                    oriContent={oriDetail}
                 />
 
                 <div className="mt-12">

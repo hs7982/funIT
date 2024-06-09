@@ -11,6 +11,7 @@ import DOMPurify from 'dompurify';
 import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
 import MovieComment from "../components/MovieComment.jsx";
+import {formattedDate} from "../components/formattedData.js";
 
 const MovieDetail = () => {
     const params = useParams();
@@ -36,7 +37,7 @@ const MovieDetail = () => {
 
     const deleteMovie = async () => {
         const movieId = params.id;
-        if (!confirm("삭제하시겠습니까?")) return
+        if (!confirm("정말 해당 프로젝트를 삭제하시겠습니까?\n진행된 투자가 존재한다면 해당 투자건은 사용자에게 금액이 자동으로 환불처리되며, 복구가 불가능합니다.")) return
         try {
             const response = await axiosDeleteMovie(movieId);
             if (response.status === 200) {
@@ -81,17 +82,6 @@ const MovieDetail = () => {
         fetchMovie(movieId);
         fetchLikeStatus(movieId);
     }, []);
-
-    const formattedDate = (dateStr) => {
-        const date = new Date(dateStr);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-
-        return `${year}년 ${month}월 ${day}일 ${hour}시${minute}분`;
-    }
 
     const calcPer = (target, total) => {
         return (total / target * 100).toFixed(1);
@@ -155,7 +145,9 @@ const MovieDetail = () => {
                     <p className="movie-description text-gray-600">{movie.description}</p>
                     {isLogin &&
                         <div className="mt-3">
-                            <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
+                            <Link to={"/funding/edit/" + movie.id}>
+                                <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
+                            </Link>
                             <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
                         </div>
                     }
@@ -210,11 +202,27 @@ const MovieDetail = () => {
                 <div id="htmlViewer" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
                 <small>작성자:{movie.user.name}</small>
             </div>
+            {/* 유의사항 */}
+            <div className="details mt-4 p-4 bg-gray-100 rounded-lg" ref={tab1Ref}>
+                <h2 className="text-lg font-bold mb-4">안내사항</h2>
+                <p className="font-medium text-lg">✨ 크라우드 펀딩에 대한 안내</p>
+                <div className="my-2">
+                    <p className="font-medium text-lg">🤝 후원은 구매가 아닌 창의적인 계획에 자금을 지원하는 일입니다.</p>
+                    <p className="ms-8">전자상거래법상 통신판매는 소비자의 청약 전 규격, 제조연월일 등 구체적인 상품정보가 제공 가능한 것을 대상으로 합니다. <br/>따라서 후원은
+                        통신판매에 해당하지 않고,
+                        전자상거래법 및 소비자보호규정(수령 후 7일 내 청약철회 등)이 적용되지 않습니다.</p>
+                </div>
+                <div className="my-2">
+                    <p className="font-medium text-lg">✏️ 프로젝트는 계획과 달리 진행될 수 있습니다.</p>
+                    <p className="ms-8">예상을 뛰어넘는 멋진 결과가 나올 수 있지만 진행 과정에서 계획이 지연, 변경되거나 무산될 수도 있습니다. 본 프로젝트를 완수할 책임과 권리는
+                        창작자에게 있습니다.</p>
+                </div>
+            </div>
             {/* 일정 */}
             <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab2Ref}>
                 <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
-                    <p className="font-semibold text-2xl mb-2">{movie.status === 2 ? "모집종료" : `D-${calcDay(movie.endDate)}일 남음`}</p>
+                    <p className="font-semibold text-2xl mb-2">{movie.status === 1 ? `D-${calcDay(movie.endDate)}일 남음` : "모집종료"}</p>
                     <p className="font-semibold text-lg">등록일</p>
                     <p> {formattedDate(movie.createDate)}</p>
                 </div>

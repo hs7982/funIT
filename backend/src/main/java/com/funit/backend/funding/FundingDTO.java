@@ -1,10 +1,15 @@
 package com.funit.backend.funding;
 
+import com.funit.backend.credit.CreditDTO;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.movie.domain.Movie;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -24,12 +29,30 @@ public class FundingDTO {
         private Movie movie;
 
         public Funding toEntity() {
-            return com.funit.backend.funding.domain.Funding.builder()
+            return Funding.builder()
                     .movie(movie)
-                    .fundingCmount(fundingMoney)
+                    .fundingAmount(fundingMoney)
 
                     .build();
         }
 
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class FundingDetail {
+        private int id;
+        private int fundingAmount;
+        private int MovieId;
+        private String MovieTitle;
+        private int refundOrno;
+        private String refundReason;
+    }
+
+    @Data
+    public static class FundingDetailWithCreditsDTO {
+        private FundingDTO.FundingDetail fundingDetail;
+        private List<CreditDTO> credits;
     }
 }
