@@ -36,7 +36,7 @@ public class FundingController {
      */
     @PostMapping()
     public ResponseEntity<Object> newFunding(@AuthUser User user, @Valid @RequestBody FundingDTO.FundingMoney dto) {
-        Funding funding = fundingService.getAddFundingCredit(user, dto);
+        Funding funding = fundingService.fundingCredit(user, dto);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 "펀딩이 완료되었습니다.",
@@ -54,6 +54,15 @@ public class FundingController {
                 HttpStatus.OK,
                 null,
                 count
+        );
+    }
+
+    @GetMapping("/{fundingId}")
+    public ResponseEntity<Object> getFunding(@PathVariable Integer fundingId) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                fundingService.getFundingDetail(fundingId)
         );
     }
 }

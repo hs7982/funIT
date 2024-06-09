@@ -42,6 +42,11 @@ const GenreSelect = (props) => {
         props.updateGenre(selectedIds);
     }, [selected]);
 
+    useEffect(() => {
+        const selectedGenres = genres.filter(genre => props.oriSelect.includes(genre.id));
+        setSelected(selectedGenres);
+    }, [props.oriSelect]);
+
     return (
         <div>
             <div className="relative mt-1">

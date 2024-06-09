@@ -1,6 +1,6 @@
 import ReactQuill, {Quill} from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import {useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import axios from "axios";
 import ImageResize from "quill-image-resize";
 import {axiosPostNewImage} from "../api/axios.js";
@@ -71,6 +71,10 @@ function Editor(props) {
         'link', 'image',
         'clean'
     ];
+
+    useEffect(() => {
+        setValue(props.oriContent)
+    }, [props.oriContent]);
     return (
         <>
             <ReactQuill

@@ -40,7 +40,7 @@ public class GlobalExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleBadRequest(IllegalArgumentException exception) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.BAD_REQUEST,
-                null,
+                exception.getMessage(),
                 exception.getMessage());
     }
 
