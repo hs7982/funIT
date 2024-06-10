@@ -38,6 +38,18 @@ public class UserRequestDTO {
         @NotNull(message = "새로운 비밀번호는 필수값입니다.")
         private String newPassword;
     }
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UpdateUser{
+        @NotNull(message = "이메일은 필수값입니다.")
+        @Email(message = "이메일 형식이 올바르지 않습니다.")
+        private String email;
+        @NotBlank(message = "이름은 필수값입니다.")
+        private String name;
+        @NotBlank(message = "전화번호는 필수값입니다.")
+        private String tel;
+    }
 
     @Data
     @AllArgsConstructor
