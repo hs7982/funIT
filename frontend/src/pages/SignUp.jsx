@@ -110,7 +110,7 @@ const SignUp = () => {
                         </div>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary" onClick={(e) => signup(e)}>회원가입</button>
+                        <button className="btn text-lg btn-primary focus:outline-none" onClick={(e) => signup(e)}>회원가입</button>
                     </div>
                 </form>
             </div>
