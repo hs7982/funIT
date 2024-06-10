@@ -55,12 +55,14 @@ public class Movie {
     private LocalDateTime endDate;
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres = new ArrayList<>();
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(name = "movie_production",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "production_id"))
