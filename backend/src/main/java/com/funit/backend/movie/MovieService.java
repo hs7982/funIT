@@ -9,6 +9,7 @@ import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.movie.dto.AddMovieRequestDTO;
 import com.funit.backend.movie.dto.MovieDTO;
 import com.funit.backend.movie.dto.MovieListDTO;
+import com.funit.backend.movie.dto.UpdateMovieRequestDTO;
 import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -140,4 +141,35 @@ public class MovieService {
     }
 
 
+    /**
+     * 영화 수정
+     */
+    public Movie updateMovieDetails(User user, int movieId, UpdateMovieRequestDTO request, MultipartFile imageFile) {
+        // 영화 ID로 기존의 영화 정보를 가져옵니다.
+        Movie existingMovie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new IllegalArgumentException("영화 ID찾을수없음 " + movieId));
+
+        // 사용자가 영화를 수정할 권한을 가지고 있는지 확인할 수 있는 코드를 여기에 추가할 수 있습니다.
+        if (!user.getRole().equals("admin") && existingMovie.getUser().getId() != user.getId()) {
+            throw new AccessDeniedException("삭제할 권한이 없습니다!");
+        }
+
+        // 새로운 이미지를 저장하고 이미지 URL을 업데이트합니다.
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String imageUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
+            request.setImageURL(imageUrl);
+        }
+
+        // 요청에 포함된 정보로 기존의 영화 정보를 업데이트합니다.
+        existingMovie.setTitle(request.getTitle());
+        existingMovie.setDetail(request.getDetail());
+        existingMovie.setTargetCredit(request.getTargetCredit());
+        existingMovie.setEndDate(request.getEndDate());
+        existingMovie.setGenres(request.getGenres());
+        existingMovie.setThumbnailImage(request.getImageURL());
+        existingMovie.setUser(request.getUser());
+
+        // 업데이트된 영화 정보를 저장하고 반환합니다.
+        return movieRepository.save(existingMovie);
+    }
 }

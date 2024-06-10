@@ -5,6 +5,7 @@ import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.dto.AddMovieRequestDTO;
 import com.funit.backend.movie.dto.MovieDTO;
 import com.funit.backend.movie.dto.MovieListDTO;
+import com.funit.backend.movie.dto.UpdateMovieRequestDTO;
 import com.funit.backend.user.domain.AuthUser;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
@@ -116,6 +117,21 @@ public class MovieController {
                 null,
                 moviesearchList
         );
+    }
+
+    /**
+     * 영화 수정
+     */
+    @PutMapping("/update/{movieId}")
+    public ResponseEntity<Object> updateMovie(@AuthUser User user, @Valid @ModelAttribute UpdateMovieRequestDTO request, @PathVariable int movieId) {
+        request.setUser(user);
+        MultipartFile imageFile = request.getImageFile();
+        Movie savedMovie = movieService.updateMovieDetails(user, movieId ,request, imageFile);
+
+        return ResponseHandler.responseBuilder(
+                HttpStatus.CREATED,
+                "영화 프로젝트가 수정되었습니다.",
+                savedMovie);
     }
 
 }
