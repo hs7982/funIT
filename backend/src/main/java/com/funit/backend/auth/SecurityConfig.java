@@ -1,7 +1,5 @@
 package com.funit.backend.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.funit.backend.user.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final UserDetailService userService;
-    private final ObjectMapper objectMapper;
     private final AuthenticationSuccessHandler successHandler;
     private final AuthenticationFailureHandler failureHandler;
 
