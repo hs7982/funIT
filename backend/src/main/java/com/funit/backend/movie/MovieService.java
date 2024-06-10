@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @EnableScheduling
@@ -113,6 +114,9 @@ public class MovieService {
 
     public MovieDTO findOne(int movieId) {
         Movie movie = movieRepository.findById(movieId).orElse(null);
+        if (Objects.requireNonNull(movie).getStatus() == 3) {
+            movie = null;
+        }
         int likeCount = likeService.countLike(movieId);
         if (movie == null) {
             return null;
