@@ -139,6 +139,15 @@ public class UserController {
         );
     }
 
+    @PostMapping("/change-user")
+    public ResponseEntity<Object> changeUser(@AuthUser User user, @Valid @RequestBody UserRequestDTO.UpdateUser updateUser){
+        userService.changeUser(user, updateUser);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                "개인정보 수정 성공",
+                null
+        );
+    }
     /**
      * 로그인한 사용자 자신의 이름 변경
      */

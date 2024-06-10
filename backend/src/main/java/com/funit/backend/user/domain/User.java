@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Getter
+@Data
 @DynamicInsert
 public class User implements UserDetails {
     @Id

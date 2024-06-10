@@ -96,6 +96,15 @@ public class UserService {
     }
 
     @Transactional
+    public void changeUser(User user, UserRequestDTO.UpdateUser updateUser){
+        user.setEmail(updateUser.getEmail());
+        user.setName(updateUser.getName());
+        user.setTel(updateUser.getTel());
+
+        userRepository.save(user);
+    }
+
+    @Transactional
     public void changeName(User user, String newName) {
         userRepository.updateName(newName, user.getId());
         updatePrincipal();
