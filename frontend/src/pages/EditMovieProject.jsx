@@ -53,7 +53,7 @@ const EditMovieProject = () => {
             formData.append("title", title);
             formData.append("targetCredit", targetCredit);
             formData.append("endDate", endDate);
-            formData.append("genres", JSON.stringify(genres)); // 배열을 문자열로 변환
+            formData.append("genres", genres); // 배열을 문자열로 변환
             formData.append("detail", detail);
             formData.append("imageFile", thumbnailImage);
 
