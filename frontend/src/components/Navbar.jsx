@@ -60,7 +60,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="flex-none">
-                    <button className="btn btn-ghost btn-circle" onClick={() => setShowInput(!showInput)}>
+                    <button className="btn btn-ghost btn-circle no-outline focus:outline-none" onClick={() => setShowInput(!showInput)}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"

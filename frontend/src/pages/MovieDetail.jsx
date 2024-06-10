@@ -146,9 +146,9 @@ const MovieDetail = () => {
                     {isLogin &&
                         <div className="mt-3">
                             <Link to={"/funding/edit/" + movie.id}>
-                                <button className="btn btn-outline btn-primary me-3 btn-sm">수정</button>
+                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정</button>
                             </Link>
-                            <button className="btn btn-outline btn-error btn-sm" onClick={deleteMovie}>삭제</button>
+                            <button className="btn btn-outline btn-error btn-sm focus:outline-none" onClick={deleteMovie}>삭제</button>
                         </div>
                     }
                     <div className="flex mt-5">
@@ -159,7 +159,7 @@ const MovieDetail = () => {
                             <button className="btn bg-fuchsia-300  btn-md" disabled>종료됨</button>
                         }
 
-                        <button className="btn btn-md ms-2" onClick={() => clickHeart()}>
+                        <button className="btn btn-md ms-2 focus:outline-none" onClick={() => clickHeart()}>
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  fill={likeStatus ? "currentColor" : "none"} viewBox="0 0 24 24"
                                  strokeWidth={1.5}
@@ -203,7 +203,7 @@ const MovieDetail = () => {
                 <small>작성자:{movie.user.name}</small>
             </div>
             {/* 유의사항 */}
-            <div className="details mt-4 p-4 bg-gray-100 rounded-lg" ref={tab1Ref}>
+            <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
                 <h2 className="text-lg font-bold mb-4">안내사항</h2>
                 <p className="font-medium text-lg">✨ 크라우드 펀딩에 대한 안내</p>
                 <div className="my-2">

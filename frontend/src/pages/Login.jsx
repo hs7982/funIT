@@ -94,13 +94,6 @@ const Login = () => {
                             <a href="/signup" className="label-text-alt link link-hover">회원가입</a>
                         </label>
                     </div>
-                    <div className="flex justify-between">
-                        <div/>
-                        <button className=" btn btn-sm">구</button>
-                        <button className="btn btn-sm">카</button>
-                        <button className="btn btn-sm">네</button>
-                        <div/>
-                    </div>
                     <div className="form-control mt-3">
                         <button className="btn text-lg btn-primary"
                                 onClick={(e) =>
