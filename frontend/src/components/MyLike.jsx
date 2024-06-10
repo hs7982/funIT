@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {axiosMyCreditList, axiosMyLike} from "../api/axios.js";
-import {Button} from "@headlessui/react";
 
 const MyLike = () => {
     const [like, setLike] = useState([]);
@@ -52,7 +51,7 @@ const MyLike = () => {
                             <th>{index + 1}</th>
                             <td className="truncate ...">{likeItem.movieTitle}</td>
                             <td><Link
-                                to={"/funding/detail/" + likeItem.movieId}><Button>보기</Button></Link></td>
+                                to={"/funding/detail/" + likeItem.movieId}><button>보기</button></Link></td>
                         </tr>
                     ))}
                     </tbody>
