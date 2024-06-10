@@ -57,7 +57,7 @@ const EditMovieProject = () => {
             formData.append("detail", detail);
             formData.append("imageFile", thumbnailImage);
 
-            await axios.put(`/api/movies/${movieId}/edit`, formData, {
+            await axios.put(`/api/movies/update/${movieId}`, formData, {
                 withCredentials: true,
                 timeout: 30000,
                 headers: {
