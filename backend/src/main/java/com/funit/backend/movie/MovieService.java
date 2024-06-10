@@ -160,9 +160,9 @@ public class MovieService {
             request.setImageURL(imageUrl);
         }
 
+        existingMovie.setDetail(request.getDetail());
         // 요청에 포함된 정보로 기존의 영화 정보를 업데이트합니다.
         existingMovie.setTitle(request.getTitle());
-        existingMovie.setDetail(request.getDetail());
         existingMovie.setTargetCredit(request.getTargetCredit());
         existingMovie.setEndDate(request.getEndDate());
         existingMovie.setGenres(request.getGenres());
