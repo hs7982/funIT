@@ -111,7 +111,7 @@ public class MovieController {
      */
     @GetMapping("/search")
     public ResponseEntity<Object> search(@RequestParam String keyword) {
-        List<Movie> moviesearchList = movieService.search(keyword);
+        List<MovieListDTO> moviesearchList = movieService.search(keyword);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -126,7 +126,7 @@ public class MovieController {
     public ResponseEntity<Object> updateMovie(@AuthUser User user, @Valid @ModelAttribute UpdateMovieRequestDTO request, @PathVariable int movieId) {
         request.setUser(user);
         MultipartFile imageFile = request.getImageFile();
-        Movie savedMovie = movieService.updateMovieDetails(user, movieId ,request, imageFile);
+        Movie savedMovie = movieService.updateMovieDetails(user, movieId, request, imageFile);
 
         return ResponseHandler.responseBuilder(
                 HttpStatus.CREATED,

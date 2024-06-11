@@ -12,6 +12,7 @@ import com.funit.backend.movie.dto.MovieListDTO;
 import com.funit.backend.movie.dto.UpdateMovieRequestDTO;
 import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
+import com.funit.backend.utils.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,18 +38,8 @@ public class MovieService {
         return movies.stream()
                 .filter(movie -> movie.getStatus() == 1) // 상태가 1인 경우만 필터링
                 .map(movie -> {
-                    FundingDTO fundingDTO = fundingService.getTotalFundingByMoiveId(movie.getId());
-                    return MovieListDTO.builder()
-                            .id(movie.getId())
-                            .title(movie.getTitle())
-                            .targetCredit(movie.getTargetCredit())
-                            .status(movie.getStatus())
-                            .thumbnailImage(movie.getThumbnailImage())
-                            .createDate(movie.getCreateDate())
-                            .endDate(movie.getEndDate())
-                            .genres(movie.getGenres())
-                            .totalFunding(fundingDTO.getFundingTotalAmount()) // 펀딩 금액 설정
-                            .build();
+                    int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
+                    return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
                 })
                 .collect(Collectors.toList());
     }
@@ -61,18 +52,8 @@ public class MovieService {
         return movies.stream()
                 .filter(movie -> movie.getStatus() == 2) // 상태가 2인 경우만 필터링
                 .map(movie -> {
-                    FundingDTO fundingDTO = fundingService.getTotalFundingByMoiveId(movie.getId());
-                    return MovieListDTO.builder()
-                            .id(movie.getId())
-                            .title(movie.getTitle())
-                            .targetCredit(movie.getTargetCredit())
-                            .status(movie.getStatus())
-                            .thumbnailImage(movie.getThumbnailImage())
-                            .createDate(movie.getCreateDate())
-                            .endDate(movie.getEndDate())
-                            .genres(movie.getGenres())
-                            .totalFunding(fundingDTO.getFundingTotalAmount()) // 펀딩 금액 설정
-                            .build();
+                    int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
+                    return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
                 })
                 .collect(Collectors.toList());
     }
@@ -140,8 +121,12 @@ public class MovieService {
                 .build();
     }
 
-    public List<Movie> search(String keyword) {
-        return movieRepository.findByTitleContaining(keyword);
+    public List<MovieListDTO> search(String keyword) {
+        List<Movie> movies = movieRepository.findByTitleContaining(keyword);
+        return movies.stream().filter(movie -> movie.getStatus() != 3).map(movie -> {
+            int amount = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
+            return MovieMapper.INSTANCE.toMovieListDTO(movie, amount); // Movie와 펀딩 금액을 사용해 MovieListDTO 객체 생성
+        }).collect(Collectors.toList());
     }
 
 
