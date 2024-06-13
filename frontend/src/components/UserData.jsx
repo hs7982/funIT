@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Error from "../pages/Error.jsx";
-import { axiosMyPage } from "../api/axios.js";
-import { Modal } from "./Modal.jsx";
+import {axiosMyPage} from "../api/axios.js";
+import {Modal} from "./Modal.jsx";
 
 const UserData = () => {
     const [userData, setUserData] = useState({
@@ -36,7 +36,7 @@ const UserData = () => {
     }, []);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setUserData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -74,21 +74,22 @@ const UserData = () => {
     }
 
     if (isError && !isOpenModal) {
-        return <Error error={errorDetail} />;
+        return <Error error={errorDetail}/>;
     }
 
     return (
-        <div className="w-full p-6 bg-gray-50">
-            <Modal title="개인정보 수정" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal} />
+        <div className="w-full p-6">
+            <Modal title="개인정보 수정" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal}/>
             <div className="max-w-[1440px] mx-auto">
                 <div className="text-center mb-8">
                     <p className="text-3xl font-medium my-12 text-center">개인정보 수정</p>
                 </div>
-                <div className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
-                    <div className="w-full mx-auto bg-white p-8 rounded-xl shadow-lg">
+                <div
+                    className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
+                    <div className="w-full mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                                <label className="block text-sm font-bold mb-2" htmlFor="name">
                                     이름
                                 </label>
                                 <input
@@ -97,10 +98,10 @@ const UserData = () => {
                                     name="name"
                                     className="input input-bordered w-full" placeholder={userData.name}
                                     onChange={handleChange}
-                                    />
+                                />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                                <label className="block text-sm font-bold mb-2" htmlFor="email">
                                     이메일
                                 </label>
                                 <input
@@ -112,7 +113,7 @@ const UserData = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tel">
+                                <label className="block text-sm font-bold mb-2" htmlFor="tel">
                                     전화번호
                                 </label>
                                 <input

@@ -34,11 +34,12 @@ const Navbar = () => {
     return (
         <div className="p-2 w-full">
             <div className="navbar bg-base-100 flex-col md:flex-row">
-                <div className="flex">
-                    <Link className="flex-1 btn btn-ghost text-3xl mx-4" to={"/"}>
+                <div className="flex w-full md:w-fit">
+                    <Link className="md:flex-1 btn btn-ghost text-3xl mx-4" to={"/"}>
                         <span className="text-rose-300">Fun</span>
                         <span className="text-sky-300">IT</span>
                     </Link>
+                    <div className="md:hidden flex-1"></div>
                     <button className="md:hidden btn btn-outline" onClick={() => setMenuOpen(!menuOpen)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                              stroke="currentColor" className="size-6">
@@ -74,7 +75,7 @@ const Navbar = () => {
                         </Link>
                     </div>
                 </div>
-                <div className={`md:flex ${menuOpen ? 'block' : 'hidden'}  items-center `}>
+                <div className={`flex md:flex ${menuOpen ? 'block' : 'hidden'}  items-center `}>
                     <button className="btn btn-ghost btn-circle no-outline focus:outline-none"
                             onClick={() => setShowInput(!showInput)}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -88,7 +89,7 @@ const Navbar = () => {
                             <input type="text" placeholder="검색"
                                    onChange={(e) => setSearchKeyword(e.target.value)}
                                    onKeyDown={e => enter(e)}
-                                   className="input input-bordered w-24 md:w-auto"/>
+                                   className="input input-bordered w-auto"/>
                         </div>
                     )}
                     <div className="dropdown dropdown-end">

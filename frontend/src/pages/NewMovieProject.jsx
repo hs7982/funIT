@@ -4,6 +4,8 @@ import Editor from "../components/Editor.jsx";
 import {useEffect, useState} from "react";
 import GenreSelect from "../components/GenreSelect.jsx";
 import {axiosPostNewMovie} from "../api/axios.js";
+import {useRecoilValue} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
 
 const NewMovieProject = () => {
     const [title, setTitle] = useState("");
@@ -13,6 +15,7 @@ const NewMovieProject = () => {
     const [detail, setDetail] = useState("");
     const [thumbnailImage, setThumbnailImage] = useState("");
 
+    const isLogin = useRecoilValue(IsLoginState);
 
     const [posting, setPosting] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -61,6 +64,9 @@ const NewMovieProject = () => {
     var dt = new Date();
     var today = dt.getFullYear() + '-' + ("0" + (1 + dt.getMonth())).slice(-2) + '-' + ("0" + dt.getDate()).slice(-2);
 
+    if (!isLogin) {
+        return <>로그인이 필요합니다!</>
+    }
     return (
         <div className="container max-w-[1440px] mx-auto p-6">
             <p className="text-3xl font-medium my-12 text-center">새로운 펀딩 등록</p>

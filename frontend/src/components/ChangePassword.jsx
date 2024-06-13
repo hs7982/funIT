@@ -72,7 +72,7 @@ const ChangePassword = () => {
     }
 
     return (
-        <div className="w-full p-6 bg-gray-50">
+        <div className="w-full p-6">
             <Modal title="비밀번호 변경" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal}/>
             <div className="max-w-[1440px] mx-auto">
                 <div className="text-center mb-8">
@@ -85,10 +85,10 @@ const ChangePassword = () => {
                 ) : (
                     <div
                         className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
-                        <div className="w-full mx-auto bg-white p-8 rounded-xl shadow-lg">
+                        <div className="w-full mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2"
+                                    <label className="block text-sm font-bold mb-2"
                                            htmlFor="currentPassword">
                                         현재 비밀번호
                                     </label>
@@ -102,7 +102,7 @@ const ChangePassword = () => {
                                     />
                                 </div>
                                 <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="newPassword">
+                                    <label className="block text-sm font-bold mb-2" htmlFor="newPassword">
                                         새 비밀번호
                                     </label>
                                     <input
@@ -115,7 +115,7 @@ const ChangePassword = () => {
                                     />
                                 </div>
                                 <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2"
+                                    <label className="block text-sm font-bold mb-2"
                                            htmlFor="confirmPassword">
                                         새 비밀번호 확인
                                     </label>
