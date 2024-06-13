@@ -12,6 +12,7 @@ import {useRecoilValue} from "recoil";
 import {IsLoginState} from "../recoil/RecoilState.js";
 import MovieComment from "../components/MovieComment.jsx";
 import {formattedDate} from "../components/formattedData.js";
+import Funding from "./Funding.jsx";
 
 const MovieDetail = () => {
     const params = useParams();
@@ -19,7 +20,7 @@ const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const [likeStatus, setLikeStatus] = useState(false);
-    const [per, setPer] = useState(0);
+    const [isFundingModalOpen, setIsFundingModalOpen] = useState(false);
     const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
@@ -38,7 +39,7 @@ const MovieDetail = () => {
 
     const deleteMovie = async () => {
         const movieId = params.id;
-        if (!confirm("정말 해당 프로젝트를 삭제하시겠습니까?\n진행된 투자가 존재한다면 해당 투자건은 사용자에게 금액이 자동으로 환불처리되며, 복구가 불가능합니다.")) return
+        if (!confirm("정말 해당 프로젝트를 삭제하시겠습니까?\n진행된 펀딩이 존재한다면 해당 펀딩건은 사용자에게 금액이 자동으로 환불처리되며, 복구가 불가능합니다.")) return
         try {
             const response = await axiosDeleteMovie(movieId);
             if (response.status === 200) {
@@ -147,21 +148,18 @@ const MovieDetail = () => {
                     {isLogin &&
                         <div className="mt-3">
                             <Link to={"/funding/edit/" + movie.id}>
-                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정
-                                </button>
+                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정</button>
                             </Link>
-                            <button className="btn btn-outline btn-error btn-sm focus:outline-none"
-                                    onClick={deleteMovie}>삭제
-                            </button>
+                            <button className="btn btn-outline btn-error btn-sm focus:outline-none" onClick={deleteMovie}>삭제</button>
                         </div>
                     }
                     <div className="flex mt-5">
                         {movie.status === 1 ?
-                            <Link to={"/funding/prgrs/" + movie.id}>
-                                <button className="btn bg-fuchsia-300 btn-md">투자하기</button>
-                            </Link> :
+                            <Funding isOpen={isFundingModalOpen} onClose={() => setIsFundingModalOpen(false)} />
+                            :
                             <button className="btn bg-fuchsia-300  btn-md" disabled>종료됨</button>
                         }
+
 
                         <button className="btn btn-md ms-2 focus:outline-none" onClick={() => clickHeart()}>
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -172,8 +170,14 @@ const MovieDetail = () => {
                                       d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
                             </svg>
                             {movie.likeCount}
+
+
                         </button>
+
+
                     </div>
+
+
                 </div>
                 {/* 모집현황 */}
                 <div
@@ -185,8 +189,7 @@ const MovieDetail = () => {
                     <p>목표 금액</p>
                     <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                     <p>현재 모인 금액</p>
-                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 <small>({movie.fundingCount}건)</small>
-                    </p>
+                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                 </div>
             </div>
             {/*바로가기 탭*/}
