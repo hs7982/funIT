@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {axiosGetOneMovie, axiosPostFunding} from "../api/axios.js";
 import axios from "axios";
@@ -87,16 +87,14 @@ const Funding = () => {
         }
     };
 
-    const openModal = () => {
-        if (isLogin !== true) {
-            alert("로그인 후 이용 가능한 서비스입니다.");
-            navigate("/login");
-        } else {
-            setIsOpen(true);
-        }
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
 
-    }  // Modal 열기 함수 추가
-    const closeModal = () => setIsOpen(false); // Modal 닫기 함수 추가
+    const closeModalAndLogin = () => {
+        setIsOpen(false);
+        navigate("/login")
+    }
+
 
     if (noContent) {
         return (
@@ -124,6 +122,14 @@ const Funding = () => {
 
     if (!movie) {
         return <span className="loading loading-spinner loading-md"></span>;
+    } else if (!isLogin) {
+        return (<>
+                <button onClick={openModal} className="btn bg-blue-500 text-white">
+                    펀딩하기
+                </button>
+                <Modal title="안내" message={"로그인이 필요한 서비스입니다.로그인해주세요."} isOpenModal={isOpen}
+                       closeModal={closeModalAndLogin}/></>
+        )
     }
 
     return (
@@ -160,13 +166,13 @@ const Funding = () => {
                         </div>
                         <p className="mb-2">보유 크레딧 : {hasCredit && hasCredit.toLocaleString()} 원</p>
                         <div className="flex justify-between items-center">
-                            <button className="btn bg-sky-300" onClick={invest}>
-                                펀딩하기
-                            </button>
                             <div className="text-xs text-gray-500">
                                 최소금액: {MIN_AMOUNT.toLocaleString()}원<br/>
                                 최대금액: {MAX_AMOUNT.toLocaleString()}원
                             </div>
+                            <button className="btn bg-sky-300" onClick={invest}>
+                                펀딩하기
+                            </button>
                         </div>
                     </div>
                 }

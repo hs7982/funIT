@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {
     axiosDeleteMovie,
     axiosGetCommentByMovie,
@@ -9,19 +9,22 @@ import {
 } from "../api/axios.js";
 import DOMPurify from 'dompurify';
 import {useRecoilValue} from "recoil";
-import {IsLoginState} from "../recoil/RecoilState.js";
+import {IsLoginState, UserState} from "../recoil/RecoilState.js";
 import MovieComment from "../components/MovieComment.jsx";
 import {formattedDate} from "../components/formattedData.js";
 import Funding from "./Funding.jsx";
+import {Modal} from "../components/Modal.jsx";
 
 const MovieDetail = () => {
     const params = useParams();
     const movieId = params.id;
+    const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const [likeStatus, setLikeStatus] = useState(false);
     const [isFundingModalOpen, setIsFundingModalOpen] = useState(false);
     const isLogin = useRecoilValue(IsLoginState);
+    const user = useRecoilValue(UserState);
 
     const fetchMovie = async (movieId) => {
         try {
@@ -66,6 +69,10 @@ const MovieDetail = () => {
     }
 
     const clickHeart = () => {
+        if (!isLogin) {
+            openModal()
+            return
+        }
         if (likeStatus) {
             axiosUnLikeMovie(movieId);
             movie.likeCount -= 1;
@@ -111,6 +118,19 @@ const MovieDetail = () => {
         tab3Ref.current?.scrollIntoView({behavior: "smooth"});
     }
 
+    const [isOpenModal, setOpenModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+
+    const openModal = () => {
+        setModalMessage("로그인이 필요한 서비스입니다.로그인해주세요.")
+        setOpenModal(true)
+    }
+
+    const closeModal = () => {
+        setOpenModal(false);
+        navigate("/login")
+    };
+
     if (noContent) {
         return <div className="container p-6">
             <div className="flex flex-col items-center w-full">
@@ -130,6 +150,7 @@ const MovieDetail = () => {
 
     return (
         <div className="container max-w-[1440px] mx-auto p-4">
+            <Modal title="안내" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal}/>
             {/* 영화 이미지 */}
             <div className="flex flex-wrap lg:flex-nowrap">
                 <div className="max-h-96 md:max-w-[20rem] md:max-h-[16rem] mb-5">
@@ -145,7 +166,7 @@ const MovieDetail = () => {
                         <div key={genre.id} className="badge badge-outline me-1.5">{genre.name}</div>
                     ))}
                     <p className="movie-description text-gray-600">{movie.description}</p>
-                    {isLogin &&
+                    {(isLogin && (movie.user.id === user.id)) &&
                         <div className="mt-3">
                             <Link to={"/funding/edit/" + movie.id}>
                                 <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정
@@ -184,7 +205,7 @@ const MovieDetail = () => {
                 </div>
                 {/* 모집현황 */}
                 <div
-                    className="mt-4 p-4 bg-white dark:bg-slate-900 rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
+                    className="mt-4 p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
                     <h2 className="text-lg font-bold mb-2">모집현황</h2>
                     <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
                     <progress className="progress w-full" value={calcPer(movie.targetCredit, movie.totalFunding)}
@@ -197,19 +218,19 @@ const MovieDetail = () => {
                 </div>
             </div>
             {/*바로가기 탭*/}
-            <div role="tablist" className="tabs tabs-boxed my-5 py-2">
+            <div role="tablist" className="tabs tabs-boxed my-5 py-2 dark:bg-gray-900">
                 <a role="tab" className="tab" onClick={onTab1Click}>상세내용</a>
                 <a role="tab" className="tab" onClick={onTab2Click}>일정</a>
                 <a role="tab" className="tab" onClick={onTab3Click}>댓글</a>
             </div>
             {/* 상세내용 */}
-            <div className="details mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab1Ref}>
+            <div className="details mt-4 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg" ref={tab1Ref}>
                 <h2 className="text-lg font-bold mb-4">상세내용</h2>
                 <div id="htmlViewer" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
                 <small>작성자:{movie.user.name}</small>
             </div>
             {/* 유의사항 */}
-            <div className="details mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg">
+            <div className="details mt-4 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg">
                 <h2 className="text-lg font-bold mb-4">안내사항</h2>
                 <p className="font-medium text-lg">✨ 크라우드 펀딩에 대한 안내</p>
                 <div className="my-2">
@@ -225,7 +246,7 @@ const MovieDetail = () => {
                 </div>
             </div>
             {/* 일정 */}
-            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab2Ref}>
+            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg" ref={tab2Ref}>
                 <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
                     <p className="font-semibold text-2xl mb-2">{movie.status === 1 ? `D-${calcDay(movie.endDate)}일 남음` : "모집종료"}</p>
@@ -235,7 +256,7 @@ const MovieDetail = () => {
                 <p className="font-semibold text-lg">마감일</p>
                 <p> {formattedDate(movie.endDate)}</p>
             </div>
-            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab3Ref}>
+            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg" ref={tab3Ref}>
                 <h2 className="text-lg font-bold mb-4">댓글</h2>
                 <MovieComment movieId={movieId}/>
             </div>
