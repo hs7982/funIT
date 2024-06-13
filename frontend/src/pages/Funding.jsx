@@ -138,9 +138,6 @@ const Funding = () => {
                 message={
                     <div className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
                         <h1 className="text-2xl font-bold mb-4">펀딩하기</h1>
-                    <div
-                        className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
-                        <h1 className="text-2xl font-bold mb-4">영화 투자하기</h1>
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center">
                                 <label htmlFor="investmentAmount" className="mr-2">
