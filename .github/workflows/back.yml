@@ -23,9 +23,7 @@ jobs:
 
       - name: Make yml
         run: |
-          cd ./src/main
-          mkdir resources
-          cd ./resources
+          cd ./src/main/resources
           touch ./aws.yml
           echo "${{ secrets.BACKEND_YML }}" > ./aws.yml
         shell: bash
