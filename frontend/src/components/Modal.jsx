@@ -32,7 +32,8 @@ export const Modal = (props) => {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                            >
                                 <Dialog.Title
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900"
@@ -46,13 +47,15 @@ export const Modal = (props) => {
                                 </div>
 
                                 <div className="mt-4 flex justify-end">
-                                    <button
-                                        type="button"
-                                        className="rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        onClick={handleConfirm}
-                                    >
-                                        확인
-                                    </button>
+                                    <div className="mt-6 flex justify-end w-full">
+                                        <button
+                                            type="button"
+                                            className="rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            onClick={handleConfirm}
+                                        >
+                                            닫기
+                                        </button>
+                                    </div>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
