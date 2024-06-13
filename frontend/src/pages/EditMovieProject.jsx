@@ -1,13 +1,17 @@
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import Editor from "../components/Editor.jsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import GenreSelect from "../components/GenreSelect.jsx";
 import {useParams} from "react-router-dom";
+import {Modal} from "../components/Modal.jsx";
+import {useRecoilValue} from "recoil";
+import {IsLoginState, UserState} from "../recoil/RecoilState.js";
 
 const EditMovieProject = () => {
     const params = useParams();
     const movieId = params.id;
+    const [writeUser, setWriteUser] = useState();
     const [title, setTitle] = useState("");
     const [targetCredit, setTargetCredit] = useState(0);
     const [endDate, setEndDate] = useState("");
@@ -17,13 +21,16 @@ const EditMovieProject = () => {
     const [oriDetail, setOriDetail] = useState("");
     const [thumbnailImage, setThumbnailImage] = useState("");
     const [posting, setPosting] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const user = useRecoilValue(UserState);
 
     useEffect(() => {
+        setLoading(true)
         const fetchMovieData = async () => {
             try {
                 const response = await axios.get(`/api/movies/${movieId}`);
                 const movieData = response.data.data;
-                console.log(movieData)
+                setWriteUser(movieData.user.id)
                 setTitle(movieData.title);
                 setTargetCredit(movieData.targetCredit);
                 setEndDate(movieData.endDate.split(".")[0]); // datetime-local 형식에 맞게 수정
@@ -31,8 +38,10 @@ const EditMovieProject = () => {
                 setOriGenres(genreIds);
                 setOriDetail(movieData.detail);
                 setThumbnailImage(movieData.thumbnailImage);
+                setLoading(false)
             } catch (error) {
                 console.error("Failed to fetch movie data", error);
+                alert(error.message);
             }
         };
 
@@ -87,7 +96,13 @@ const EditMovieProject = () => {
 
     var dt = new Date();
     var today = dt.getFullYear() + '-' + ("0" + (1 + dt.getMonth())).slice(-2) + '-' + ("0" + dt.getDate()).slice(-2);
-
+    if (isLoading) {
+        return <span className="loading loading-spinner loading-md"></span>;
+    } else if (user.id !== writeUser) {
+        return (<>
+                편집할 권한이 없습니다!</>
+        )
+    }
     return (
         <div className="container mx-auto p-6">
             <p className="text-3xl font-medium my-12 text-center">펀딩 수정</p>
