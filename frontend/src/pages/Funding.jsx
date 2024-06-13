@@ -78,7 +78,7 @@ const Funding = () => {
             if (response.status === 200) {
                 alert("펀딩이 완료되었습니다!");
                 navigate("/funding/detail/" + movie.id);
-                closeModal()
+                window.location.reload()
             }
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -153,7 +153,8 @@ const Funding = () => {
                                     onChange={handleInvestmentChange}
                                     min={MIN_AMOUNT}
                                     max={MAX_AMOUNT}
-                                    step={200}
+                                    step={10000}
+
                                 />
                                 <span>&nbsp;원</span>
                             </div>
