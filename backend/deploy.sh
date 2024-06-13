@@ -7,11 +7,11 @@ if [ -z $CURRENT_PID ]
 then
   echo "> 현재 구동중인 Docker 컨테이너가 없으므로 종료하지 않습니다." >> /home/ec2-user/deploy.log
 else
-  echo "> sudo docker stop $CURRENT_PID"   # 현재 구동중인 Docker 컨테이너가 있다면 모두 중지
+  echo "> sudo docker stop $CURRENT_PID"   # 현재 구동중인 Docker 컨테이너가 있>다면 모두 중지
   sudo docker stop $CURRENT_PID
   sleep 5
 fi
 
 cd /home/ec2-user/app
-sudo docker build -t tcat-api-spring-boot-docker .
-sudo docker run -d -p 8080:8080 tcat-api-spring-boot-docker
+sudo docker build -t funit-api-spring-boot-docker .
+sudo docker run --name funit-backend -d -p 8080:8080 funit-api-spring-boot-docker
