@@ -66,7 +66,7 @@ const EditMovieProject = () => {
             });
             alert("성공적으로 수정되었습니다!");
             setPosting(false);
-            window.open("/funding", "_self");
+            window.open("/", "_self");
 
         } catch (e) {
             console.log(e);

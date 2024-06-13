@@ -12,6 +12,8 @@ public interface LikeRepository extends JpaRepository<MovieLike, Integer> {
 
     List<MovieLike> findByMovieId(Integer movieId);
 
+    // 좋아요 마감영화 제외
+    @Query("SELECT l FROM MovieLike l WHERE l.user.id = :userId AND l.movie.status <> 3")
     List<MovieLike> findByUserId(Integer userId);
 
     MovieLike findByMovieIdAndUserId(Integer movieId, Integer userId);
