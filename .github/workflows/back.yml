@@ -73,7 +73,7 @@ jobs:
         run: npm run build
 
       - name: cp appspec.yml
-        run: cp /appspec.yml /dist/appspec.yml
+        run: cp appspec.yml ./dist/appspec.yml
 
       - name: Make zip file
         run: zip -r ./FE-$GITHUB_SHA.zip ./dist/*
