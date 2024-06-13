@@ -154,6 +154,7 @@ const Funding = () => {
                                     min={MIN_AMOUNT}
                                     max={MAX_AMOUNT}
                                     step={10000}
+
                                 />
                                 <span>&nbsp;원</span>
                             </div>
