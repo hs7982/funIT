@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir deploy
           cp ./build/libs/*.jar ./deploy/
-          zip -r -qq -j ./spring-build.zip ./deploy
+          zip -r -qq -j ./$GITHUB_SHA.zip ./deploy
         shell: bash
 
       - name: Configure AWS credentials
