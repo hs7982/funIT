@@ -11,8 +11,10 @@ const SignUp = () => {
     const [name, setName] = useState('');
     const [tel, setTel] = useState('');
     const [gender, setGender] = useState('');
+    const [isLoading, setLoading] = useState(false);
 
     const signup = async (event) => {
+        setLoading(true);
         event.preventDefault();
         if (!email || !password || !name || !tel || !gender) {
             alert("모든 필드를 입력해주세요!");
@@ -37,6 +39,7 @@ const SignUp = () => {
                 alert(errorMessage);
             });
         }
+        setLoading(false)
     }
 
 
@@ -110,7 +113,9 @@ const SignUp = () => {
                         </div>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary focus:outline-none" onClick={(e) => signup(e)}>회원가입
+                        <button className="btn text-lg btn-primary focus:outline-none"
+                                onClick={(e) => signup(e)}>{!isLoading ? "회원가입" :
+                            <span className="loading loading-spinner"></span>}
                         </button>
                     </div>
                 </form>

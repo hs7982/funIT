@@ -56,6 +56,12 @@ public class User implements UserDetails {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean enabled;
+
+    @Column(name = "nonLock", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean nonLock;
+
     //권한 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -83,7 +89,7 @@ public class User implements UserDetails {
     //계정 잠금 여부 반환 true:잠금되지 않음
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return nonLock;
     }
 
     //패스워드 만료 여부 반환 true:만료되지 않음
@@ -95,6 +101,6 @@ public class User implements UserDetails {
     //계정 활성화 여부 반환 true:사용가능
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
