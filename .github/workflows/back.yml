@@ -1,4 +1,4 @@
-name: CI/CD Backend
+name: CI/CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  backend-deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Make zip file
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: zip -r ./BE-$GITHUB_SHA.zip .
         shell: bash
 
       - name: Configure AWS credentials
@@ -47,6 +47,43 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://funit-ci-cd/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://funit-ci-cd/BE-$GITHUB_SHA.zip
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name spring-deploy --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name spring-deploy-group --s3-location bucket=funit-ci-cd,bundleType=zip,key=$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name spring-deploy --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name spring-deploy-group --s3-location bucket=funit-ci-cd,bundleType=zip,key=BE-$GITHUB_SHA.zip
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: npm install
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Make zip file
+        run: zip -r ./FE-$GITHUB_SHA.zip ./dist/*
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://funit-ci-cd/FE-$GITHUB_SHA.zip
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name react-deploy --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name react-deploy-group --s3-location bucket=funit-ci-cd,bundleType=zip,key=FE-$GITHUB_SHA.zip
+
