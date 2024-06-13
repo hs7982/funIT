@@ -136,7 +136,8 @@ const Funding = () => {
                 closeModal={closeModal}
                 title=""
                 message={
-                    <div className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
+                    <div
+                        className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
                         <h1 className="text-2xl font-bold mb-4">펀딩하기</h1>
                         <div className="flex items-center justify-between mb-4">
                             <div className="input-container">
@@ -152,7 +153,7 @@ const Funding = () => {
                                     onChange={handleInvestmentChange}
                                     min={MIN_AMOUNT}
                                     max={MAX_AMOUNT}
-                                    step={100}
+                                    step={200}
                                 />
                                 <span>&nbsp;원</span>
                             </div>
