@@ -89,10 +89,10 @@ const Navbar = () => {
                             <input type="text" placeholder="검색"
                                    onChange={(e) => setSearchKeyword(e.target.value)}
                                    onKeyDown={e => enter(e)}
-                                   className="input input-bordered w-auto"/>
+                                   className="input input-bordered w-full"/>
                         </div>
                     )}
-                    <div className="dropdown dropdown-end">
+                    <div className="dropdown dropdown-end flex-none">
                         <div className="flex items-center">
                             <div role="button" tabIndex={0} className="mx-2">{isLogin ? user.name :
                                 <span className="text-sm">로그인해주세요</span>}</div>

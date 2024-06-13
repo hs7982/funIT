@@ -71,7 +71,7 @@ const MovieComment = ({movieId}) => {
 
     return (
         <>
-            <div className="">
+            <div className="w-full">
                 {
                     comments.length === 0 ? <div>작성된 댓글이 없습니다!</div> :
                         <>
