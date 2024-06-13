@@ -56,6 +56,8 @@ public class UserService {
                 .tel(dto.getTel())
                 .gender(dto.getGender())
                 .profileImage("/default-profile.png")
+                .enabled(true)
+                .nonLock(true)
                 .build();
 
         user = userRepository.save(user);
@@ -96,7 +98,7 @@ public class UserService {
     }
 
     @Transactional
-    public void changeUser(User user, UserRequestDTO.UpdateUser updateUser){
+    public void changeUser(User user, UserRequestDTO.UpdateUser updateUser) {
         user.setEmail(updateUser.getEmail());
         user.setName(updateUser.getName());
         user.setTel(updateUser.getTel());
