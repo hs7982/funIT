@@ -57,7 +57,7 @@ const Login = () => {
         <div className="container m-auto p-4">
             <Modal title="로그인에 실패하였습니다." message={loginError} isOpenModal={isOpenModal} closeModal={closeModal}/>
 
-            <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100">
+            <div className="card mx-auto shrink-0 w-full max-w-lg shadow-2xl bg-slate-100 dark:bg-slate-900">
                 <div className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">로그인</div>
                     <div className="form-control">

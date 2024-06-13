@@ -184,7 +184,7 @@ const MovieDetail = () => {
                 </div>
                 {/* 모집현황 */}
                 <div
-                    className="mt-4 p-4 bg-white rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
+                    className="mt-4 p-4 bg-white dark:bg-slate-900 rounded-xl border border-gray-300 shadow-md min-w-64 w-full lg:w-72 h-60 ">
                     <h2 className="text-lg font-bold mb-2">모집현황</h2>
                     <p className="text-2xl font-semibold">{calcPer(movie.targetCredit, movie.totalFunding)}%</p>
                     <progress className="progress w-full" value={calcPer(movie.targetCredit, movie.totalFunding)}
@@ -203,13 +203,13 @@ const MovieDetail = () => {
                 <a role="tab" className="tab" onClick={onTab3Click}>댓글</a>
             </div>
             {/* 상세내용 */}
-            <div className="details mt-4 p-4 bg-gray-100 rounded-lg" ref={tab1Ref}>
+            <div className="details mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab1Ref}>
                 <h2 className="text-lg font-bold mb-4">상세내용</h2>
                 <div id="htmlViewer" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(movie.detail)}}></div>
                 <small>작성자:{movie.user.name}</small>
             </div>
             {/* 유의사항 */}
-            <div className="details mt-4 p-4 bg-gray-100 rounded-lg">
+            <div className="details mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg">
                 <h2 className="text-lg font-bold mb-4">안내사항</h2>
                 <p className="font-medium text-lg">✨ 크라우드 펀딩에 대한 안내</p>
                 <div className="my-2">
@@ -225,7 +225,7 @@ const MovieDetail = () => {
                 </div>
             </div>
             {/* 일정 */}
-            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab2Ref}>
+            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab2Ref}>
                 <h2 className="text-lg font-bold mb-4">일정</h2>
                 <div className="mb-2">
                     <p className="font-semibold text-2xl mb-2">{movie.status === 1 ? `D-${calcDay(movie.endDate)}일 남음` : "모집종료"}</p>
@@ -235,7 +235,7 @@ const MovieDetail = () => {
                 <p className="font-semibold text-lg">마감일</p>
                 <p> {formattedDate(movie.endDate)}</p>
             </div>
-            <div className="schedule mt-4 p-4 bg-gray-100 rounded-lg" ref={tab3Ref}>
+            <div className="schedule mt-4 p-4 bg-gray-100 dark:bg-slate-900 rounded-lg" ref={tab3Ref}>
                 <h2 className="text-lg font-bold mb-4">댓글</h2>
                 <MovieComment movieId={movieId}/>
             </div>

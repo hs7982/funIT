@@ -29,7 +29,7 @@ const SignUp = () => {
             await axiosSignup(data).then((data) => {
                 if (data.status === 201) {
                     alert("회원가입 성공")
-                    navigate("/"); // 회원가입 성공 시 홈 페이지로 이동
+                    navigate("/login"); // 회원가입 성공 시 홈 페이지로 이동
                 }
             }).catch((error) => {
                 console.error("회원가입 실패:", error);
@@ -42,7 +42,7 @@ const SignUp = () => {
 
     return (
         <div className="container m-auto p-4">
-            <div className="card mx-auto shrink-0 w-full max-w-2xl shadow-2xl bg-slate-100">
+            <div className="card mx-auto shrink-0 w-full max-w-2xl shadow-2xl bg-slate-100 dark:bg-slate-900">
                 <form className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">회원가입</div>
                     <div className="relative">
@@ -110,7 +110,8 @@ const SignUp = () => {
                         </div>
                     </div>
                     <div className="form-control mt-3">
-                        <button className="btn text-lg btn-primary focus:outline-none" onClick={(e) => signup(e)}>회원가입</button>
+                        <button className="btn text-lg btn-primary focus:outline-none" onClick={(e) => signup(e)}>회원가입
+                        </button>
                     </div>
                 </form>
             </div>
