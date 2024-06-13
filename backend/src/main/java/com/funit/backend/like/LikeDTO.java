@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 public class LikeDTO {
 
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -13,5 +14,6 @@ public class LikeDTO {
         private int id;
         private int movieId;
         private String movieTitle;
+
     }
 }

@@ -125,7 +125,7 @@ public class MovieService {
 
         // 사용자가 영화를 수정할 권한을 가지고 있는지 확인할 수 있는 코드를 여기에 추가할 수 있습니다.
         if (!user.getRole().equals("admin") && existingMovie.getUser().getId() != user.getId()) {
-            throw new AccessDeniedException("삭제할 권한이 없습니다!");
+            throw new AccessDeniedException("수정할 권한이 없습니다!");
         }
 
         // 새로운 이미지를 저장하고 이미지 URL을 업데이트합니다.
@@ -133,8 +133,9 @@ public class MovieService {
             String imageUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
             request.setImageURL(imageUrl);
         }
-
+        // 상세내용 오류있음
         existingMovie.setDetail(request.getDetail());
+
         // 요청에 포함된 정보로 기존의 영화 정보를 업데이트합니다.
         existingMovie.setTitle(request.getTitle());
         existingMovie.setTargetCredit(request.getTargetCredit());
