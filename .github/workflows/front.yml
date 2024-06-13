@@ -13,26 +13,20 @@ jobs:
       run:
         working-directory: ./frontend
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - run: npm ci
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm run build
-      
+      - name: Build project
+        run: npm run build
+
       - name: Make zip file
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: zip -r ./$GITHUB_SHA.zip ./dist/*
         shell: bash
 
       - name: Configure AWS credentials
@@ -45,3 +39,5 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://funit-ci-cd/$GITHUB_SHA.zip
       - name: Code Deploy
         run: aws deploy create-deployment --application-name react-deploy --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name react-deploy-group --s3-location bucket=funit-ci-cd,bundleType=zip,key=$GITHUB_SHA.zip
+      
+      
