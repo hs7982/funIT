@@ -27,4 +27,5 @@ public class MovieDTO {
     private List<Production> productions;
     private int totalFunding;
     private int likeCount;
+    private int fundingCount;
 }

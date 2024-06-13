@@ -19,6 +19,7 @@ const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
     const [likeStatus, setLikeStatus] = useState(false);
+    const [per, setPer] = useState(0);
     const isLogin = useRecoilValue(IsLoginState);
 
     const fetchMovie = async (movieId) => {
@@ -146,9 +147,12 @@ const MovieDetail = () => {
                     {isLogin &&
                         <div className="mt-3">
                             <Link to={"/funding/edit/" + movie.id}>
-                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정</button>
+                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정
+                                </button>
                             </Link>
-                            <button className="btn btn-outline btn-error btn-sm focus:outline-none" onClick={deleteMovie}>삭제</button>
+                            <button className="btn btn-outline btn-error btn-sm focus:outline-none"
+                                    onClick={deleteMovie}>삭제
+                            </button>
                         </div>
                     }
                     <div className="flex mt-5">
@@ -168,14 +172,8 @@ const MovieDetail = () => {
                                       d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
                             </svg>
                             {movie.likeCount}
-
-
                         </button>
-
-
                     </div>
-
-
                 </div>
                 {/* 모집현황 */}
                 <div
@@ -187,7 +185,8 @@ const MovieDetail = () => {
                     <p>목표 금액</p>
                     <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                     <p>현재 모인 금액</p>
-                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 <small>({movie.fundingCount}건)</small>
+                    </p>
                 </div>
             </div>
             {/*바로가기 탭*/}
