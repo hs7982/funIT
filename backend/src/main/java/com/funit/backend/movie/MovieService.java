@@ -98,27 +98,12 @@ public class MovieService {
         if (Objects.requireNonNull(movie).getStatus() == 3) {
             movie = null;
         }
+        if (movie == null) return null;
+
         int likeCount = likeService.countLike(movieId);
-        if (movie == null) {
-            return null;
-        }
+        int fundingCount = fundingService.countFunding(movieId);
         FundingDTO totalFunding = fundingService.getTotalFundingByMoiveId(movieId);
-        return MovieDTO.builder()
-                .id(movie.getId())
-                .title(movie.getTitle())
-                .user(movie.getUser())
-                .detail(movie.getDetail())
-                .targetCredit(movie.getTargetCredit())
-                .status(movie.getStatus())
-                .thumbnailImage(movie.getThumbnailImage())
-                .createDate(movie.getCreateDate())
-                .updateDate(movie.getUpdateDate())
-                .endDate(movie.getEndDate())
-                .genres(movie.getGenres())
-                .productions(movie.getProductions())
-                .totalFunding(totalFunding.getFundingTotalAmount()) // 펀딩 금액 설정
-                .likeCount(likeCount)
-                .build();
+        return MovieMapper.INSTANCE.toMovieDTO(movie, totalFunding.getFundingTotalAmount(), fundingCount, likeCount);
     }
 
     public List<MovieListDTO> search(String keyword) {

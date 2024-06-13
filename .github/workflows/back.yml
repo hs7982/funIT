@@ -1,13 +1,13 @@
-name: Build and Deploy to EC2
+name: CI/CD Backend
 
 on:
-  pull_request:
+  push:
+    paths:
+      - "backend/**"
     branches: [ "main" ]
-    types: [ "closed" ]
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,6 +21,15 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      - name: Make yml
+        run: |
+          cd ./src/main
+          mkdir resources
+          cd ./resources
+          touch ./aws.yml
+          echo "${{ secrets.BACKEND_YML }}" > ./aws.yml
+        shell: bash
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
@@ -33,11 +42,11 @@ jobs:
         run: zip -r ./$GITHUB_SHA.zip .
         shell: bash
 
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          ws-region: ${{ env.AWS_REGION }}
-#      - name: Upload to S3
-#        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          ws-region: ${{ env.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
