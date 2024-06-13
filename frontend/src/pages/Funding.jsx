@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { axiosGetOneMovie, axiosPostFunding } from "../api/axios.js";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {axiosGetOneMovie, axiosPostFunding} from "../api/axios.js";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { IsLoginState } from "../recoil/RecoilState.js";
-import { Modal } from "../components/Modal";
+import {useRecoilValue} from "recoil";
+import {IsLoginState} from "../recoil/RecoilState.js";
+import {Modal} from "../components/Modal";
 
 const MIN_AMOUNT = 100;
 const MAX_AMOUNT = 5000000;
@@ -44,13 +44,10 @@ const Funding = () => {
 
     useEffect(() => {
         const movieId = params.id;
-        if (!isLogin) {
-            alert("로그인 후 이용 가능한 서비스입니다.");
-            navigate("/login");
-        } else {
+        if (isLogin === true) {
             fetchMovie(movieId);
             fetchMoney();
-        }
+        } else setMovie(true)
     }, [params.id, isLogin, navigate]);
 
     const handleInvestmentChange = (e) => {
@@ -81,6 +78,7 @@ const Funding = () => {
             if (response.status === 200) {
                 alert("투자가 완료되었습니다!");
                 navigate("/funding/detail/" + movie.id);
+                closeModal()
             }
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -89,7 +87,15 @@ const Funding = () => {
         }
     };
 
-    const openModal = () => setIsOpen(true); // Modal 열기 함수 추가
+    const openModal = () => {
+        if (isLogin !== true) {
+            alert("로그인 후 이용 가능한 서비스입니다.");
+            navigate("/login");
+        } else {
+            setIsOpen(true);
+        }
+
+    }  // Modal 열기 함수 추가
     const closeModal = () => setIsOpen(false); // Modal 닫기 함수 추가
 
     if (noContent) {
@@ -130,7 +136,8 @@ const Funding = () => {
                 closeModal={closeModal}
                 title="영화 투자하기"
                 message={
-                    <div className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
+                    <div
+                        className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
                         <h1 className="text-2xl font-bold mb-4">영화 투자하기</h1>
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center">
@@ -141,7 +148,7 @@ const Funding = () => {
                                     type="number"
                                     id="investmentAmount"
                                     className="border rounded p-2"
-                                    style={{ color: 'black' }}
+                                    style={{color: 'black'}}
                                     value={investmentAmount}
                                     onChange={handleInvestmentChange}
                                     min={MIN_AMOUNT}

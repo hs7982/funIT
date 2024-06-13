@@ -2,8 +2,8 @@ name: CI/CD Backend
 
 on:
   push:
-    paths:
-      - "backend/**"
+    #    paths:
+    #      - "backend/**"
     branches: [ "main" ]
 
 jobs:

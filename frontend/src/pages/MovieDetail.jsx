@@ -148,14 +148,17 @@ const MovieDetail = () => {
                     {isLogin &&
                         <div className="mt-3">
                             <Link to={"/funding/edit/" + movie.id}>
-                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정</button>
+                                <button className="btn btn-outline btn-primary me-3 btn-sm focus:outline-none">수정
+                                </button>
                             </Link>
-                            <button className="btn btn-outline btn-error btn-sm focus:outline-none" onClick={deleteMovie}>삭제</button>
+                            <button className="btn btn-outline btn-error btn-sm focus:outline-none"
+                                    onClick={deleteMovie}>삭제
+                            </button>
                         </div>
                     }
                     <div className="flex mt-5">
                         {movie.status === 1 ?
-                            <Funding isOpen={isFundingModalOpen} onClose={() => setIsFundingModalOpen(false)} />
+                            <Funding isOpen={isFundingModalOpen} onClose={() => setIsFundingModalOpen(false)}/>
                             :
                             <button className="btn bg-fuchsia-300  btn-md" disabled>종료됨</button>
                         }
@@ -189,7 +192,8 @@ const MovieDetail = () => {
                     <p>목표 금액</p>
                     <p className="text-xl font-semibold">{movie.targetCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                     <p>현재 모인 금액</p>
-                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p className="text-xl font-semibold">{movie.totalFunding.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 <small>({movie.fundingCount}건)</small>
+                    </p>
                 </div>
             </div>
             {/*바로가기 탭*/}
