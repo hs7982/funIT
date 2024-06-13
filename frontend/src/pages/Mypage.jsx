@@ -97,10 +97,10 @@ const Mypage = () => {
 
     if (!isError) {
         return (
-            <div className="w-full p-6 bg-gray-50">
+            <div className="w-full p-6 bg-gray-50 dark:bg-slate-900">
                 <div className="max-w-[1600px] mx-auto">
                     <div className="text-center mb-8">
-                        <h1 className="text-4xl font-bold my-8 text-gray-800">마이페이지</h1>
+                        <h1 className="text-4xl font-bold my-8 text-gray-800 dark:text-white">마이페이지</h1>
                         <hr className="w-1/2 mx-auto border-t border-gray-300 mb-8"/>
                     </div>
                     {loading ? (
@@ -110,7 +110,7 @@ const Mypage = () => {
                     ) : (
                         <div
                             className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
-                            <div className="w-full md:w-1/2 bg-white p-8 rounded-xl shadow-lg">
+                            <div className="w-full md:w-1/2 bg-white dark:bg-black p-8 rounded-xl shadow-lg">
                                 <div className="flex items-center">
 
                                     <div
@@ -142,7 +142,7 @@ const Mypage = () => {
 
                                     </div>
                                     <div>
-                                        <p className="text-3xl font-bold text-gray-800">{userInfo.name}</p>
+                                        <p className="text-3xl font-bold text-gray-800 dark:text-white">{userInfo.name}</p>
                                         <p className="text-gray-500">{userInfo.email}</p>
                                     </div>
                                 </div>

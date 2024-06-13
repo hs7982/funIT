@@ -147,8 +147,7 @@ const Funding = () => {
                                 <input
                                     type="number"
                                     id="investmentAmount"
-                                    className="border rounded p-2"
-                                    style={{color: 'black'}}
+                                    className="border rounded p-2 text-black dark:text-white"
                                     value={investmentAmount}
                                     onChange={handleInvestmentChange}
                                     min={MIN_AMOUNT}

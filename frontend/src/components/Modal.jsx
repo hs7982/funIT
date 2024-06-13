@@ -32,7 +32,7 @@ export const Modal = (props) => {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                                className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <Dialog.Title
                                     as="h3"
