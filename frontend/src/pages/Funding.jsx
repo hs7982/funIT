@@ -13,8 +13,8 @@ const Funding = () => {
     const params = useParams();
     const [movie, setMovie] = useState(null);
     const [noContent, setNoContent] = useState(false);
-    const [investmentAmount, setInvestmentAmount] = useState(0);
-    const [hasCredit, setHasCredit] = useState(0);
+    const [investmentAmount, setInvestmentAmount] = useState(null);
+    const [hasCredit, setHasCredit] = useState(null);
     const [isOpen, setIsOpen] = useState(false); // Modal 상태 추가
     const navigate = useNavigate();
     const isLogin = useRecoilValue(IsLoginState);
@@ -57,14 +57,14 @@ const Funding = () => {
 
     const invest = async () => {
         if (investmentAmount < MIN_AMOUNT) {
-            alert("최소 투자 금액은 100원입니다.");
+            alert("최소 펀딩 금액은 100원입니다.");
             return;
         } else if (investmentAmount > MAX_AMOUNT) {
-            alert("최대 투자 금액은 5,000,000원입니다.");
+            alert("최대 펀딩 금액은 5,000,000원입니다.");
             return;
         }
 
-        if (!confirm(`${investmentAmount.toLocaleString()}원을 투자하시겠습니까?`)) return;
+        if (!confirm(`${investmentAmount.toLocaleString()}원을 펀딩하시겠습니까?`)) return;
 
         const data = {
             movie: {
@@ -76,13 +76,13 @@ const Funding = () => {
         try {
             const response = await axiosPostFunding(data);
             if (response.status === 200) {
-                alert("투자가 완료되었습니다!");
+                alert("펀딩이 완료되었습니다!");
                 navigate("/funding/detail/" + movie.id);
                 closeModal()
             }
         } catch (error) {
             if (error.response && error.response.status === 400) {
-                alert("투자에 실패하였습니다!\n" + error.response.data.data);
+                alert("펀딩에 실패하였습니다!\n" + error.response.data.data);
             }
         }
     };
@@ -129,20 +129,22 @@ const Funding = () => {
     return (
         <>
             <button onClick={openModal} className="btn bg-blue-500 text-white">
-                영화 투자하기
+                펀딩하기
             </button>
             <Modal
                 isOpenModal={isOpen}
                 closeModal={closeModal}
-                title="영화 투자하기"
+                title=""
                 message={
+                    <div className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
+                        <h1 className="text-2xl font-bold mb-4">펀딩하기</h1>
                     <div
                         className="flex flex-col border rounded-3xl h-40 p-6 my-6 shadow-lg text-white bg-gradient-to-r from-rose-400 to-sky-300">
                         <h1 className="text-2xl font-bold mb-4">영화 투자하기</h1>
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center">
                                 <label htmlFor="investmentAmount" className="mr-2">
-                                    투자 금액:
+                                    펀딩 금액:
                                 </label>
                                 <input
                                     type="number"
@@ -153,17 +155,18 @@ const Funding = () => {
                                     onChange={handleInvestmentChange}
                                     min={MIN_AMOUNT}
                                     max={MAX_AMOUNT}
+                                    step={100}
                                 />
-                                <span> 크레딧</span>
+                                <span>&nbsp;원</span>
                             </div>
                         </div>
                         <p className="mb-2">보유 크레딧 : {hasCredit && hasCredit.toLocaleString()} 원</p>
                         <div className="flex justify-between items-center">
                             <button className="btn bg-sky-300" onClick={invest}>
-                                투자하기
+                                펀딩하기
                             </button>
                             <div className="text-xs text-gray-500">
-                                최소금액: {MIN_AMOUNT.toLocaleString()}원,<br/>
+                                최소금액: {MIN_AMOUNT.toLocaleString()}원<br/>
                                 최대금액: {MAX_AMOUNT.toLocaleString()}원
                             </div>
                         </div>
