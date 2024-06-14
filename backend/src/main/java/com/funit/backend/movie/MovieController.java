@@ -11,6 +11,7 @@ import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * 영화 프로젝트와 관련된 기능의 컨트롤러
  */
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/movies")
@@ -122,16 +124,19 @@ public class MovieController {
     /**
      * 영화 수정
      */
-    @PutMapping("/update/{movieId}")
-    public ResponseEntity<Object> updateMovie(@AuthUser User user, @Valid @ModelAttribute UpdateMovieRequestDTO request, @PathVariable int movieId) {
+    @PutMapping("/{movieId}")
+    public ResponseEntity<Object> updateMovie(
+            @AuthUser User user,
+            @Valid @ModelAttribute UpdateMovieRequestDTO request,
+            @RequestBody(required = false) MultipartFile imageFile,
+            @PathVariable int movieId) {
         request.setUser(user);
-        MultipartFile imageFile = request.getImageFile();
+
         Movie savedMovie = movieService.updateMovieDetails(user, movieId, request, imageFile);
 
         return ResponseHandler.responseBuilder(
-                HttpStatus.CREATED,
+                HttpStatus.OK,
                 "영화 프로젝트가 수정되었습니다.",
                 savedMovie);
     }
-
 }

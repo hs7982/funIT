@@ -129,7 +129,7 @@ public class MovieService {
         }
 
         // 새로운 이미지를 저장하고 이미지 URL을 업데이트합니다.
-        if (imageFile != null && !imageFile.isEmpty()) {
+        if (imageFile != null) {
             String imageUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
             request.setImageURL(imageUrl);
         }
@@ -141,7 +141,7 @@ public class MovieService {
         existingMovie.setTargetCredit(request.getTargetCredit());
         existingMovie.setEndDate(request.getEndDate());
         existingMovie.setGenres(request.getGenres());
-        existingMovie.setThumbnailImage(request.getImageURL());
+        if (request.getImageURL() != null) existingMovie.setThumbnailImage(request.getImageURL());
         existingMovie.setUser(request.getUser());
 
         // 업데이트된 영화 정보를 저장하고 반환합니다.

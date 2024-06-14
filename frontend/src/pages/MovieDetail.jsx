@@ -35,7 +35,7 @@ const MovieDetail = () => {
                 setNoContent(true);
             }
         } catch (e) {
-            alert(e.response.data.message);
+            alert(e.response.statusText + "\n" + e.response.data);
         }
 
     };

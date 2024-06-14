@@ -2,12 +2,14 @@ package com.funit.backend.movie.dto;
 
 import com.funit.backend.genre.domain.Genre;
 import com.funit.backend.user.domain.User;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +37,7 @@ public class UpdateMovieRequestDTO {
     @NotEmpty(message = "장르를 지정해야합니다.")
     private List<Genre> genres;
 
-    private MultipartFile imageFile;
+//    private MultipartFile imageFile = null;
 
     private String imageURL;
 
