@@ -43,9 +43,13 @@ const GenreSelect = (props) => {
     }, [selected]);
 
     useEffect(() => {
-        const selectedGenres = genres.filter(genre => props.oriSelect.includes(genre.id));
-        setSelected(selectedGenres);
-    }, [props.oriSelect]);
+        if (props.oriSelect) {
+            const selectedGenres = genres.filter(genre => props.oriSelect.includes(genre.id));
+            setSelected(selectedGenres);
+            setSelected(selectedGenres);
+        }
+
+    }, [genres]);
 
     return (
         <div>
@@ -54,7 +58,7 @@ const GenreSelect = (props) => {
                     <Combobox.Button className={"input input-bordered w-full"}>
                         <Combobox.Input
                             className="w-full"
-                            placeholder="장르"
+                            placeholder={props.oriSelect ? "(수정하지 않음)" : "장르"}
                             displayValue={() => selected.map((sel) => sel.name).join(", ")}
                             readOnly
                         />
