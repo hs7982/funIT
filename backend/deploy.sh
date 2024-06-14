@@ -14,4 +14,4 @@ fi
 
 cd /home/ec2-user/app
 sudo docker build -t funit-api-spring-boot-docker .
-sudo docker run --name funit-backend -d -p 8080:8080 funit-api-spring-boot-docker
+sudo docker run -d -p 8080:8080 funit-api-spring-boot-docker
