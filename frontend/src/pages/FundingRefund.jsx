@@ -2,7 +2,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {axiosFundingDetail, axiosFundingRefund} from "../api/axios.js";
 import React, {useEffect, useState} from "react";
 import {formattedDate} from "../components/formattedData.js";
-import {Button} from "@headlessui/react";
+import Error from "./Error.jsx";
 
 export const FundingRefund = () => {
     const params = useParams();
@@ -20,6 +20,7 @@ export const FundingRefund = () => {
             setData(result.data.data);
             setLoading(false);
         } catch (e) {
+            alert(e.response.data.message);
             setError(true)
             setLoading(false)
         }
@@ -37,7 +38,7 @@ export const FundingRefund = () => {
 
         } catch (e) {
             console.log(e)
-            if (e.code === "ERR_BAD_REQUEST") {
+            if (e.response.data.httpStatus === "BAD_REQUEST") {
                 alert(e.response.data.message + "\n" + e.response.data.data.reason);
             } else {
                 alert(e.response.data.message);
@@ -50,6 +51,8 @@ export const FundingRefund = () => {
         setLoading(true);
         fetchData();
     }, [id]);
+
+    if (error) return <Error/>
 
     return (
         <div className="container max-w-[1440px] mx-auto my-12 px-4 text-center">
@@ -64,7 +67,7 @@ export const FundingRefund = () => {
                 </div> :
                 <div className="my-10">
                     <p className="text-2xl font-semibold my-2">투자 상세내역</p>
-                    {data.fundingDetail.refundOrno === 1 ?
+                    {data.fundingDetail && data.fundingDetail.refundOrno === 1 ?
                         <p className="text-xl my-4">이미 취소된 투자입니다.</p> : (data.fundingDetail.movieStatus !== 1 ?
                                 <p className="text-xl my-4">이미 종료된 투자입니다.</p> :
                                 <div>
