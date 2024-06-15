@@ -5,11 +5,13 @@ import com.funit.backend.credit.domain.CreditRepository;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.mapper.CreditMapper;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Log4j2
 @Service
 public class CreditService {
     @Autowired
@@ -39,7 +41,7 @@ public class CreditService {
                 .build();
         //크레딧에 데이터 삽입
         creditRepository.save(credit); //movieId, credit
-
+        log.info("[Credit] 크래딧 차감 - user:{}, amount:{}, fundingId:{}", user.getEmail(), money, funding.getId());
     }
 
     /**
@@ -47,18 +49,16 @@ public class CreditService {
      *
      * @param user
      * @param money
-     * @param funding
      */
-    public void additional(User user, int money, Funding funding) {
+    public void additional(User user, int money) {
         Credit credit = Credit.builder()
                 .user(user)
                 .amount(money)
                 .transactionType(1)
-                .funding(funding)
                 .build();
         //크레딧에 데이터 삽입
         creditRepository.save(credit); //movieId, credit
-
+        log.info("[Credit] 크래딧 지급 - user:{}, amount:{}", user.getEmail(), money);
     }
 
     /**
@@ -77,6 +77,7 @@ public class CreditService {
                 .build();
         //크레딧에 데이터 삽입
         creditRepository.save(credit); //movieId, credit
+        log.info("[Credit] 환불 크래딧 지급 - user:{}, amount:{}, fundingId:{}", user.getEmail(), money, funding.getId());
     }
 
     public User getUserByFundingId(int fundingId) {
