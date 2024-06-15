@@ -1,7 +1,8 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {axiosSignup} from "../api/axios.js";
+import {Modal} from "../components/Modal.jsx";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -17,9 +18,9 @@ const SignUp = () => {
         setLoading(true);
         event.preventDefault();
         if (!email || !password || !name || !tel || !gender) {
-            alert("모든 필드를 입력해주세요!");
+            openModal("모든 항목을 작성해주세요!")
         } else if (password !== password_second) {
-            alert("비밀번호가 일치하지 않습니다!");
+            openModal("비밀번호 확인란이 일치하지 않습니다!");
         } else {
             const data = {
                 email: email,
@@ -30,21 +31,36 @@ const SignUp = () => {
             }
             await axiosSignup(data).then((data) => {
                 if (data.status === 201) {
-                    alert("회원가입 성공")
-                    navigate("/login"); // 회원가입 성공 시 홈 페이지로 이동
+                    setNavi(true);
+                    openModal("회원가입을 환영합니다! 로그인해주세요.")
                 }
             }).catch((error) => {
                 console.error("회원가입 실패:", error);
-                const errorMessage = JSON.stringify(error.response.data.data) || "회원가입 중 오류가 발생했습니다.";
-                alert(errorMessage);
+                const errorMessage = JSON.stringify(error.response.data.data).replace(/["{}]/g, '') || "회원가입 중 오류가 발생했습니다.";
+                openModal(errorMessage);
             });
         }
         setLoading(false)
     }
 
+    const [isOpenModal, setOpenModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [navi, setNavi] = useState(false);
+
+    const openModal = (msg) => {
+        setModalMessage(msg)
+        setOpenModal(true)
+    }
+
+    const closeModal = () => {
+        setOpenModal(false);
+        if (navi) navigate("/login");
+    };
+
 
     return (
         <div className="container m-auto p-4">
+            <Modal title="알림" message={modalMessage} isOpenModal={isOpenModal} closeModal={closeModal}/>
             <div className="card mx-auto shrink-0 w-full max-w-2xl shadow-2xl bg-slate-100 dark:bg-slate-900">
                 <form className="card-body">
                     <div className="text-center text-3xl font-semibold my-4">회원가입</div>

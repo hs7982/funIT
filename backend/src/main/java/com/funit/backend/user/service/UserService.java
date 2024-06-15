@@ -1,6 +1,6 @@
 package com.funit.backend.user.service;
 
-import com.funit.backend.credit.domain.Credit;
+import com.funit.backend.credit.CreditService;
 import com.funit.backend.credit.domain.CreditRepository;
 import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
@@ -29,6 +29,7 @@ public class UserService {
     private static final int DEFAULT_CREDITS = 5000000; // 기본 크레딧 값 설정
     private static final int TRANSACTION_TYPE_INITIAL = 1; // 초기 적립 타입 설정
     private final UserDetailService userDetailService;
+    private final CreditService creditService;
 
     protected Authentication createNewAuthentication(Authentication currentAuth, String username) {
         UserDetails newPrincipal = userDetailService.loadUserByUsername(username);
@@ -61,15 +62,7 @@ public class UserService {
                 .build();
 
         user = userRepository.save(user);
-
-        Credit credit = Credit.builder()
-                .user(user)
-                .amount(DEFAULT_CREDITS)
-                .transactionType(TRANSACTION_TYPE_INITIAL)
-                .build();
-
-        creditRepository.save(credit);
-
+        creditService.additional(user, DEFAULT_CREDITS);
         return user.getId();
     }
 

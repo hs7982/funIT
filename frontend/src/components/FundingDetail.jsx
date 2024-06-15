@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {axiosFundingDetail} from "../api/axios.js";
 import {Link} from "react-router-dom";
 import {formattedDate} from "./formattedData.js";
+import Error from "../pages/Error.jsx";
 
 export const FundingDetail = ({selectID}) => {
     const [loading, setLoading] = useState(true);
@@ -14,18 +15,16 @@ export const FundingDetail = ({selectID}) => {
             setData(result.data.data);
             setLoading(false);
         } catch (e) {
-
+            setError(true)
+            setLoading(false)
         }
-
     }
 
     useEffect(() => {
-
         setLoading(true);
         if (selectID !== 0) {
             fetchData();
         }
-
     }, [selectID]);
 
 
@@ -38,7 +37,7 @@ export const FundingDetail = ({selectID}) => {
                     <p className="text-3xl font-semibold text-center my-4">투자 상세내역</p>
                     {loading ? <div className="flex justify-center">
                         <span className="loading loading-spinner loading-md"></span>
-                    </div> : <div>
+                    </div> : (error ? <Error/> : <div>
                         <p className="my-2">ID #{data.fundingDetail.id}</p>
                         <p>투자금액</p>
                         <p className="text-2xl font-semibold">
@@ -82,10 +81,10 @@ export const FundingDetail = ({selectID}) => {
                                 </tbody>
                             </table>
                         </div>
-                    </div>}
-                    <div className="mt-auto text-sm">안내사항
+                    </div>)}
+                    <div className="mt-auto text-sm "><p className="font-medium">안내사항</p>
                         {!loading &&
-                            <p>거래와 관련해 환불을 요청하려면 <Link to={"/funding/refund/" + data.fundingDetail.id}>여기</Link>를
+                            <p>이 투자와 관련해 취소를 요청하려면 <Link to={"/funding/refund/" + data.fundingDetail.id}>여기</Link>를
                                 확인해주세요.
                             </p>}
                         <label className="btn btn-primary w-full mt-2" htmlFor="fdrawer"

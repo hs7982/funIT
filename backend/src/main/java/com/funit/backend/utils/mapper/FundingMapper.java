@@ -15,6 +15,7 @@ public interface FundingMapper {
 
     @Mapping(target = "movieId", source = "movie.id")
     @Mapping(target = "movieTitle", source = "movie.title")
+    @Mapping(target = "movieStatus", source = "movie.status")
     FundingDTO.FundingDetail toDetailDTO(Funding funding);
 
     @Mapping(target = "fundingDetail", source = "funding")

@@ -10,6 +10,7 @@ import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.mapper.FundingMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,10 +35,23 @@ public class FundingService {
     }
 
     public FundingDTO.FundingDetailWithCreditsDTO getFundingDetail(int fundingId) {
-        Funding funding = fundingRepository.getFundingById(fundingId);
+        Funding funding = fundingRepository.getFundingById(fundingId).orElseThrow(() -> new IllegalArgumentException("해당 펀딩을 찾을 수 없습니다."));
         FundingDTO.FundingDetail fundingDetail = FundingMapper.INSTANCE.toDetailDTO(funding);
         List<CreditDTO> credits = creditService.getCreditByFundingId(fundingId);
         return FundingMapper.INSTANCE.toFundingDetailWithCreditsDTO(fundingDetail, credits);
+    }
+
+    public void refundFunding(User user, int fundingId, String reason) {
+        Funding funding = fundingRepository.getFundingById(fundingId).orElseThrow(() -> new IllegalArgumentException("해당 펀딩을 찾을 수 없습니다."));
+        User fundingUser = creditService.getUserByFundingId(fundingId);
+        if (user.getId() != fundingUser.getId()) {
+            throw new AccessDeniedException("환불할 권한이 없습니다!");
+        }
+        if (funding.getRefundOrno() == 1) {
+            throw new IllegalArgumentException("이미 환불된 투자입니다!");
+        }
+        refundFunding(funding, reason + "(사용자 요청)");
+
     }
 
     public void refundFunding(Funding funding, String reason) {
