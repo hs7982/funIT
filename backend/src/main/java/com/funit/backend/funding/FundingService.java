@@ -34,8 +34,11 @@ public class FundingService {
         return fundingRepository.getFundingByMovieId(movieId).orElseThrow(() -> new IllegalArgumentException("null"));
     }
 
-    public FundingDTO.FundingDetailWithCreditsDTO getFundingDetail(int fundingId) {
+    public FundingDTO.FundingDetailWithCreditsDTO getFundingDetail(User user, int fundingId) {
         Funding funding = fundingRepository.getFundingById(fundingId).orElseThrow(() -> new IllegalArgumentException("해당 펀딩을 찾을 수 없습니다."));
+
+        if (creditService.getUserByFundingId(fundingId).getId() != user.getId())
+            throw new AccessDeniedException("해당 정보에 접근할 권한이 없습니다!");
         FundingDTO.FundingDetail fundingDetail = FundingMapper.INSTANCE.toDetailDTO(funding);
         List<CreditDTO> credits = creditService.getCreditByFundingId(fundingId);
         return FundingMapper.INSTANCE.toFundingDetailWithCreditsDTO(fundingDetail, credits);
