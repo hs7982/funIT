@@ -57,12 +57,28 @@ public class FundingController {
         );
     }
 
+    /**
+     * 투자에 대한 상세정보를 불러옵니다.
+     *
+     * @param fundingId
+     * @return
+     */
     @GetMapping("/{fundingId}")
     public ResponseEntity<Object> getFunding(@PathVariable Integer fundingId) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
                 fundingService.getFundingDetail(fundingId)
+        );
+    }
+
+    @PostMapping("/refund/{fundingId}")
+    public ResponseEntity<Object> refundFunding(@AuthUser User user, @PathVariable Integer fundingId, @RequestBody @Valid FundingDTO.FundingRefund reason) {
+        fundingService.refundFunding(user, fundingId, reason.getReason());
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                "요청한 투자에 대한 환불이 완료되었습니다.",
+                null
         );
     }
 }

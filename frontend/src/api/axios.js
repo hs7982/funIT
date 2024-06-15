@@ -251,6 +251,20 @@ export const axiosPostFunding = async (data) => {
 }
 
 /**
+ * axios 투자취소 요청
+ * @param data
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+export const axiosFundingRefund = async (id, reason) => {
+    try {
+        const response = await instance.post("/fundings/refund/" + id, {reason});
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
  * 영화 프로젝트 삭제 요청
  * @param movieId
  * @returns {Promise<axios.AxiosResponse<any>>}

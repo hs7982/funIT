@@ -29,5 +29,5 @@ public interface FundingRepository extends JpaRepository<Funding, Integer> {
     @Query("UPDATE Funding f SET f.refundOrno = 1, f.refundReason = :reason WHERE f.id=:id")
     int refundFundingById(@Param(value = "id") int fundingId, @Param(value = "reason") String reason);
 
-    Funding getFundingById(int fundingId);
+    Optional<Funding> getFundingById(int fundingId);
 }
