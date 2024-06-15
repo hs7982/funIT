@@ -64,11 +64,11 @@ public class FundingController {
      * @return
      */
     @GetMapping("/{fundingId}")
-    public ResponseEntity<Object> getFunding(@PathVariable Integer fundingId) {
+    public ResponseEntity<Object> getFunding(@AuthUser User user, @PathVariable Integer fundingId) {
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                fundingService.getFundingDetail(fundingId)
+                fundingService.getFundingDetail(user, fundingId)
         );
     }
 
