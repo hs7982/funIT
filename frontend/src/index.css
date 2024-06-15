@@ -49,7 +49,7 @@ html,
 body {
     width: 100%;
     height: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 
 #root {
@@ -58,8 +58,8 @@ body {
     display: flex;
     flex-direction: column;
     place-items: center;
-    overflow-y: auto;
-    overflow-x: hidden;
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
 }
 
 h1 {
