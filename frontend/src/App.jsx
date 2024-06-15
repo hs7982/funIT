@@ -14,12 +14,14 @@ import ChangePassword from "./components/ChangePassword.jsx";
 import Funding from "./pages/Funding.jsx";
 import Footer from "./components/Footer.jsx";
 import {FundingRefund} from "./pages/FundingRefund.jsx";
+import ScrollToTopButton from "./components/ScrollToTopButton.jsx";
 
 function App() {
     return (
         <>
             <UpdateUserInfo/>
             <Navbar/>
+            <ScrollToTopButton/>
             <Routes>
                 <Route path="/" element={<MovieProject showType={1}/>}/>
                 <Route path="/end" element={<MovieProject showType={2}/>}/>
