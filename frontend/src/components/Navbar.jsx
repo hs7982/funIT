@@ -7,7 +7,8 @@ import {axiosLogout} from "../api/axios.js";
 const Navbar = () => {
     const [showInput, setShowInput] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState("");
-    const [menuOpen, setMenuOpen] = useState(false);  // 메뉴 열림 상태
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [isDev, setDev] = useState(false);
     const user = useRecoilValue(UserState);
     const isLogin = useRecoilValue(IsLoginState);
     const navigate = useNavigate();
@@ -29,10 +30,13 @@ const Navbar = () => {
     useEffect(() => {
         if (location.pathname !== "/search")
             closeSearchInput();
+        if (location.hostname === "localhost")
+            setDev(true)
     }, [location.pathname]);
 
     return (
         <div className="p-2 w-full">
+            {isDev && <div className="fixed left-0 top-0 p-0.5 bg-primary text-white text-sm">Dev Build</div>}
             <div className="navbar bg-base-100 flex-col md:flex-row">
                 <div className="flex w-full md:w-fit">
                     <Link className="md:flex-1 btn btn-ghost text-3xl mx-4" to={"/"}>
