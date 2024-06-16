@@ -83,6 +83,8 @@ const Funding = () => {
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 alert("펀딩에 실패하였습니다!\n" + error.response.data.data);
+            } else {
+                alert(error.response.data.message);
             }
         }
     };
