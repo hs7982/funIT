@@ -43,3 +43,6 @@
       <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
         <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 </div>
+
+## 인프라 구조도
+![infra](https://github.com/hs7982/funIT/assets/17452867/aafc3be4-ce43-4be6-9248-a91ed4055fe8)
