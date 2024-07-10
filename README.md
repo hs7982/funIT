@@ -19,7 +19,8 @@
 
 ## 🔗Link
  - [🧑‍💻웹사이트](http://funit-36afd73a8b2a512b.elb.ap-northeast-2.amazonaws.com/)
- - [📜서비스 상세 계획서](https://juvenile-radar-00b.notion.site/23206d61fee54b60a924435e994badfb?pvs=74)   
+ - [📜서비스 상세 계획서](https://juvenile-radar-00b.notion.site/23206d61fee54b60a924435e994badfb?pvs=74)
+ - [📽️최종 발표 PPT](https://www.canva.com/design/DAGH-BTXQLU/DW73niQDuL7iEwa6ALYNrQ/view?utm_content=DAGH-BTXQLU&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## 팀 소개
 
