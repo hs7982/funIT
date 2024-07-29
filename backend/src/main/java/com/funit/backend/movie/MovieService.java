@@ -19,6 +19,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -140,6 +141,11 @@ public class MovieService {
         existingMovie.setTitle(request.getTitle());
         existingMovie.setTargetCredit(request.getTargetCredit());
         existingMovie.setEndDate(request.getEndDate());
+
+        //날짜 변경에 따른 상태 변경
+        if (existingMovie.getStatus() == 2 && request.getEndDate().isAfter(LocalDateTime.now()))
+            existingMovie.setStatus(1);
+
         existingMovie.setGenres(request.getGenres());
         if (request.getImageURL() != null) existingMovie.setThumbnailImage(request.getImageURL());
         existingMovie.setUser(request.getUser());
