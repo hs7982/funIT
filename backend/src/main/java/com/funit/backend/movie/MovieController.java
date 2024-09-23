@@ -31,8 +31,8 @@ public class MovieController {
      * 등록된 진행중 영화 프로젝트의 리스트를 반환합니다.
      */
     @GetMapping()
-    public ResponseEntity<Object> getAllMovies() {
-        List<MovieListDTO> movie = movieService.getAllMovies();
+    public ResponseEntity<Object> getAllMovies(@RequestParam(required = false) Integer status) {
+        List<MovieListDTO> movie = movieService.getAllMovies(status);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -40,18 +40,18 @@ public class MovieController {
         );
     }
 
-    /**
-     * 등록된 종료된 영화 프로젝트의 리스트를 반환합니다.
-     */
-    @GetMapping("/end")
-    public ResponseEntity<Object> getAllMoviesEnd() {
-        List<MovieListDTO> movie = movieService.getAllMoviesEnd();
-        return ResponseHandler.responseBuilder(
-                HttpStatus.OK,
-                null,
-                movie
-        );
-    }
+//    /**
+//     * 등록된 종료된 영화 프로젝트의 리스트를 반환합니다.
+//     */
+//    @GetMapping("/end")
+//    public ResponseEntity<Object> getAllMoviesEnd() {
+//        List<MovieListDTO> movie = movieService.getAllMoviesEnd();
+//        return ResponseHandler.responseBuilder(
+//                HttpStatus.OK,
+//                null,
+//                movie
+//        );
+//    }
 
     /**
      * 새로운 영화 프로젝트를 등록합니다.

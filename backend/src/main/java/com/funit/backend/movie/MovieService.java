@@ -33,30 +33,31 @@ public class MovieService {
     private final FundingService fundingService;
     private final LikeService likeService;
 
-    public List<MovieListDTO> getAllMovies() {
+    public List<MovieListDTO> getAllMovies(Integer status) {
         List<Movie> movies = movieRepository.findAll();
-        return movies.stream()
-                .filter(movie -> movie.getStatus() == 1) // 상태가 1인 경우만 필터링
-                .map(movie -> {
-                    int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
-                    return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
-                })
-                .collect(Collectors.toList());
-    }
 
-    /**
-     * 마감된 영화 출력
-     */
-    public List<MovieListDTO> getAllMoviesEnd() {
-        List<Movie> movies = movieRepository.findAll();
         return movies.stream()
-                .filter(movie -> movie.getStatus() == 2) // 상태가 2인 경우만 필터링
+                .filter(movie -> status == null || movie.getStatus() == status) // 상태가 1인 경우만 필터링 //int는 null과 구분하지 못한다 하지만 Integer은 된다!
                 .map(movie -> {
                     int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
                     return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
                 })
                 .collect(Collectors.toList());
     }
+//
+//    /**
+//     * 마감된 영화 출력
+//     */
+//    public List<MovieListDTO> getAllMoviesEnd() {
+//        List<Movie> movies = movieRepository.findAll();
+//        return movies.stream()
+//                .filter(movie -> movie.getStatus() == 2) // 상태가 2인 경우만 필터링
+//                .map(movie -> {
+//                    int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
+//                    return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
+//                })
+//                .collect(Collectors.toList());
+//    }
 
     public Movie save(AddMovieRequestDTO request, MultipartFile imageFile) {
         String imgUrl = imageService.saveImage(imageFile, "movieThumbnailImage");
