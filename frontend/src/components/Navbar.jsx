@@ -35,11 +35,11 @@ const Navbar = () => {
     }, [location.pathname]);
 
     return (
-        <div className="p-2 w-full">
+        <div className="max-w-[1440px] w-full">
             {isDev && <div className="fixed left-0 top-0 p-0.5 bg-primary text-white text-sm">Dev Build</div>}
-            <div className="navbar bg-base-100 flex-col md:flex-row">
+            <div className="navbar bg-base-100 flex-col md:flex-row my-3">
                 <div className="flex w-full md:w-fit">
-                    <Link className="md:flex-1 btn btn-ghost text-3xl mx-4" to={"/"}>
+                    <Link className="md:flex-1 btn btn-ghost text-3xl" to={"/"}>
                         <span className="text-rose-300">Fun</span>
                         <span className="text-sky-300">IT</span>
                     </Link>
