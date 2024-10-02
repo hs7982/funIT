@@ -15,6 +15,7 @@ import Funding from "./pages/Funding.jsx";
 import Footer from "./components/Footer.jsx";
 import {FundingRefund} from "./pages/FundingRefund.jsx";
 import ScrollToTopButton from "./components/ScrollToTopButton.jsx";
+import MyMovies from "./pages/MyMovies.jsx";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/funding/edit/:id" element={<EditMovieProject/>}/>
                 <Route path="/funding/detail/:id" element={<MovieDetail/>}/>
                 <Route path="/funding/refund/:id" element={<FundingRefund/>}/>
+                <Route path="/funding/mymovies" element={<MyMovies/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/search" element={<Search/>}/>
                 <Route path="/mypage" element={<Mypage/>}/>
