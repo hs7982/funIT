@@ -25,6 +25,8 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     @Query("update Movie m set m.status = 3 where m.id=:id")
     void disableByMovieId(@Param(value = "id") Integer movieId);
 
+    List<Movie> findByUserId(Integer userId);
+
 //    @Query(value = "UPDATE Movie m SET m.id = :movieId WHERE ")
 //    List<Movie> chanMo(@Param("movieId") Integer movieId);
 }

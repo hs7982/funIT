@@ -153,4 +153,18 @@ public class MovieService {
         // 업데이트된 영화 정보를 저장하고 반환합니다.
         return movieRepository.save(existingMovie);
     }
+
+    public List<MovieListDTO> getMyMovie(User user) {
+
+        List<Movie> movies = movieRepository.findByUserId(user.getId());
+
+        return movies.stream()
+                .filter(movie -> movie.getStatus() != 3) // 상태가 2인 경우만 필터링
+                .map(movie -> {
+                    int totalFunding = fundingService.getTotalFundingByMoiveId(movie.getId()).getFundingTotalAmount();
+                    return MovieMapper.INSTANCE.toMovieListDTO(movie, totalFunding);
+                })
+                .collect(Collectors.toList());
+    }
+
 }
