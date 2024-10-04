@@ -121,6 +121,20 @@ export const axiosGetMovieEndList = async () => {
 }
 
 /**
+ * axios 내가 등록한 영화 정보 요청
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+export const axiosGetMyMovies = async () => {
+    try {
+        const response = await instance.get("/movies/my");
+        return response;
+    } catch (error) {
+        throw error;
+    }
+
+}
+
+/**
  * axios api 새로운 영화 프로젝트 등록 요청
  * @param formData
  * @returns {Promise<axios.AxiosResponse<any>>}

@@ -147,11 +147,17 @@ public class MovieController {
      */
     @GetMapping("/my")
     public ResponseEntity<Object> getMyMovies(@AuthUser User user) {
+        List<MovieListDTO> movies = movieService.getMyMovie(user);
 
+        if (movies.isEmpty()) return ResponseHandler.responseBuilder(
+                HttpStatus.NO_CONTENT,
+                null,
+                null
+        );
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                movieService.getMyMovie(user)
+                movies
         );
     }
 }
