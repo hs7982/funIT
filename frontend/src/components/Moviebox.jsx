@@ -1,19 +1,8 @@
 import {Link, useNavigate} from "react-router-dom";
+import {calcDay, calcPer} from "./CalcDayAndPer.js";
 
 const Moviebox = ({movie}) => {
     const navigate = useNavigate();
-
-    const calcPer = (target, total) => {
-        return Math.floor((total / target) * 100);
-    }
-
-    const calcDay = (endDate) => {
-        const today = new Date();
-        const date = new Date(endDate);
-        const timeGap = date - today;
-        const dayGap = Math.ceil(timeGap / (1000 * 60 * 60 * 24));
-        return dayGap < 0 ? -1 : dayGap;
-    }
 
     const isEnded = movie.status === 2;
 

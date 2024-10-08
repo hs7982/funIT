@@ -14,6 +14,7 @@ import MovieComment from "../components/MovieComment.jsx";
 import {formattedDate} from "../components/formattedData.js";
 import Funding from "./Funding.jsx";
 import {Modal} from "../components/Modal.jsx";
+import {deleteMovie} from "../components/DeleteMovie.js";
 
 const MovieDetail = () => {
     const params = useParams();
@@ -39,20 +40,6 @@ const MovieDetail = () => {
         }
 
     };
-
-    const deleteMovie = async () => {
-        const movieId = params.id;
-        if (!confirm("정말 해당 프로젝트를 삭제하시겠습니까?\n진행된 펀딩이 존재한다면 해당 펀딩건은 사용자에게 금액이 자동으로 환불처리되며, 복구가 불가능합니다.")) return
-        try {
-            const response = await axiosDeleteMovie(movieId);
-            if (response.status === 200) {
-                alert("삭제되었습니다.")
-                window.location.reload();
-            }
-        } catch (e) {
-            alert("오류가 발생하였습니다.\n" + e.response.data.message);
-        }
-    }
 
     const fetchLikeStatus = async (movieId) => {
         try {
@@ -173,7 +160,7 @@ const MovieDetail = () => {
                                 </button>
                             </Link>
                             <button className="btn btn-outline btn-error btn-sm focus:outline-none"
-                                    onClick={deleteMovie}>삭제
+                                    onClick={(e) => deleteMovie(movie.id)}>삭제
                             </button>
                         </div>
                     }

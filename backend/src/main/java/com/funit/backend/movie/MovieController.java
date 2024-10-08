@@ -139,4 +139,25 @@ public class MovieController {
                 "영화 프로젝트가 수정되었습니다.",
                 savedMovie);
     }
+
+    /**
+     * 내가 등록한 영화 목록
+     *
+     * @return
+     */
+    @GetMapping("/my")
+    public ResponseEntity<Object> getMyMovies(@AuthUser User user) {
+        List<MovieListDTO> movies = movieService.getMyMovie(user);
+
+        if (movies.isEmpty()) return ResponseHandler.responseBuilder(
+                HttpStatus.NO_CONTENT,
+                null,
+                null
+        );
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                movies
+        );
+    }
 }
