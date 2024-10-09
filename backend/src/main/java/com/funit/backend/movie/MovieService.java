@@ -96,9 +96,13 @@ public class MovieService {
 
     public MovieDTO findOne(int movieId) {
         Movie movie = movieRepository.findById(movieId).orElse(null);
-        if (Objects.requireNonNull(movie).getStatus() == 3) {
-            movie = null;
+
+        if (movie != null) {
+            if (Objects.requireNonNull(movie).getStatus() == 3) {
+                movie = null;
+            }
         }
+
         if (movie == null) return null;
 
         int likeCount = likeService.countLike(movieId);
@@ -148,15 +152,18 @@ public class MovieService {
 
         existingMovie.setGenres(request.getGenres());
         if (request.getImageURL() != null) existingMovie.setThumbnailImage(request.getImageURL());
-        existingMovie.setUser(request.getUser());
 
         // 업데이트된 영화 정보를 저장하고 반환합니다.
         return movieRepository.save(existingMovie);
     }
 
     public List<MovieListDTO> getMyMovie(User user) {
-
-        List<Movie> movies = movieRepository.findByUserId(user.getId());
+        List<Movie> movies;
+        if (user.getRole().equals("admin")) {
+            movies = movieRepository.findAll(); //관리자는 모든 항목 표시
+        } else {
+            movies = movieRepository.findByUserId(user.getId());
+        }
 
         return movies.stream()
                 .filter(movie -> movie.getStatus() != 3) // 상태가 2인 경우만 필터링
