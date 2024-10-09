@@ -59,6 +59,15 @@ public class FundingDTO {
     }
 
     @Data
+    public static class FundingDetailWithUser {
+        private FundingDTO.FundingDetail fundingDetail;
+        private int userid;
+        private String userName;
+        private String userTel;
+        private String userProfileImage;
+    }
+
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class FundingRefund {

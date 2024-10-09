@@ -2,21 +2,22 @@ package com.funit.backend.like;
 
 import com.funit.backend.like.domain.LikeRepository;
 import com.funit.backend.like.domain.MovieLike;
+import com.funit.backend.movie.FindMovie;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.mapper.LikeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
-    @Autowired
-    LikeRepository likeRepository;
-    @Autowired
-    MovieRepository movieRepository;
+    private final LikeRepository likeRepository;
+    private final MovieRepository movieRepository;
+    private final FindMovie findMovie;
 
     public List<MovieLike> getAllLikes() {
         return likeRepository.findAll();
@@ -31,7 +32,10 @@ public class LikeService {
     }
 
     public MovieLike likeMovie(Integer movieId, User user) {
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("영화를 찾을 수 없습니다."));
+        Movie movie = findMovie.findById(movieId);
+        if (movie == null) {
+            throw new IllegalArgumentException("해당 영화를 찾을 수 없습니다.");
+        }
         if (likeRepository.findByMovieIdAndUserId(movieId, user.getId()) != null) {
             throw new IllegalArgumentException("이미 해당 영화에 좋아요 하였습니다.");
         }
@@ -47,7 +51,10 @@ public class LikeService {
     }
 
     public Boolean getLikeStatus(Integer movieId, User user) {
-        movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("영화를 찾을 수 없습니다."));
+        Movie movie = findMovie.findById(movieId);
+        if (movie == null) {
+            throw new IllegalArgumentException("해당 영화를 찾을 수 없습니다.");
+        }
         MovieLike like = likeRepository.findByMovieIdAndUserId(movieId, user.getId());
         return like != null;
     }

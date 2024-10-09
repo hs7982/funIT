@@ -4,6 +4,7 @@ import com.funit.backend.credit.CreditDTO;
 import com.funit.backend.credit.CreditService;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.funding.domain.FundingRepository;
+import com.funit.backend.movie.FindMovie;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.user.domain.User;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -24,6 +26,7 @@ public class FundingService {
     private final CreditService CreditService;
     private final MovieRepository movieRepository;
     private final CreditService creditService;
+    private final FindMovie findMovie;
 
     public FundingDTO getTotalFundingByMoiveId(int movieId) {
         int totalFunding = fundingRepository.findTotalFundingByMovieId(movieId);
@@ -32,6 +35,23 @@ public class FundingService {
 
     public List<Funding> getFundingByMovieId(int movieId) {
         return fundingRepository.getFundingByMovieId(movieId).orElseThrow(() -> new IllegalArgumentException("null"));
+    }
+
+    public List<FundingDTO.FundingDetailWithUser> getFundingByMovieId(User user, Integer movieId) {
+        Movie movie = findMovie.findById(movieId);
+        if (movie == null) {
+            throw new IllegalArgumentException("해당 영화를 찾을 수 없습니다.");
+        }
+        if (user.getId() != movie.getUser().getId() && !user.getRole().equals("admin")) {
+            throw new AccessDeniedException("해당 정보에 접근할 권한이 없습니다!");
+        }
+        List<Funding> fundingList = fundingRepository.getFundingByMovieId(movieId).orElseThrow(() -> new IllegalArgumentException("null"));
+        return fundingList.stream().map(funding -> {
+                    User fundingUser = creditService.getUserByFundingId(funding.getId());
+                    FundingDTO.FundingDetail fundingDetail = FundingMapper.INSTANCE.toDetailDTO(funding);
+                    return FundingMapper.INSTANCE.toFundingDetailWithUser(fundingDetail, fundingUser);
+                })
+                .collect(Collectors.toList());
     }
 
     public FundingDTO.FundingDetailWithCreditsDTO getFundingDetail(User user, int fundingId) {
@@ -102,5 +122,4 @@ public class FundingService {
     public Integer countFunding(Integer movieId) {
         return fundingRepository.getCount(movieId);
     }
-
 }
