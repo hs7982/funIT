@@ -4,6 +4,7 @@ import com.funit.backend.credit.CreditDTO;
 import com.funit.backend.credit.CreditService;
 import com.funit.backend.funding.domain.Funding;
 import com.funit.backend.funding.domain.FundingRepository;
+import com.funit.backend.movie.FindMovie;
 import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.user.domain.User;
@@ -25,6 +26,7 @@ public class FundingService {
     private final CreditService CreditService;
     private final MovieRepository movieRepository;
     private final CreditService creditService;
+    private final FindMovie findMovie;
 
     public FundingDTO getTotalFundingByMoiveId(int movieId) {
         int totalFunding = fundingRepository.findTotalFundingByMovieId(movieId);
@@ -36,7 +38,10 @@ public class FundingService {
     }
 
     public List<FundingDTO.FundingDetailWithUser> getFundingByMovieId(User user, Integer movieId) {
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("해당 영화를 찾을 수 없습니다."));
+        Movie movie = findMovie.findById(movieId);
+        if (movie == null) {
+            throw new IllegalArgumentException("해당 영화를 찾을 수 없습니다.");
+        }
         if (user.getId() != movie.getUser().getId() && !user.getRole().equals("admin")) {
             throw new AccessDeniedException("해당 정보에 접근할 권한이 없습니다!");
         }

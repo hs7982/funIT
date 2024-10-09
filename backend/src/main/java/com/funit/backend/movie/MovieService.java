@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @EnableScheduling
@@ -33,6 +32,7 @@ public class MovieService {
     private final ImageService imageService;
     private final FundingService fundingService;
     private final LikeService likeService;
+    private final FindMovie findMovie;
 
     public List<MovieListDTO> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
@@ -94,16 +94,13 @@ public class MovieService {
         return movieRepository.getCount();
     }
 
+
     public MovieDTO findOne(int movieId) {
-        Movie movie = movieRepository.findById(movieId).orElse(null);
+        Movie movie = findMovie.findById(movieId);
 
-        if (movie != null) {
-            if (Objects.requireNonNull(movie).getStatus() == 3) {
-                movie = null;
-            }
+        if (movie == null) {
+            return null;
         }
-
-        if (movie == null) return null;
 
         int likeCount = likeService.countLike(movieId);
         int fundingCount = fundingService.countFunding(movieId);
@@ -125,9 +122,10 @@ public class MovieService {
      */
     public Movie updateMovieDetails(User user, int movieId, UpdateMovieRequestDTO request, MultipartFile imageFile) {
         // 영화 ID로 기존의 영화 정보를 가져옵니다.
-        Movie existingMovie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new IllegalArgumentException("영화 ID찾을수없음 " + movieId));
-
+        Movie existingMovie = findMovie.findById(movieId);
+        if (existingMovie == null) {
+            throw new IllegalArgumentException("해당 영화를 찾을 수 없습니다.");
+        }
         // 사용자가 영화를 수정할 권한을 가지고 있는지 확인할 수 있는 코드를 여기에 추가할 수 있습니다.
         if (!user.getRole().equals("admin") && existingMovie.getUser().getId() != user.getId()) {
             throw new AccessDeniedException("수정할 권한이 없습니다!");
