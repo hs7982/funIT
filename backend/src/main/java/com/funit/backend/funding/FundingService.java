@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -32,6 +33,20 @@ public class FundingService {
 
     public List<Funding> getFundingByMovieId(int movieId) {
         return fundingRepository.getFundingByMovieId(movieId).orElseThrow(() -> new IllegalArgumentException("null"));
+    }
+
+    public List<FundingDTO.FundingDetailWithUser> getFundingByMovieId(User user, Integer movieId) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("해당 영화를 찾을 수 없습니다."));
+        if (user.getId() != movie.getUser().getId() && !user.getRole().equals("admin")) {
+            throw new AccessDeniedException("해당 정보에 접근할 권한이 없습니다!");
+        }
+        List<Funding> fundingList = fundingRepository.getFundingByMovieId(movieId).orElseThrow(() -> new IllegalArgumentException("null"));
+        return fundingList.stream().map(funding -> {
+                    User fundingUser = creditService.getUserByFundingId(funding.getId());
+                    FundingDTO.FundingDetail fundingDetail = FundingMapper.INSTANCE.toDetailDTO(funding);
+                    return FundingMapper.INSTANCE.toFundingDetailWithUser(fundingDetail, fundingUser);
+                })
+                .collect(Collectors.toList());
     }
 
     public FundingDTO.FundingDetailWithCreditsDTO getFundingDetail(User user, int fundingId) {
@@ -102,5 +117,4 @@ public class FundingService {
     public Integer countFunding(Integer movieId) {
         return fundingRepository.getCount(movieId);
     }
-
 }

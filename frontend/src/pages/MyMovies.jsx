@@ -44,14 +44,14 @@ const MovieProject = ({showType}) => {
         return (
             <div className="max-w-[1440px] w-full">
                 <p className="text-3xl font-medium my-12 text-center">내 프로젝트 관리</p>
-                <div className="overflow-x-auto">
-                    <table className="table-auto w-full text-center">
+                <div className="overflow-x-auto my-4">
+                    <table className="table table-auto w-full text-center">
                         <thead>
                         <tr>
                             <th className="min-w-[40px]">순번</th>
-                            <th className="min-w-[300px]">영화</th>
+                            <th className="min-w-[280px]">영화</th>
                             <th className="min-w-[120px]">펀딩 현황</th>
-                            <th className="min-w-[120px]">작업</th>
+                            <th className="min-w-[150px]">작업</th>
                         </tr>
                         </thead>
                         <tbody>

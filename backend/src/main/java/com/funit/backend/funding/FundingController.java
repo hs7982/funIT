@@ -72,6 +72,14 @@ public class FundingController {
         );
     }
 
+    /**
+     * 투자에 대한 환불 요청
+     *
+     * @param user
+     * @param fundingId
+     * @param reason
+     * @return
+     */
     @PostMapping("/refund/{fundingId}")
     public ResponseEntity<Object> refundFunding(@AuthUser User user, @PathVariable Integer fundingId, @RequestBody @Valid FundingDTO.FundingRefund reason) {
         fundingService.refundFunding(user, fundingId, reason.getReason());
@@ -79,6 +87,15 @@ public class FundingController {
                 HttpStatus.OK,
                 "요청한 투자에 대한 환불이 완료되었습니다.",
                 null
+        );
+    }
+
+    @GetMapping("/detail/{movieId}")
+    public ResponseEntity<Object> getFundingDetail(@AuthUser User user, @PathVariable Integer movieId) {
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                fundingService.getFundingByMovieId(user, movieId)
         );
     }
 }
