@@ -29,6 +29,8 @@ const EditMovieProject = () => {
         const fetchMovieData = async () => {
             try {
                 const response = await axios.get(`/api/movies/${movieId}`);
+                console.log(response)
+                if (response.status === 204) throw Error("존재하지 않는 게시물입니다.")
                 const movieData = response.data.data;
                 setWriteUser(movieData.user.id)
                 setTitle(movieData.title);
@@ -100,9 +102,8 @@ const EditMovieProject = () => {
     var today = dt.getFullYear() + '-' + ("0" + (1 + dt.getMonth())).slice(-2) + '-' + ("0" + dt.getDate()).slice(-2);
     if (isLoading) {
         return <span className="loading loading-spinner loading-md"></span>;
-    } else if (user.id !== writeUser) {
-        return (<>
-                편집할 권한이 없습니다!</>
+    } else if ((user.id !== writeUser) && (user.role !== "admin")) {
+        return (<>이 프로젝트를 편집할 권한이 없거나 로그인 하지 않았어요.</>
         )
     } else
         return (

@@ -19,8 +19,8 @@ export const UpdateUserInfo = () => {
                 const response = await axiosMe();
                 if (response.data.data !== false) {
                     setIsLogin(true);
-                    const {email, id, name, profileImage} = response.data.data
-                    setUserInfo({email, id, name, profileImage})
+                    const {email, id, name, profileImage, role} = response.data.data
+                    setUserInfo({email, id, name, profileImage, role})
                 } else {
                     unLogin();
                 }

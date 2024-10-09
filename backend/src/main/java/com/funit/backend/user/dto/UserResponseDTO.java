@@ -16,6 +16,7 @@ public class UserResponseDTO {
     private String profileImage;
     private int credit;
     private String tel;
+    private String role;
 
     public static UserResponseDTO toMeDTO(User user) {
         return UserResponseDTO.builder()
@@ -23,6 +24,7 @@ public class UserResponseDTO {
                 .email(user.getEmail())
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
+                .role(user.getRole())
                 .build();
     }
 
