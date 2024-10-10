@@ -26,6 +26,7 @@ public interface FundingMapper {
     @Mapping(target = "fundingDetail", source = "funding")
     @Mapping(target = "userid", source = "user.id")
     @Mapping(target = "userName", source = "user.name")
+    @Mapping(target = "userEmail", source = "user.email")
     @Mapping(target = "userTel", source = "user.tel")
     @Mapping(target = "userProfileImage", source = "user.profileImage")
     FundingDTO.FundingDetailWithUser toFundingDetailWithUser(FundingDTO.FundingDetail funding, User user);
