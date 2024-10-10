@@ -46,6 +46,12 @@ const MovieProject = ({showType}) => {
     if (!isError) {
         return (
             <div className="container max-w-[1440px] mx-auto my-8">
+                <h2 className="mb-8 ms-2 text-3xl font-semibold">
+                    {showType === 1 ?
+                        "✨ 진행중인 펀딩 " + movies.length + "개" : "✨ 종료된 펀딩"
+                    }
+                </h2>
+
                 {loading ? ( // 로딩 중인 동안 로딩 표시
                     <div className="flex justify-center"><span
                         className="loading loading-spinner loading-md"></span>

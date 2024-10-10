@@ -131,7 +131,15 @@ export const axiosGetMyMovies = async () => {
     } catch (error) {
         throw error;
     }
+}
 
+export const axiosGetMyMoviesDetail = async (id) => {
+    try {
+        const response = await instance.get("/fundings/detail/" + id);
+        return response;
+    } catch (error) {
+        throw error;
+    }
 }
 
 /**

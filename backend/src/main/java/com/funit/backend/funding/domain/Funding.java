@@ -3,6 +3,9 @@ package com.funit.backend.funding.domain;
 import com.funit.backend.movie.domain.Movie;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,6 +27,10 @@ public class Funding {
 
 //    @Column(name = "funding_status", nullable = false, columnDefinition = "INT DEFAULT 1")
 //    private int fundingStatus; //완료, 환불
+
+    @CreationTimestamp
+    @Column(name = "date")
+    private LocalDateTime transactionDate;
 
     @Column(name = "refund_ornot", nullable = false, columnDefinition = "INT DEFAULT 1")
     private int refundOrno; // 환불여부
