@@ -64,6 +64,7 @@ public class FundingDTO {
     public static class FundingDetailWithUser {
         private FundingDTO.FundingDetail fundingDetail;
         private int userid;
+        private String userEmail;
         private String userName;
         private String userTel;
         private String userProfileImage;
