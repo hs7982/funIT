@@ -57,7 +57,7 @@ const MyMovies = () => {
                                 </tr>
                             ) : (
                                 movies.map((movie, idx) => (
-                                    <tr key={idx}>
+                                    <tr key={idx} className="hover">
                                         <td className="text-center">{idx + 1}</td>
                                         <td className="flex items-center">
                                             <img

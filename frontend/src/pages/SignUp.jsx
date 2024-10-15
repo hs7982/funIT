@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {axiosSignup} from "../api/axios.js";
-import {Modal} from "../components/Modal.jsx";
+import {Modal} from "../components/ModalHTML.jsx";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -36,7 +36,10 @@ const SignUp = () => {
                 }
             }).catch((error) => {
                 console.error("회원가입 실패:", error);
-                const errorMessage = JSON.stringify(error.response.data.data).replace(/["{}]/g, '') || "회원가입 중 오류가 발생했습니다.";
+                const errorMessage = "회원가입에 실패하였습니다. 다시한번 확인해주세요.<br/><br/>" +
+                    Object.entries(error.response.data.data)
+                        .map(([key, value]) => `${key}: ${value}`)
+                        .join('<br/>') || "회원가입 중 오류가 발생했습니다.";
                 openModal(errorMessage);
             });
         }
