@@ -1,6 +1,5 @@
 import {Fragment} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import DOMPurify from "dompurify";
 
 export const Modal = (props) => {
     const handleConfirm = () => {
@@ -42,9 +41,9 @@ export const Modal = (props) => {
                                     {props.title}
                                 </Dialog.Title>
                                 <div className="mt-2">
-                                    <div className="text-sm text-gray-500 dark:text-gray-300"
-                                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(props.message)}}>
-                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-300">
+                                        {props.message}
+                                    </p>
                                 </div>
 
                                 <div className="mt-4 flex justify-end">

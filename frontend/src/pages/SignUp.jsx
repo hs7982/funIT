@@ -36,10 +36,7 @@ const SignUp = () => {
                 }
             }).catch((error) => {
                 console.error("회원가입 실패:", error);
-                const errorMessage = "회원가입에 실패하였습니다. 다시한번 확인해주세요.<br/><br/>" +
-                    Object.entries(error.response.data.data)
-                        .map(([key, value]) => `${key}: ${value}`)
-                        .join('<br/>') || "회원가입 중 오류가 발생했습니다.";
+                const errorMessage = JSON.stringify(error.response.data.data).replace(/["{}]/g, '') || "회원가입 중 오류가 발생했습니다.";
                 openModal(errorMessage);
             });
         }
