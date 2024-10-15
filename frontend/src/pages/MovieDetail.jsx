@@ -146,9 +146,10 @@ const MovieDetail = () => {
                 </div>
                 {/* 영화 정보 */}
                 <div className="movie-info-container grow lg:mx-6">
-                    <h1 className="flex-none movie-title flex items-center mb-1 text-pretty">
+                    <h2
+                        className="flex-none movie-title flex items-center text-3xl lg:text-5xl my-4 text-pretty font-medium">
                         {movie.title}
-                    </h1>
+                    </h2>
                     {movie.genres.map(genre => (
                         <div key={genre.id} className="badge badge-outline me-1.5">{genre.name}</div>
                     ))}
