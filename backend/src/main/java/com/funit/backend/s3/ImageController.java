@@ -1,5 +1,7 @@
 package com.funit.backend.s3;
 
+import com.funit.backend.user.domain.AuthUser;
+import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.response.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping()
-    public ResponseEntity<Object> uploadImage(@ModelAttribute ImageSaveDto dto) {
+    public ResponseEntity<Object> uploadImage(@AuthUser User user, @ModelAttribute ImageSaveDto dto) {
         String imageUrl = imageService.saveImage(dto.getImage(), "postContentImage");
         return ResponseHandler.responseBuilder(
                 HttpStatus.CREATED,
