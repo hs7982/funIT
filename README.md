@@ -21,6 +21,7 @@
  - [🧑‍💻웹사이트](http://funit-36afd73a8b2a512b.elb.ap-northeast-2.amazonaws.com/)
  - [📜서비스 상세 계획서](https://juvenile-radar-00b.notion.site/23206d61fee54b60a924435e994badfb?pvs=74)
  - [📽️최종 발표 PPT](https://www.canva.com/design/DAGH-BTXQLU/DW73niQDuL7iEwa6ALYNrQ/view?utm_content=DAGH-BTXQLU&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+ - [📃API 명세](https://juvenile-radar-00b.notion.site/API-99bba13b91874214881a5b16045c8cbc?pvs=4)
 
 ## 팀 소개
 
@@ -46,3 +47,7 @@
 
 ## 인프라 구조도
 ![infra](https://github.com/hs7982/funIT/assets/17452867/aafc3be4-ce43-4be6-9248-a91ed4055fe8)
+
+## DB ERD
+![Untitled](https://github.com/user-attachments/assets/8ffa8b65-9c57-4a07-9879-ef4ea5f30fa4)
+
