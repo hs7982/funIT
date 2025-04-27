@@ -13,6 +13,7 @@ import com.funit.backend.movie.dto.UpdateMovieRequestDTO;
 import com.funit.backend.s3.ImageService;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.mapper.MovieMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.AccessDeniedException;
@@ -65,6 +66,7 @@ public class MovieService {
         return movieRepository.save(request.toEntity());
     }
 
+    @Transactional
     public void delete(User user, int movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new NoSuchElementException("해당 영화를 찾을 수 없습니다."));
         if (!user.getRole().equals("admin") && movie.getUser().getId() != user.getId()) {

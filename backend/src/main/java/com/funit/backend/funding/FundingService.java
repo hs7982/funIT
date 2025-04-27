@@ -9,6 +9,7 @@ import com.funit.backend.movie.domain.Movie;
 import com.funit.backend.movie.domain.MovieRepository;
 import com.funit.backend.user.domain.User;
 import com.funit.backend.utils.mapper.FundingMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
@@ -64,6 +65,7 @@ public class FundingService {
         return FundingMapper.INSTANCE.toFundingDetailWithCreditsDTO(fundingDetail, credits);
     }
 
+    @Transactional
     public void refundFunding(User user, int fundingId, String reason) {
         Funding funding = fundingRepository.getFundingById(fundingId).orElseThrow(() -> new IllegalArgumentException("해당 펀딩을 찾을 수 없습니다."));
         User fundingUser = creditService.getUserByFundingId(fundingId);
@@ -77,6 +79,7 @@ public class FundingService {
 
     }
 
+    @Transactional
     public void refundFunding(Funding funding, String reason) {
         User user = creditService.getUserByFundingId(funding.getId());
         if (funding.getRefundOrno() == 1) {
@@ -88,7 +91,7 @@ public class FundingService {
         }
     }
 
-
+    @Transactional
     public Funding fundingCredit(User user, FundingDTO.FundingMoney request) {
         //투자 기간이 마감되면 예외처리
         LocalDateTime currentTime = LocalDateTime.now();
